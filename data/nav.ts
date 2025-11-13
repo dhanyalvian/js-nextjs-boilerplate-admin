@@ -2,7 +2,6 @@
 
 import { 
   ArrowLeftRight,
-  Box,
   CalendarRange,
   CircleCheck,
   CircleQuestionMark,
@@ -16,6 +15,7 @@ import {
   MessageSquareQuote,
   MessagesSquare,
   NotebookPen,
+  Package,
   PieChart,
   Puzzle,
   Settings,
@@ -23,6 +23,7 @@ import {
   Tag,
   Truck,
   UserLock,
+  UserRound,
   UserSearch,
   UsersRound,
 } from "lucide-react";
@@ -43,8 +44,7 @@ export const dataNav = {
       title: "Sales",
       url: "#",
       icon: Tag,
-      isActive: true,
-      items: [
+      submenus: [
         {
           title: "Orders",
           url: "/sales/orders",
@@ -70,9 +70,8 @@ export const dataNav = {
     {
       title: "Customers",
       url: "#",
-      icon: Tag,
-      isActive: true,
-      items: [
+      icon: UserRound,
+      submenus: [
         {
           title: "All Customers",
           url: "/customers",
@@ -99,12 +98,11 @@ export const dataNav = {
       title: "Manages",
       url: "#",
       icon: Copy,
-      isActive: true,
-      items: [
+      submenus: [
         {
           title: "Products",
           url: "/manages/products",
-          icon: Box,
+          icon: Package,
         },
         {
           title: "Recipes",
@@ -122,8 +120,7 @@ export const dataNav = {
       title: "Socials",
       url: "#",
       icon: Globe,
-      isActive: true,
-      items: [
+      submenus: [
         {
           title: "Posts",
           url: "/socials/posts",

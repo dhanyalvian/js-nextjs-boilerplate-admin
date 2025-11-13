@@ -3,24 +3,8 @@
 "use client"
 
 import * as React from "react"
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  CircleQuestionMark,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Search,
-  Settings,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
-
+import { GalleryVerticalEnd } from "lucide-react"
 import { NavMain } from "@/components/core/nav-main"
-import { NavProjects } from "@/components/core/nav-projects"
 import { NavUser } from "@/components/core/nav-user"
 import {
   Sidebar,
@@ -36,7 +20,6 @@ import { NavSecondary } from "./nav-secondary"
 import { dataNav } from "@/data/nav"
 import Link from "next/link"
 
-// This is sample data.
 const data = dataNav
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -51,7 +34,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <Link href="/">
                 <GalleryVerticalEnd className="size-5!" />
-                <span className="text-base font-semibold">Boilerplate Admin</span>
+                <span className="text-base font-semibold mt-0.5">Boilerplate Admin</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -59,8 +42,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
 
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain menus={data.navMain} />
+        <NavSecondary menus={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
