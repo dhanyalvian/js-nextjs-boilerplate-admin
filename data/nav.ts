@@ -74,7 +74,7 @@ export const dataNav = {
       submenus: [
         {
           title: "All Customers",
-          url: "/customers",
+          url: "/customers/all-customers",
           icon: UsersRound,
         },
         {

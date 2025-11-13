@@ -1,4 +1,4 @@
-//- app/manages/products/page.tsx
+//- app/manages/recipes/page.tsx
 
 import { AppHeader } from "@/components/core/app-layout"
 import { MaintenancePage } from "@/components/core/maintenance"
@@ -8,11 +8,11 @@ const breadcrumbItems = [
     label: "Manages",
   },
   {
-    label: "Products",
+    label: "Recipes",
   },
 ]
 
-export default function ManagesProductsPage() {
+export default function ManagesRecipesPage() {
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />

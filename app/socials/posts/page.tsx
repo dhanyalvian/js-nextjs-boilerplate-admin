@@ -1,18 +1,18 @@
-//- app/manages/products/page.tsx
+//- app/socials/posts/page.tsx
 
 import { AppHeader } from "@/components/core/app-layout"
 import { MaintenancePage } from "@/components/core/maintenance"
 
 const breadcrumbItems = [
   {
-    label: "Manages",
+    label: "Socials",
   },
   {
-    label: "Products",
+    label: "Posts",
   },
 ]
 
-export default function ManagesProductsPage() {
+export default function SocialsPostsPage() {
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />

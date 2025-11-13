@@ -1,18 +1,18 @@
-//- app/manages/products/page.tsx
+//- app/sales/credit-memos/page.tsx
 
 import { AppHeader } from "@/components/core/app-layout"
 import { MaintenancePage } from "@/components/core/maintenance"
 
 const breadcrumbItems = [
   {
-    label: "Manages",
+    label: "Sales",
   },
   {
-    label: "Products",
+    label: "Credit Memos",
   },
 ]
 
-export default function ManagesProductsPage() {
+export default function CreditMemosPage() {
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
