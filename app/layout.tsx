@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { Roboto_Flex, Roboto_Mono } from "next/font/google";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/core/app-sidebar";
-import "./globals.css";
 import { AppFooter } from "@/components/core/app-layout";
+import "./globals.css";
 
 const fontSans = Roboto_Flex({
   variable: "--font-roboto-flex",
@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
         <SidebarProvider>
-          <AppSidebar />
+          <AppSidebar className="shadow-xs" />
 
           <SidebarInset>
             {children}
