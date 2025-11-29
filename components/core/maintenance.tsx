@@ -16,9 +16,9 @@ export const MaintenancePage = () => {
   return (
     <AppMain>
       <div className="flex items-center justify-center h-full">
-        <Card className="max-w-md text-center p-6 shadow-xs">
-          <CardHeader>
-            <div className="flex justify-center mb-3">
+        <Card className="w-full h-full text-center p-6 shadow-xs">
+          <CardHeader className="max-w-md w-screen mx-auto">
+            <div className="flex items-center align-middle justify-center mb-3">
               <WrenchIcon className="h-12 w-12 text-yellow-500 animate-pulse" />
             </div>
             <CardTitle className="text-2xl font-bold">We’ll be back soon!</CardTitle>
@@ -26,7 +26,7 @@ export const MaintenancePage = () => {
               Our site is currently down for maintenance. We’re working hard to get things back up.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 mt-4">
+          <CardContent className="max-w-md w-screen mx-auto space-y-4 mt-4">
             <Alert>
               <AlertTitle>Estimated Downtime</AlertTitle>
               <AlertDescription>

@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const ScrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 export const getInitials = (name: string) => {
   // ... (Paste the function from Step 1 here or import it)
   if (!name) return ""
@@ -18,6 +22,6 @@ export const getInitials = (name: string) => {
   } else if (words.length === 1 && words[0].length > 0) {
     return words[0].charAt(0).toUpperCase()
   }
-  
+
   return ""
 }

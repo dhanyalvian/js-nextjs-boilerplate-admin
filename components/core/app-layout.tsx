@@ -48,12 +48,12 @@ const AppHeader = ({ breadcrumbItems }: AppHeaderProps) => {
 }
 
 const AppMain = ({ children }: { children: React.ReactNode }) => {
-  return <main className="flex-1 overflow-auto p-4 pt-0 bg-main">{children}</main>
+  return <main className="flex-1 justify-between w-full p-4 pt-0 bg-main">{children}</main>
 }
 
 const AppFooter = () => {
   return (
-    <footer className="min-h-8 p-4 text-center text-xs bg-main text-gray-600">
+    <footer className="min-h-8 pt-2 pb-6 text-center text-xs bg-main text-gray-600">
       © 2025 Boilerplate Admin. All rights reserved.
     </footer>
   )
