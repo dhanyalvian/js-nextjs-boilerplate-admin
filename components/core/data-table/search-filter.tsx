@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Spinner } from "@/components/ui/spinner";
 import { Download, SearchIcon, X } from "lucide-react";
 
 interface SearchProps {
@@ -14,7 +15,7 @@ interface SearchProps {
 }
 
 export const Search = ({
-  placeholder = "Pencarian...",
+  placeholder = "Search...",
   value,
   onChange,
   onClear,
@@ -33,13 +34,21 @@ export const Search = ({
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
-        {value && (
+        {value ? (
           <InputGroupAddon align="inline-end" onClick={onClear}>
-            <X className="cursor-pointer hover:text-gray-950" />
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <X className="cursor-pointer hover:text-gray-950" />
+            )}
           </InputGroupAddon>
-        )}
+        ) : isLoading ? (
+          <InputGroupAddon align="inline-end">
+            <Spinner />
+          </InputGroupAddon>
+        ) : null}
       </InputGroup>
-      
+
       {filters && filters}
     </div>
   )

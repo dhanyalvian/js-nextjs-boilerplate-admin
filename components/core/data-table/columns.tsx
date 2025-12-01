@@ -13,7 +13,7 @@ export const ratingColumnSize = 110
 
 export const actionColKey = 'action'
 export const actionColHeader = ""
-export const actionColSize = 40
+export const actionColSize = 60
 export const actionColEditSize = 90
 export const actionColDelSize = actionColSize
 
@@ -35,6 +35,19 @@ export const CellImage = ({ src, alt }: CellImageProps) => {
       width={imageWidth}
       height={imageHeight}
     />
+  )
+}
+
+interface CellListProps {
+  records: string[],
+}
+export const CellList = ({ records }: CellListProps) => {
+  return (
+    <ul className="list-disc list-inside pl-1">
+      {records.map((item, idx) => (
+        <li key={idx}>{item}</li>
+      ))}
+    </ul>
   )
 }
 
@@ -78,43 +91,32 @@ interface ActionsProps {
   pathEdit: string
   pathDelete: string
 }
-export const Actions = ({ pathEdit, pathDelete }: ActionsProps) => {
+export const CellActions = ({ pathEdit, pathDelete }: ActionsProps) => {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <EllipsisVertical />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link href={pathEdit} title="Edit">
-              <SquarePen />
-              Edit
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={pathDelete} title="Delete">
-              <Trash2 />
-              Delete
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-    // <ButtonGroup>
-    //   <Button variant="outline" size="icon-sm" asChild>
-    //     <Link href={pathEdit} title="Edit">
-    //       <SquarePen />
-    //     </Link>
-    //   </Button>
-
-    //   <Button variant="outline" size="icon-sm" asChild>
-    //     <Link href={pathDelete} title="Delete">
-    //       <Trash2 />
-    //     </Link>
-    //   </Button>
-    // </ButtonGroup>
+    <div className="w-full text-right">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="sm">
+            <EllipsisVertical />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <Link href={pathEdit} title="Edit">
+                <SquarePen />
+                Edit
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={pathDelete} title="Delete">
+                <Trash2 />
+                Delete
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }

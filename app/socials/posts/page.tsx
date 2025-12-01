@@ -6,17 +6,22 @@ import { ApiClient, getParamSkip } from "@/components/api/client"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { DataTable } from "@/components/core/data-table/table"
 import { ScrollToTop } from "@/lib/utils"
-import { PostResp } from "@/types/social/post"
+import { SocialPostListResp } from "./type"
+import { Columns } from "./column"
 import { useQueries } from "@tanstack/react-query"
-import { columns } from "./columns"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-const getPostList = async (page: number, limit: number): Promise<PostResp> => {
+const getPostList = async (
+  page: number,
+  limit: number,
+  search: string,
+): Promise<SocialPostListResp> => {
   const skip = getParamSkip(page, limit)
-  const { data } = await ApiClient.get("/posts", {
+  const { data } = await ApiClient.get("/posts/search?q=" + search, {
     params: {
       limit: limit,
       skip: skip,
+      search: search,
     }
   })
   ScrollToTop()
@@ -30,15 +35,24 @@ const SocialsPostsPage = () => {
     { label: "Posts" },
   ]
 
-  const [page, setPage] = useState(1)
   const [search, setSearch] = useState("")
+  const [debouncedSearch, setDebouncedSearch] = useState(search)
+  const [page, setPage] = useState(1)
   const limit = 20
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search)
+      setPage(1)
+    }, 1000)
+    return () => clearTimeout(handler)
+  }, [search])
 
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["socials", "posts", page, limit],
-        queryFn: () => getPostList(page, limit),
+        queryKey: ["socials", "posts", page, limit, debouncedSearch],
+        queryFn: () => getPostList(page, limit, debouncedSearch),
         refetchOnWindowFocus: false,
       },
     ],
@@ -51,7 +65,7 @@ const SocialsPostsPage = () => {
 
       <AppMain>
         <DataTable
-          columns={columns}
+          columns={Columns}
           data={queryPosts.data?.posts || []}
           isLoading={queryPosts.isLoading || queryPosts.isFetching}
           limit={limit}

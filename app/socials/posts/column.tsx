@@ -1,13 +1,20 @@
 //- app/socials/posts/columns.tsx
 
-import { actionColDelSize, actionColHeader, actionColKey, actionColSize, ActionDelete, Actions, iconSize } from "@/components/core/data-table/columns"
+import {
+  actionColHeader,
+  actionColKey,
+  actionColSize,
+  CellActions,
+  CellList,
+  iconSize,
+} from "@/components/core/data-table/columns"
 import { Badge } from "@/components/ui/badge"
 import { NumberFormated } from "@/lib/numbers"
-import { PostList } from "@/types/social/post"
+import { SocialPostList } from "./type"
 import { ColumnDef } from "@tanstack/react-table"
 import { Eye, ThumbsDown, ThumbsUp } from "lucide-react"
 
-export const columns: ColumnDef<PostList>[] = [
+export const Columns: ColumnDef<SocialPostList>[] = [
   {
     accessorKey: "title",
     header: "Title",
@@ -21,17 +28,10 @@ export const columns: ColumnDef<PostList>[] = [
   {
     accessorKey: "tags",
     header: "Tags",
-    size: 160,
+    size: 140,
     enableSorting: false,
     cell: ({ row }) => {
-      const tags = row.original.tags
-      return (
-        <ul className="table-ul">
-          {tags.map((item, idx) => (
-            <li key={idx} className="table-ul-li">{item}</li>
-          ))}
-        </ul>
-      )
+      return <CellList records={row.original.tags} />
     },
   },
   {
@@ -51,7 +51,7 @@ export const columns: ColumnDef<PostList>[] = [
   {
     accessorKey: "reactions",
     header: "Reactions",
-    size: 80,
+    size: 100,
     enableSorting: false,
     cell: ({ row }) => {
       const likes = NumberFormated(row.original.reactions.likes)
@@ -78,7 +78,7 @@ export const columns: ColumnDef<PostList>[] = [
     enableSorting: false,
     cell: ({ row }) => {
       return (
-        <Actions
+        <CellActions
           pathEdit={`/socials/posts/edit/${row.original.id}`}
           pathDelete={`/socials/posts/delete/${row.original.id}`}
         />
