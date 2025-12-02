@@ -53,7 +53,7 @@ const AppMain = ({ children }: { children: React.ReactNode }) => {
 
 const AppFooter = () => {
   return (
-    <footer className="min-h-8 pt-2 pb-6 text-center text-xs bg-main text-gray-600">
+    <footer className="min-h-8 pb-4 text-center text-xs bg-main text-gray-600">
       © 2025 Boilerplate Admin. All rights reserved.
     </footer>
   )

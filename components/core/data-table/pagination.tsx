@@ -1,14 +1,15 @@
 //- components/core/data-table/pagination.tsx
 
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
-import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
-import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { TableCell, TableFooter, TableRow } from "@/components/ui/table"
+import { NumberFormated } from "@/lib/numbers"
+import { ColumnDef } from "@tanstack/react-table"
 import {
+  ChevronFirst,
+  ChevronLast,
   ChevronLeft,
   ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
 } from "lucide-react"
 
 interface PaginationProps<TData, TValue> {
@@ -30,30 +31,32 @@ export const Pagination = <TData, TValue>({
   setPage,
   isLoading = false,
 }: PaginationProps<TData, TValue>) => {
-  const startRow = (currentPage - 1) * limit + 1;
-  const endRow = Math.min(currentPage * limit, totalRecords);
+  const startRow = totalRecords ? ((currentPage - 1) * limit + 1) : 0
+  const endRow = Math.min(currentPage * limit, totalRecords)
 
   return (
     <TableFooter>
       <TableRow>
         <TableCell colSpan={columns.length}>
           <div className="w-full flex items-center justify-between pl-2 pr-2">
-            <div className="text-xs font-normal">
-              <span className="font-semibold">{totalRecords ? startRow : 0}-{endRow}</span>{` `}
-              of <span className="font-semibold">{totalRecords}</span> records
+            <div className="text-sm font-normal">
+              <span className="font-semibold">{NumberFormated(startRow)}-{NumberFormated(endRow)}</span>{` `}
+              of <span className="font-semibold">{NumberFormated(totalRecords)}</span> records
             </div>
 
             <ButtonGroup>
               <Button
+                title="First"
                 variant="outline"
                 size="sm"
                 onClick={() => setPage(1)}
                 disabled={isLoading || currentPage === 1}
                 className="rounded-full"
               >
-                <ChevronsLeft />
+                <ChevronFirst />
               </Button>
               <Button
+                title="Previous"
                 variant="outline"
                 size="sm"
                 onClick={() => setPage(currentPage - 1)}
@@ -64,15 +67,17 @@ export const Pagination = <TData, TValue>({
               </Button>
 
               <Button
+                title="Page"
                 variant="outline"
                 size="sm"
-                disabled={true}
-                className="text-xs"
+                className="text-xs cursor-default"
               >
-                <span className="font-semibold">{currentPage}</span> of <span className="font-semibold">{totalPages}</span>
+                <span className="font-semibold">{NumberFormated(currentPage)}</span>{` `}
+                of <span className="font-semibold">{NumberFormated(totalPages)}</span>
               </Button>
 
               <Button
+                title="Next"
                 variant="outline"
                 size="sm"
                 onClick={() => setPage(currentPage + 1)}
@@ -82,13 +87,14 @@ export const Pagination = <TData, TValue>({
                 <ChevronRight />
               </Button>
               <Button
+                title="Last"
                 variant="outline"
                 size="sm"
                 onClick={() => setPage(totalPages)}
                 disabled={isLoading || currentPage === totalPages}
                 className="rounded-full"
               >
-                <ChevronsRight />
+                <ChevronLast />
               </Button>
             </ButtonGroup>
           </div>

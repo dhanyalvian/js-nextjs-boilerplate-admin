@@ -1,9 +1,10 @@
 //- components/core/data-table/search-filter.tsx
 
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
-import { Download, SearchIcon, X } from "lucide-react";
+import { Download, FilePlusCorner, SearchIcon, X } from "lucide-react";
 
 interface SearchProps {
   placeholder?: string,
@@ -56,8 +57,15 @@ export const Search = ({
 
 export const Exports = () => {
   return (
-    <Button variant="default" size="sm" className="rounded-full">
-      <Download /> Export
-    </Button>
+    <ButtonGroup>
+      <Button variant="outline" size="sm" className="rounded-full shadow-xs">
+        <FilePlusCorner />
+        New
+      </Button>
+      <Button variant="outline" size="sm" className="rounded-full shadow-xs">
+        <Download />
+        Export
+      </Button>
+    </ButtonGroup>
   )
 }
