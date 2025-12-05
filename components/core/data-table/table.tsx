@@ -19,6 +19,7 @@ import { Thead } from "./thead"
 import { Tbody } from "./tbody"
 
 export interface DataTableProps<TData, TValue> {
+  title: string,
   columns: ColumnDef<TData, TValue>[],
   data: TData[],
   isLoading?: boolean,
@@ -33,6 +34,7 @@ export interface DataTableProps<TData, TValue> {
 }
 
 export const DataTable = <TData, TValue>({
+  title,
   columns,
   data,
   isLoading = false,
@@ -59,6 +61,7 @@ export const DataTable = <TData, TValue>({
     setPage(1)
   }
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: data,
     columns: columns,
@@ -95,7 +98,7 @@ export const DataTable = <TData, TValue>({
           filters={filters}
         />
 
-        <Exports />
+        <Exports title={title} />
       </div>
 
       <div className="bg-white rounded-xl border shadow-xs">
