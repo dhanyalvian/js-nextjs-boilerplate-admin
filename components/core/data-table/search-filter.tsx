@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Download, FilePlusCorner, SearchIcon, X } from "lucide-react";
 
 interface SearchProps {
@@ -55,17 +56,33 @@ export const Search = ({
   )
 }
 
-export const Exports = () => {
+interface ExportProps {
+  title?: string,
+}
+
+export const Exports = ({ title }: ExportProps) => {
   return (
     <ButtonGroup>
-      <Button variant="outline" size="sm" className="rounded-full shadow-xs">
-        <FilePlusCorner />
-        New
-      </Button>
-      <Button variant="outline" size="sm" className="rounded-full shadow-xs">
-        <Download />
-        Export
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline" size="sm" className="rounded-full shadow-xs">
+            <FilePlusCorner /> New
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          Add New {title && title}
+        </TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline" size="sm" className="rounded-full shadow-xs">
+            <Download /> Export
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          Export to CSV
+        </TooltipContent>
+      </Tooltip>
     </ButtonGroup>
   )
 }
