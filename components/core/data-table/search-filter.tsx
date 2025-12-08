@@ -65,8 +65,9 @@ export const Exports = ({ title }: ExportProps) => {
     <ButtonGroup>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline" size="sm" className="rounded-full shadow-xs">
-            <FilePlusCorner /> New
+          <Button variant="outline" size="default" className="rounded-full shadow-xs">
+            <FilePlusCorner />
+            New
           </Button>
         </TooltipTrigger>
         <TooltipContent>
@@ -75,8 +76,9 @@ export const Exports = ({ title }: ExportProps) => {
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline" size="sm" className="rounded-full shadow-xs">
-            <Download /> Export
+          <Button variant="outline" size="default" className="rounded-full shadow-xs">
+            <Download />
+            Export
           </Button>
         </TooltipTrigger>
         <TooltipContent>

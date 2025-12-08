@@ -10,7 +10,7 @@ const breadcrumbItems = [
   },
 ]
 
-export default function Dashboard() {
+const DashboardPage = () => {
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
@@ -28,3 +28,5 @@ export default function Dashboard() {
     </>
   )
 }
+
+export default DashboardPage

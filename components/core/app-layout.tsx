@@ -47,7 +47,7 @@ const AppHeader = ({ breadcrumbItems }: AppHeaderProps) => {
   )
 }
 
-const AppMain = ({ children }: { children: React.ReactNode }) => {
+const AppMain = ({ children }: { children?: React.ReactNode }) => {
   return <main className="flex-1 justify-between w-full p-4 pt-0 bg-main">{children}</main>
 }
 

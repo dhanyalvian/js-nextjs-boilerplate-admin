@@ -2,8 +2,9 @@
 
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/core/login-form"
+import { AppFooter } from "@/components/core/app-layout"
 
-export default function LoginPage() {
+const LoginPage = () => {
   return (
     <div className="bg-main flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">
@@ -17,6 +18,9 @@ export default function LoginPage() {
         </div>
         <LoginForm />
       </div>
+      <AppFooter />
     </div>
   )
 }
+
+export default LoginPage

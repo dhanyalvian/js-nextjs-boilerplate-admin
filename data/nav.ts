@@ -1,6 +1,6 @@
 //- data/nav.ts
 
-import { 
+import {
   ArrowLeftRight,
   CalendarRange,
   CircleCheck,
@@ -30,9 +30,9 @@ import {
 
 export const dataNav = {
   user: {
-    name: "Dzubair Nazhmi Alfian",
-    email: "dzubairalvian@gmail.com",
-    avatar: "/images/avatars/41aa42765f552f704c7d64f8b73278474b5c6bf895a15e69ceedf7b0e49541ea.jpeg",
+    name: "Dhany Noor Alfian",
+    email: "dhanyalvian@gmail.com",
+    avatar: "https://lh3.googleusercontent.com/a/ACg8ocJikhQikH8XnIA7RW9BrDglLF-6q_FafJW020U2sjC_rBDkjv96=s96-c",
   },
   navMain: [
     {

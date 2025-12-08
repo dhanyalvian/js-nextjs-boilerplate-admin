@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { NumberFormated } from "@/lib/numbers"
 import { ColumnDef } from "@tanstack/react-table"
 import {
@@ -45,57 +46,94 @@ export const Pagination = <TData, TValue>({
             </div>
 
             <ButtonGroup>
-              <Button
-                title="First"
-                variant="outline"
-                size="sm"
-                onClick={() => setPage(1)}
-                disabled={isLoading || currentPage === 1}
-                className="rounded-full"
-              >
-                <ChevronFirst />
-              </Button>
-              <Button
-                title="Previous"
-                variant="outline"
-                size="sm"
-                onClick={() => setPage(currentPage - 1)}
-                disabled={isLoading || currentPage === 1}
-                className="rounded-full"
-              >
-                <ChevronLeft />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    title="First"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage(1)}
+                    disabled={isLoading || currentPage === 1}
+                    className="rounded-full"
+                  >
+                    <ChevronFirst />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  First Page
+                </TooltipContent>
+              </Tooltip>
 
-              <Button
-                title="Page"
-                variant="outline"
-                size="sm"
-                className="text-xs cursor-default"
-              >
-                <span className="font-semibold">{NumberFormated(currentPage)}</span>{` `}
-                of <span className="font-semibold">{NumberFormated(totalPages)}</span>
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    title="Previous"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage(currentPage - 1)}
+                    disabled={isLoading || currentPage === 1}
+                    className="rounded-full"
+                  >
+                    <ChevronLeft />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Previous Page
+                </TooltipContent>
+              </Tooltip>
 
-              <Button
-                title="Next"
-                variant="outline"
-                size="sm"
-                onClick={() => setPage(currentPage + 1)}
-                disabled={isLoading || currentPage === totalPages}
-                className="rounded-full"
-              >
-                <ChevronRight />
-              </Button>
-              <Button
-                title="Last"
-                variant="outline"
-                size="sm"
-                onClick={() => setPage(totalPages)}
-                disabled={isLoading || currentPage === totalPages}
-                className="rounded-full"
-              >
-                <ChevronLast />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    title="Page"
+                    variant="outline"
+                    size="sm"
+                    className="text-xs cursor-default"
+                  >
+                    <span className="font-semibold">{NumberFormated(currentPage)}</span>{` `}
+                    of <span className="font-semibold">{NumberFormated(totalPages)}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Page Information
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    title="Next"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage(currentPage + 1)}
+                    disabled={isLoading || currentPage === totalPages}
+                    className="rounded-full"
+                  >
+                    <ChevronRight />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Next Page
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    title="Last"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage(totalPages)}
+                    disabled={isLoading || currentPage === totalPages}
+                    className="rounded-full"
+                  >
+                    <ChevronLast />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Last Page
+                </TooltipContent>
+              </Tooltip>
             </ButtonGroup>
           </div>
         </TableCell>

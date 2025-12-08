@@ -1,7 +1,10 @@
 //- app/(admin)/calendars/page.tsx
 
-import { AppHeader } from "@/components/core/app-layout"
-import { MaintenancePage } from "@/components/core/maintenance"
+"use client"
+
+import { AppHeader, AppMain } from "@/components/core/app-layout"
+import { Calendar } from "@/components/ui/calendar"
+import React from "react"
 
 const breadcrumbItems = [
   {
@@ -9,12 +12,27 @@ const breadcrumbItems = [
   },
 ]
 
-export default function CalendarsPage() {
+const CalendarsPage = () => {
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
+
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
-      <MaintenancePage />
+      <AppMain>
+        <div className="w-[1200px] h-[600px]">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            // className="rounded-lg border [--cell-size:--spacing(11)] md:[--cell-size:--spacing(12)]"
+            className="rounded-lg border w-full h-full"
+            buttonVariant="ghost"
+          />
+        </div>
+      </AppMain>
     </>
   )
 }
+
+export default CalendarsPage
