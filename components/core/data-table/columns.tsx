@@ -5,13 +5,14 @@ import Image from "next/image"
 import { EllipsisVertical, SquarePen, Star, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
 
-export const imageColumnSize = 130
+export const imageColumnSize = 100
 
-export const ratingColumnHeader = 'Rating'
-export const ratingColumnSize = 110
+export const ratingColumnHeader = "Rating"
+export const ratingColumnSize = 80
 
-export const actionColKey = 'action'
+export const actionColKey = "action"
 export const actionColHeader = ""
 export const actionColSize = 60
 export const actionColEditSize = 90
@@ -31,10 +32,24 @@ export const CellImage = ({ src, alt }: CellImageProps) => {
       priority={true}
       src={src}
       alt={alt}
-      className="table-image-td"
+      className="object-cover border border-sidebar-border rounded-xl"
       width={imageWidth}
       height={imageHeight}
     />
+  )
+}
+
+interface CellIconProps {
+  icon: React.ElementType,
+  text: string | number,
+  className?: string,
+}
+export const CellIcon = ({ icon: Icon, text, className }: CellIconProps) => {
+  return (
+    <div className={cn("flex items-center gap-1", className)}>
+      <Icon size={iconSize} />
+      <span>{text}</span>
+    </div>
   )
 }
 
@@ -45,18 +60,19 @@ export const CellList = ({ records }: CellListProps) => {
   return (
     <ul className="list-disc list-inside pl-1">
       {records.map((item, idx) => (
-        <li key={idx}>{item}</li>
+        <li key={idx} className="capitalize">{item}</li>
       ))}
     </ul>
   )
 }
 
 interface CellRatingProps {
-  rating: number
+  rating: number,
+  className?: string,
 }
-export const CellRating = ({ rating }: CellRatingProps) => {
+export const CellRating = ({ rating, className }: CellRatingProps) => {
   return (
-    <div className="flex items-center gap-1">
+    <div className={cn("flex items-center gap-1", className)}>
       <Star size={iconSize} className="text-yellow-400" fill="gold" />
       <span>{rating}</span>
     </div>

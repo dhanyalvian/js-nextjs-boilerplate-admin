@@ -4,8 +4,13 @@ import { ColumnDef } from "@tanstack/react-table"
 import { SocialCommentList } from "./type"
 import { NumberFormated } from "@/lib/numbers"
 import { ThumbsUp } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { actionColHeader, actionColKey, actionColSize, CellActions } from "@/components/core/data-table/columns"
+import {
+  actionColHeader,
+  actionColKey,
+  actionColSize,
+  CellActions,
+  CellIcon,
+} from "@/components/core/data-table/columns"
 
 export const Columns: ColumnDef<SocialCommentList>[] = [
   {
@@ -32,12 +37,7 @@ export const Columns: ColumnDef<SocialCommentList>[] = [
     size: 100,
     cell: ({ row }) => {
       const likes = NumberFormated(row.original.likes)
-      return (
-        <Badge variant="outline">
-          <ThumbsUp />
-          {likes}
-        </Badge>
-      )
+      return <CellIcon icon={ThumbsUp} text={likes} />
     },
   },
   {

@@ -5,10 +5,9 @@ import {
   actionColKey,
   actionColSize,
   CellActions,
+  CellIcon,
   CellList,
-  iconSize,
 } from "@/components/core/data-table/columns"
-import { Badge } from "@/components/ui/badge"
 import { NumberFormated } from "@/lib/numbers"
 import { SocialPostList } from "./type"
 import { ColumnDef } from "@tanstack/react-table"
@@ -40,12 +39,7 @@ export const Columns: ColumnDef<SocialPostList>[] = [
     size: 100,
     cell: ({ row }) => {
       const views = NumberFormated(row.original.views)
-      return (
-        <Badge variant="outline">
-          <Eye size={iconSize} />
-          {views}
-        </Badge>
-      )
+      return <CellIcon icon={Eye} text={views} />
     },
   },
   {
@@ -58,16 +52,10 @@ export const Columns: ColumnDef<SocialPostList>[] = [
       const dislikes = NumberFormated(row.original.reactions.dislikes)
 
       return (
-        <div className="flex flex-col gap-0.5">
-          <Badge variant="outline">
-            <ThumbsUp />
-            <span className="text-xs">{likes}</span>
-          </Badge>
-          <Badge variant="outline">
-            <ThumbsDown />
-            <span className="text-xs">{dislikes}</span>
-          </Badge>
-        </div>
+        <>
+          <CellIcon icon={ThumbsUp} text={likes} />
+          <CellIcon icon={ThumbsDown} text={dislikes} />
+        </>
       )
     },
   },

@@ -15,6 +15,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import Link from "next/link"
 
 export function LoginForm({
   className,
@@ -22,7 +23,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="shadow-xs">
+      <Card className="rounded-xl shadow-xs">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
@@ -39,22 +40,28 @@ export function LoginForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  className="rounded-full"
                 />
               </Field>
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
+                  <Link
                     href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  className="rounded-full"
+                />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="submit" className="rounded-full">Login</Button>
               </Field>
             </FieldGroup>
           </form>
