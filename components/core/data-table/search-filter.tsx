@@ -26,7 +26,7 @@ export const Search = ({
 }: SearchProps) => {
   return (
     <div className="flex gap-2">
-      <InputGroup className="w-80 bg-white rounded-full shadow-xs">
+      <InputGroup className="w-100 bg-white rounded-full shadow-xs">
         <InputGroupInput
           placeholder={placeholder}
           value={value}
