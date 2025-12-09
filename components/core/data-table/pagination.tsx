@@ -54,9 +54,10 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(1)}
                     disabled={isLoading || currentPage === 1}
-                    className="rounded-full"
+                    className="rounded-full text-xs"
                   >
                     <ChevronFirst />
+                    First
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -72,9 +73,10 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(currentPage - 1)}
                     disabled={isLoading || currentPage === 1}
-                    className="rounded-full"
+                    className="rounded-full text-xs"
                   >
                     <ChevronLeft />
+                    Prev
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -107,8 +109,9 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(currentPage + 1)}
                     disabled={isLoading || currentPage === totalPages}
-                    className="rounded-full"
+                    className="rounded-full text-xs"
                   >
+                    Next
                     <ChevronRight />
                   </Button>
                 </TooltipTrigger>
@@ -125,8 +128,9 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(totalPages)}
                     disabled={isLoading || currentPage === totalPages}
-                    className="rounded-full"
+                    className="rounded-full text-xs"
                   >
+                    Last
                     <ChevronLast />
                   </Button>
                 </TooltipTrigger>

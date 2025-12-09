@@ -18,7 +18,7 @@ export const Columns: ColumnDef<SocialQuoteList>[] = [
   {
     accessorKey: "author",
     header: "Author",
-    size: 250,
+    size: 300,
   },
   {
     accessorKey: actionColKey,

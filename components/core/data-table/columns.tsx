@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 
-export const imageColumnSize = 100
+export const imageColumnSize = 110
 
 export const ratingColumnHeader = "Rating"
 export const ratingColumnSize = 80
@@ -58,7 +58,7 @@ interface CellListProps {
 }
 export const CellList = ({ records }: CellListProps) => {
   return (
-    <ul className="list-disc list-inside pl-1">
+    <ul className="list-disc ml-4 pl-0.5">
       {records.map((item, idx) => (
         <li key={idx} className="capitalize">{item}</li>
       ))}

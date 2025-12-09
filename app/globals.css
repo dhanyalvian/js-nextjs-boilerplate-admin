@@ -138,3 +138,16 @@ body {
     cursor: pointer;
   }
 }
+
+.badge-1 {
+  @apply bg-red-50 text-red-600;
+}
+.badge-2 {
+  @apply bg-blue-50 text-blue-600;
+}
+.badge-3 {
+  @apply bg-yellow-50 text-yellow-600;
+}
+.badge-4 {
+  @apply bg-gray-50 text-gray-600;
+}
