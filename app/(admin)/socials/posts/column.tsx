@@ -54,7 +54,7 @@ export const Columns: ColumnDef<SocialPostList>[] = [
       return (
         <>
           <CellIcon icon={ThumbsUp} text={likes} />
-          <CellIcon icon={ThumbsDown} text={dislikes} />
+          <CellIcon icon={ThumbsDown} text={dislikes} className="text-muted-foreground" />
         </>
       )
     },

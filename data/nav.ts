@@ -1,14 +1,14 @@
 //- data/nav.ts
 
 import {
-  ArrowLeftRight,
-  CalendarRange,
-  CircleCheck,
+  // ArrowLeftRight,
+  // CalendarRange,
+  // CircleCheck,
   CircleQuestionMark,
   ClipboardList,
   CookingPot,
   Copy,
-  FileText,
+  // FileText,
   Frame,
   Globe,
   LayoutDashboard,
@@ -17,15 +17,15 @@ import {
   NotebookPen,
   Package,
   PieChart,
-  Puzzle,
+  // Puzzle,
   Settings,
-  ShoppingCart,
-  Tag,
-  Truck,
-  UserLock,
-  UserRound,
+  // ShoppingCart,
+  // Tag,
+  // Truck,
+  // UserLock,
+  // UserRound,
   UserSearch,
-  UsersRound,
+  // UsersRound,
 } from "lucide-react";
 
 export const dataNav = {
@@ -40,60 +40,60 @@ export const dataNav = {
       url: "/",
       icon: LayoutDashboard,
     },
-    {
-      title: "Sales",
-      url: "#",
-      icon: Tag,
-      submenus: [
-        {
-          title: "Orders",
-          url: "/sales/orders",
-          icon: ShoppingCart,
-        },
-        {
-          title: "Invoices",
-          url: "/sales/invoices",
-          icon: FileText,
-        },
-        {
-          title: "Shipments",
-          url: "/sales/shipments",
-          icon: Truck,
-        },
-        {
-          title: "Credit Memos",
-          url: "/sales/credit-memos",
-          icon: ArrowLeftRight,
-        },
-      ],
-    },
-    {
-      title: "Customers",
-      url: "#",
-      icon: UserRound,
-      submenus: [
-        {
-          title: "All Customers",
-          url: "/customers/all-customers",
-          icon: UsersRound,
-        },
-        {
-          title: "Now Online",
-          url: "/customers/now-online",
-          icon: CircleCheck,
-        },
-        {
-          title: "Segments",
-          url: "/customers/segments",
-          icon: Puzzle,
-        },
-        {
-          title: "Groups",
-          url: "/customers/groups",
-          icon: UserLock,
-        },
-      ],
-    },
+    // {
+    //   title: "Sales",
+    //   url: "#",
+    //   icon: Tag,
+    //   submenus: [
+    //     {
+    //       title: "Orders",
+    //       url: "/sales/orders",
+    //       icon: ShoppingCart,
+    //     },
+    //     {
+    //       title: "Invoices",
+    //       url: "/sales/invoices",
+    //       icon: FileText,
+    //     },
+    //     {
+    //       title: "Shipments",
+    //       url: "/sales/shipments",
+    //       icon: Truck,
+    //     },
+    //     {
+    //       title: "Credit Memos",
+    //       url: "/sales/credit-memos",
+    //       icon: ArrowLeftRight,
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Customers",
+    //   url: "#",
+    //   icon: UserRound,
+    //   submenus: [
+    //     {
+    //       title: "All Customers",
+    //       url: "/customers/all-customers",
+    //       icon: UsersRound,
+    //     },
+    //     {
+    //       title: "Now Online",
+    //       url: "/customers/now-online",
+    //       icon: CircleCheck,
+    //     },
+    //     {
+    //       title: "Segments",
+    //       url: "/customers/segments",
+    //       icon: Puzzle,
+    //     },
+    //     {
+    //       title: "Groups",
+    //       url: "/customers/groups",
+    //       icon: UserLock,
+    //     },
+    //   ],
+    // },
     {
       title: "Manages",
       url: "#",
@@ -138,11 +138,11 @@ export const dataNav = {
         },
       ],
     },
-    {
-      title: "Calendars",
-      url: "/calendars",
-      icon: CalendarRange,
-    },
+    // {
+    //   title: "Calendars",
+    //   url: "/calendars",
+    //   icon: CalendarRange,
+    // },
     {
       title: "Reports",
       url: "/reports",
