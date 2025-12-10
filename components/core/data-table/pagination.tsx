@@ -11,6 +11,7 @@ import {
   ChevronLast,
   ChevronLeft,
   ChevronRight,
+  Ellipsis,
 } from "lucide-react"
 
 interface PaginationProps<TData, TValue> {
@@ -40,9 +41,16 @@ export const Pagination = <TData, TValue>({
       <TableRow>
         <TableCell colSpan={columns.length}>
           <div className="w-full flex items-center justify-between pl-2 pr-2">
-            <div className="text-sm font-normal">
-              <span className="font-semibold">{NumberFormated(startRow)}-{NumberFormated(endRow)}</span>{` `}
-              of <span className="font-semibold">{NumberFormated(totalRecords)}</span> records
+            <div className="flex space-x-2 items-center">
+              <div className="text-xs font-normal">
+                Page <span className="font-semibold">{NumberFormated(currentPage)}</span>{` `}
+                of <span className="font-semibold">{NumberFormated(totalPages)}</span>
+              </div>
+              <div className="text-xs text-border">|</div>
+              <div className="text-xs font-normal">
+                <span className="font-semibold">{NumberFormated(startRow)}-{NumberFormated(endRow)}</span>{` `}
+                of <span className="font-semibold">{NumberFormated(totalRecords)}</span> records
+              </div>
             </div>
 
             <ButtonGroup>
@@ -57,7 +65,6 @@ export const Pagination = <TData, TValue>({
                     className="rounded-full text-xs"
                   >
                     <ChevronFirst />
-                    First
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -76,7 +83,6 @@ export const Pagination = <TData, TValue>({
                     className="rounded-full text-xs"
                   >
                     <ChevronLeft />
-                    Prev
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -84,22 +90,11 @@ export const Pagination = <TData, TValue>({
                 </TooltipContent>
               </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    title="Page"
-                    variant="outline"
-                    size="sm"
-                    className="text-xs cursor-default"
-                  >
-                    <span className="font-semibold">{NumberFormated(currentPage)}</span>{` `}
-                    of <span className="font-semibold">{NumberFormated(totalPages)}</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  Page Information
-                </TooltipContent>
-              </Tooltip>
+              {renderPages({
+                totalPages,
+                currentPage,
+                setPage,
+              })}
 
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -111,7 +106,6 @@ export const Pagination = <TData, TValue>({
                     disabled={isLoading || currentPage === totalPages}
                     className="rounded-full text-xs"
                   >
-                    Next
                     <ChevronRight />
                   </Button>
                 </TooltipTrigger>
@@ -130,7 +124,6 @@ export const Pagination = <TData, TValue>({
                     disabled={isLoading || currentPage === totalPages}
                     className="rounded-full text-xs"
                   >
-                    Last
                     <ChevronLast />
                   </Button>
                 </TooltipTrigger>
@@ -143,5 +136,83 @@ export const Pagination = <TData, TValue>({
         </TableCell>
       </TableRow>
     </TableFooter>
+  )
+}
+
+interface renderPagesProps {
+  totalPages: number,
+  currentPage: number,
+  setPage: (page: number) => void,
+  iconSize?: number,
+}
+const renderPages = ({
+  totalPages,
+  currentPage,
+  setPage,
+  iconSize = 16,
+}: renderPagesProps) => {
+  const pages: (number | string)[] = []
+
+  // Always show first page
+  pages.push(1)
+
+  let start = Math.max(2, currentPage - 2)
+  let end = Math.min(totalPages - 1, currentPage + 2)
+
+  // Keep exactly 5 pages visible
+  if (end - start < 4) {
+    if (currentPage <= 3) {
+      end = Math.min(totalPages - 1, 5)
+    } else if (currentPage >= totalPages - 2) {
+      start = Math.max(2, totalPages - 4)
+    }
+  }
+
+  // Ellipsis on the left
+  if (start > 2) {
+    pages.push("...")
+  }
+
+  // Middle range
+  for (let i = start; i <= end; i++) {
+    pages.push(i)
+  }
+
+  // Ellipsis on the right
+  if (end < totalPages - 1) {
+    pages.push("...")
+  }
+
+  // Always show last page if more than 1
+  if (totalPages > 1) {
+    pages.push(totalPages)
+  }
+
+  return pages.map((page, index) =>
+    page === "..." ? (
+      <Button
+        key={`dots-${index}`}
+        variant="outline"
+        size="sm"
+        className="text-xs"
+        disabled={true}
+      >
+        <Ellipsis size={iconSize} />
+      </Button>
+    ) : (
+      <Button
+        key={page}
+        variant="outline"
+        size="sm"
+        className={`text-xs ${currentPage === page
+          ? "font-bold text-gray-600"
+          : "font-normal"
+          }`}
+        onClick={() => setPage(page as number)}
+        disabled={currentPage === page}
+      >
+        {totalPages ? page : 0}
+      </Button>
+    )
   )
 }
