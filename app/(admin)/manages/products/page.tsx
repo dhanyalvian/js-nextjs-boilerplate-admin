@@ -29,7 +29,6 @@ const getManageProductList = async (
   return data
 }
 
-
 const ManageProductPage = () => {
   const breadcrumbItems = [
     { label: "Manages" },
@@ -50,13 +49,11 @@ const ManageProductPage = () => {
   }, [search])
 
   const queries = useQueries({
-    queries: [
-      {
-        queryKey: ["manages", "products", page, limit, debouncedSearch],
-        queryFn: () => getManageProductList(page, limit, debouncedSearch),
-        refetchOnWindowFocus: false,
-      },
-    ],
+    queries: [{
+      queryKey: ["manages", "products", page, limit, debouncedSearch],
+      queryFn: () => getManageProductList(page, limit, debouncedSearch),
+      refetchOnWindowFocus: false,
+    }],
   })
   const [queryProducts] = queries
 

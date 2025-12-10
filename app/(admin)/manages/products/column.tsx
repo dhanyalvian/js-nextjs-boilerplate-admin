@@ -14,7 +14,7 @@ import {
   imageColumnSize,
 } from "@/components/core/data-table/columns";
 import { NumberFormated } from "@/lib/numbers";
-import { PackageCheck, PackageMinus, PackageX } from "lucide-react";
+import { CircleSmall, PackageCheck, PackageMinus, PackageX, QrCode } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export const Columns: ColumnDef<ManageProductList>[] = [
@@ -33,10 +33,12 @@ export const Columns: ColumnDef<ManageProductList>[] = [
       return (
         <div className="flex flex-col gap-1">
           <div>{row.original.title}</div>
-          <div className="text-muted-foreground">
+          <Badge variant="outline" className="text-muted-foreground">
             SKU: {row.original.sku}
-          </div>
-          <CellRating rating={row.original.rating} />
+          </Badge>
+          <Badge variant="outline" className="text-muted-foreground">
+            <CellRating rating={row.original.rating} />
+          </Badge>
         </div>
       )
     },
@@ -74,32 +76,41 @@ export const Columns: ColumnDef<ManageProductList>[] = [
   {
     accessorKey: "stock",
     header: "Stock",
-    size: 120,
+    size: 130,
     enableSorting: false,
     cell: ({ row }) => {
       const stock = row.original.stock
       let iconStock = PackageCheck
       let textStock = ""
       let classStock = ""
+      let colorStock = ""
 
       if (stock === 0) {
         iconStock = PackageX
         textStock = "Out of Stock"
-        classStock = "badge-4"
+        classStock = "text-neutral-400"
+        colorStock = "Silver"
       } else if (stock < 10) {
         iconStock = PackageMinus
         textStock = "Low Stock"
-        classStock = "badge-3"
+        classStock = "text-red-600"
+        colorStock = "red"
       } else {
         iconStock = PackageCheck
         textStock = "In Stock"
-        classStock = "badge-2"
+        classStock = "text-blue-600"
+        colorStock = "blue"
       }
 
       return (
         <div className="flex flex-col gap-1">
-          <CellIcon icon={iconStock} text={NumberFormated(stock)} />
-          <Badge variant="outline" className={classStock}>{textStock}</Badge>
+          <Badge variant="outline">
+            <CircleSmall color={colorStock} fill={colorStock} />
+            <span className={classStock}>{textStock}</span>
+          </Badge>
+          <Badge variant="outline">
+            <CellIcon icon={iconStock} text={NumberFormated(stock)} />
+          </Badge>
         </div>
       )
     },

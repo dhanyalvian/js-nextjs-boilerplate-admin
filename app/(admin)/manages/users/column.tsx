@@ -34,10 +34,10 @@ export const Columns: ColumnDef<ManageUserList>[] = [
       }
 
       return (
-        <div className="flex flex-col gap-1">
+        <>
           <div>{fullName}</div>
           <div className="text-muted-foreground">@{row.original.username}</div>
-        </div>
+        </>
       )
     },
   },
@@ -48,7 +48,11 @@ export const Columns: ColumnDef<ManageUserList>[] = [
     cell: ({ row }) => {
       const gender = row.original.gender
       const iconGender = gender === "male" ? Mars : Venus
-      return <CellIcon icon={iconGender} text={gender} className="capitalize" />
+      return (
+        <Badge variant="outline">
+          <CellIcon icon={iconGender} text={gender} className="capitalize" />
+        </Badge>
+      )
     },
   },
   {
@@ -73,8 +77,12 @@ export const Columns: ColumnDef<ManageUserList>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-col gap-1">
-          <CellIcon icon={Mail} text={row.original.email} />
-          <CellIcon icon={Phone} text={row.original.phone} className="text-muted-foreground" />
+          <Badge variant="outline">
+            <CellIcon icon={Mail} text={row.original.email} />
+          </Badge>
+          <Badge variant="outline">
+            <CellIcon icon={Phone} text={row.original.phone} className="text-muted-foreground" />
+          </Badge>
         </div>
       )
     },
