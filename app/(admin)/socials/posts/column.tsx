@@ -12,6 +12,7 @@ import { NumberFormated } from "@/lib/numbers"
 import { SocialPostList } from "./type"
 import { ColumnDef } from "@tanstack/react-table"
 import { Eye, ThumbsDown, ThumbsUp } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 export const Columns: ColumnDef<SocialPostList>[] = [
   {
@@ -38,8 +39,11 @@ export const Columns: ColumnDef<SocialPostList>[] = [
     header: "Views",
     size: 100,
     cell: ({ row }) => {
-      const views = NumberFormated(row.original.views)
-      return <CellIcon icon={Eye} text={views} />
+      return (
+        <Badge variant="outline">
+          <CellIcon icon={Eye} text={NumberFormated(row.original.views)} />
+        </Badge>
+      )
     },
   },
   {
@@ -52,10 +56,18 @@ export const Columns: ColumnDef<SocialPostList>[] = [
       const dislikes = NumberFormated(row.original.reactions.dislikes)
 
       return (
-        <>
-          <CellIcon icon={ThumbsUp} text={likes} />
-          <CellIcon icon={ThumbsDown} text={dislikes} className="text-muted-foreground" />
-        </>
+        <div className="flex flex-col gap-1">
+          <Badge variant="outline">
+            <CellIcon icon={ThumbsUp} text={likes} />
+          </Badge>
+          <Badge variant="outline">
+            <CellIcon
+              icon={ThumbsDown}
+              text={dislikes}
+              className="text-muted-foreground"
+            />
+          </Badge>
+        </div>
       )
     },
   },

@@ -15,6 +15,7 @@ import {
 } from "@/components/core/data-table/columns";
 import { NumberFormated } from "@/lib/numbers";
 import { ChefHat, ClipboardCheck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export const Columns: ColumnDef<ManageRecipeList>[] = [
   {
@@ -29,16 +30,20 @@ export const Columns: ColumnDef<ManageRecipeList>[] = [
     header: "Name",
     size: 0,
     cell: ({ row }) => {
-      const review = NumberFormated(row.original.reviewCount)
       return (
         <div className="flex flex-col gap-1">
           <div>{row.original.name}</div>
-          <div><CellIcon icon={ChefHat} text={row.original.cuisine} className="text-muted-foreground" /></div>
-          <div className="flex items-center gap-3">
-            <CellRating rating={row.original.rating} className="text-muted-foreground" />
-            {/* <span>•</span> */}
-            <CellIcon icon={ClipboardCheck} text={review} className="text-muted-foreground" />
-          </div>
+
+          <Badge variant="outline">
+            <CellIcon icon={ChefHat} text={row.original.cuisine} className="text-muted-foreground" />
+          </Badge>
+
+          <Badge variant="outline">
+            <CellRating
+              rating={row.original.rating}
+              className="text-muted-foreground"
+            />
+          </Badge>
         </div>
       )
     },
@@ -62,6 +67,22 @@ export const Columns: ColumnDef<ManageRecipeList>[] = [
     enableSorting: false,
     cell: ({ row }) => {
       return <CellList records={row.original.tags} />
+    },
+  },
+  {
+    accessorKey: "reviewCount",
+    header: "Review",
+    size: 100,
+    enableSorting: false,
+    cell: ({ row }) => {
+      return (
+        <Badge variant="outline">
+          <CellIcon
+            icon={ClipboardCheck}
+            text={NumberFormated(row.original.reviewCount)}
+          />
+        </Badge>
+      )
     },
   },
   {

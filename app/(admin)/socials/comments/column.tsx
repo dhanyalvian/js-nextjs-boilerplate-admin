@@ -11,6 +11,7 @@ import {
   CellActions,
   CellIcon,
 } from "@/components/core/data-table/columns"
+import { Badge } from "@/components/ui/badge"
 
 export const Columns: ColumnDef<SocialCommentList>[] = [
   {
@@ -26,7 +27,9 @@ export const Columns: ColumnDef<SocialCommentList>[] = [
       return (
         <div className="flex flex-col">
           <div>{row.original.user.fullName}</div>
-          <div className="text-muted-foreground">@{row.original.user.username}</div>
+          <div className="text-muted-foreground">
+            @{row.original.user.username}
+          </div>
         </div>
       )
     },
@@ -36,8 +39,11 @@ export const Columns: ColumnDef<SocialCommentList>[] = [
     header: "Likes",
     size: 100,
     cell: ({ row }) => {
-      const likes = NumberFormated(row.original.likes)
-      return <CellIcon icon={ThumbsUp} text={likes} />
+      return (
+        <Badge variant="outline">
+          <CellIcon icon={ThumbsUp} text={NumberFormated(row.original.likes)} />
+        </Badge>
+      )
     },
   },
   {
