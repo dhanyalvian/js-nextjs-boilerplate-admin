@@ -14,7 +14,7 @@ import {
   imageColumnSize,
 } from "@/components/core/data-table/columns";
 import { NumberFormated } from "@/lib/numbers";
-import { CircleSmall, PackageCheck, PackageMinus, PackageX, QrCode } from "lucide-react";
+import { CircleSmall, PackageCheck, PackageMinus, PackageX } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export const Columns: ColumnDef<ManageProductList>[] = [

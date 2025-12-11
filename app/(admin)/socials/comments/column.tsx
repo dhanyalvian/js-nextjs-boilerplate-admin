@@ -3,13 +3,11 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { SocialCommentList } from "./type"
 import { NumberFormated } from "@/lib/numbers"
-import { ThumbsUp } from "lucide-react"
 import {
   actionColHeader,
   actionColKey,
   actionColSize,
   CellActions,
-  CellIcon,
 } from "@/components/core/data-table/columns"
 import { Badge } from "@/components/ui/badge"
 
@@ -18,6 +16,16 @@ export const Columns: ColumnDef<SocialCommentList>[] = [
     accessorKey: "body",
     header: "Comment",
     size: 0,
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-col gap-1">
+          <div>{row.original.body}</div>
+          <Badge variant="outline" className="text-muted-foreground">
+            {NumberFormated(row.original.likes)} likes
+          </Badge>
+        </div>
+      )
+    },
   },
   {
     accessorKey: "user",
@@ -31,18 +39,6 @@ export const Columns: ColumnDef<SocialCommentList>[] = [
             @{row.original.user.username}
           </div>
         </div>
-      )
-    },
-  },
-  {
-    accessorKey: "likes",
-    header: "Likes",
-    size: 100,
-    cell: ({ row }) => {
-      return (
-        <Badge variant="outline">
-          <CellIcon icon={ThumbsUp} text={NumberFormated(row.original.likes)} />
-        </Badge>
       )
     },
   },

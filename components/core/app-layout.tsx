@@ -4,6 +4,7 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "../ui/breadcrumb";
 import { Separator } from "../ui/separator";
 import { SidebarTrigger } from "../ui/sidebar";
+import Link from "next/link";
 
 interface AppHeaderProps {
   breadcrumbItems?: { label: string; href?: string }[]
@@ -11,7 +12,7 @@ interface AppHeaderProps {
 
 const AppHeader = ({ breadcrumbItems }: AppHeaderProps) => {
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-main">
+    <header className="flex h-15 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-15 bg-main">
       <div className="flex items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
 
@@ -54,7 +55,7 @@ const AppMain = ({ children }: { children?: React.ReactNode }) => {
 const AppFooter = () => {
   return (
     <footer className="min-h-8 pb-4 text-center text-xs bg-main text-gray-600">
-      © 2025 Boilerplate Admin. All rights reserved.
+      © 2025 <Link href="https://github.com/dhanyalvian/js-nextjs-boilerplate-admin" className="font-semibold hover:underline" target="blank">Boilerplate Admin</Link>. All rights reserved.
     </footer>
   )
 }

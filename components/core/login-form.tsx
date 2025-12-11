@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 
 export function LoginForm({
   className,
@@ -34,11 +35,27 @@ export function LoginForm({
           <form>
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <div className="flex items-center">
+                  <FieldLabel htmlFor="username">Username</FieldLabel>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href="#"
+                        className="ml-auto inline-block text-xs underline-offset-4 hover:underline"
+                      >
+                        Hint
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Username: emilys</p>
+                      <p>Password: emilyspass</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
+                  id="username"
+                  type="text"
+                  placeholder="emilys"
                   required
                   className="rounded-full"
                 />
@@ -48,7 +65,7 @@ export function LoginForm({
                   <FieldLabel htmlFor="password">Password</FieldLabel>
                   <Link
                     href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="ml-auto inline-block text-xs underline-offset-4 hover:underline"
                   >
                     Forgot your password?
                   </Link>

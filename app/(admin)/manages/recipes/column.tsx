@@ -14,7 +14,7 @@ import {
   imageColumnSize,
 } from "@/components/core/data-table/columns";
 import { NumberFormated } from "@/lib/numbers";
-import { ChefHat, ClipboardCheck } from "lucide-react";
+import { CheckCheck, ChefHat } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export const Columns: ColumnDef<ManageRecipeList>[] = [
@@ -77,10 +77,8 @@ export const Columns: ColumnDef<ManageRecipeList>[] = [
     cell: ({ row }) => {
       return (
         <Badge variant="outline">
-          <CellIcon
-            icon={ClipboardCheck}
-            text={NumberFormated(row.original.reviewCount)}
-          />
+          <CheckCheck />
+          {NumberFormated(row.original.reviewCount)}
         </Badge>
       )
     },
