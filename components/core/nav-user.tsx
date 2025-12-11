@@ -3,10 +3,10 @@
 "use client"
 
 import {
-  BadgeCheck,
   Bell,
-  ChevronsUpDown,
-  CreditCard,
+  CircleCheck,
+  CircleUserRound,
+  EllipsisVertical,
   LogOut,
 } from "lucide-react"
 
@@ -60,7 +60,7 @@ export function NavUser({
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <EllipsisVertical className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -84,12 +84,12 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+                <CircleUserRound />
+                Profile
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCard />
-                Billing
+                <CircleCheck />
+                Account
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
