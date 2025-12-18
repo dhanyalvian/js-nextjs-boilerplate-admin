@@ -191,6 +191,7 @@ const renderPages = ({
   return pages.map((page, index) =>
     page === "..." ? (
       <Button
+        aria-label="Hidden pages"
         key={`dots-${index}`}
         variant="outline"
         size="sm"
@@ -204,10 +205,7 @@ const renderPages = ({
         key={page}
         variant="outline"
         size="sm"
-        className={`text-xs ${currentPage === page
-          ? "font-bold text-gray-600"
-          : "font-normal"
-          }`}
+        className={`text-xs ${currentPage === page ? "bg-neutral-200 text-black font-bold" : ""}`}
         onClick={() => setPage(page as number)}
         disabled={currentPage === page}
       >

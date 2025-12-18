@@ -16,3 +16,12 @@ export const ApiClient = axios.create({
 export const getParamSkip = (page: number, limit: number): number => {
   return (page - 1) * limit
 }
+
+export const ApiInternal = async (path: string, options?: RequestInit) => {
+  const ep = process.env.NEXT_PUBLIC_CONFIG_API_INT_EP || ""
+  const url = `${ep}${path}`
+  console.log(url)
+  const res = await fetch(url, { ...options })
+  const data = await res.json()
+  return data
+}

@@ -20,23 +20,28 @@ export function NavSecondary({
   ...props
 }: {
   menus: {
-    title: string
-    url: string
-    icon: LucideIcon
+    title: string,
+    url: string,
+    icon: LucideIcon,
+    demo?: boolean,
   }[]
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   const pathname = usePathname();
-  
+
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
-          {menus.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild isActive={pathname === item.url}>
-                <Link href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
+          {menus.map((menu) => (
+            <SidebarMenuItem key={menu.title}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === menu.url}
+                className={`${menu.demo ? "" : "text-neutral-400"}`}
+              >
+                <Link href={menu.url}>
+                  <menu.icon />
+                  <span>{menu.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

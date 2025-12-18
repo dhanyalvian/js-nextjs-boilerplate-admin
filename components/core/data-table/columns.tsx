@@ -112,7 +112,7 @@ export const CellActions = ({ pathEdit, pathDelete }: ActionsProps) => {
     <div className="w-full text-right">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm">
+          <Button aria-label="Actions" variant="ghost" size="sm">
             <EllipsisVertical />
           </Button>
         </DropdownMenuTrigger>

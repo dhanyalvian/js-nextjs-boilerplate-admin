@@ -2,7 +2,7 @@
 
 "use client"
 
-import { ApiClient, getParamSkip } from "@/components/api/client"
+import { ApiInternal, getParamSkip } from "@/components/api/client"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { ManageProductListResp } from "./type"
 import { ScrollToTop } from "@/lib/utils"
@@ -17,13 +17,7 @@ const getManageProductList = async (
   search: string,
 ): Promise<ManageProductListResp> => {
   const skip = getParamSkip(page, limit)
-  const { data } = await ApiClient.get("/products/search?q=" + search, {
-    params: {
-      limit: limit,
-      skip: skip,
-      search: search,
-    }
-  })
+  const data = await ApiInternal(`/products/search?q=${search}&limit=${limit}&skip=${skip}`)
   ScrollToTop()
 
   return data

@@ -4,7 +4,7 @@
 
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { SocialCommentListResp } from "./type"
-import { ApiClient, getParamSkip } from "@/components/api/client"
+import { ApiInternal, getParamSkip } from "@/components/api/client"
 import { ScrollToTop } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
@@ -17,13 +17,7 @@ const GetSocialCommentList = async (
   search: string,
 ): Promise<SocialCommentListResp> => {
   const skip = getParamSkip(page, limit)
-  const { data } = await ApiClient.get("/comments?q=" + search, {
-    params: {
-      limit: limit,
-      skip: skip,
-      search: search,
-    }
-  })
+  const data = await ApiInternal(`/comments?q=${search}&limit=${limit}&skip=${skip}`)
   ScrollToTop()
 
   return data
