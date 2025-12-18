@@ -1,31 +1,29 @@
 //- data/nav.ts
 
 import {
-  // ArrowLeftRight,
-  // CalendarRange,
-  // CircleCheck,
+  ChartBar,
+  ArrowLeftRight,
+  CalendarRange,
+  CircleCheck,
   CircleQuestionMark,
-  ClipboardList,
   CookingPot,
   Copy,
-  // FileText,
-  Frame,
+  FileText,
   Globe,
   LayoutDashboard,
   MessageSquareQuote,
   MessagesSquare,
   NotebookPen,
   Package,
-  PieChart,
-  // Puzzle,
+  Puzzle,
   Settings,
-  // ShoppingCart,
-  // Tag,
-  // Truck,
-  // UserLock,
-  // UserRound,
+  ShoppingCart,
+  Tag,
+  Truck,
+  UserLock,
+  UserRound,
   UserSearch,
-  // UsersRound,
+  UsersRound,
 } from "lucide-react";
 
 export const dataNav = {
@@ -39,80 +37,85 @@ export const dataNav = {
       title: "Dashboard",
       url: "/",
       icon: LayoutDashboard,
+      demo: true,
     },
-    // {
-    //   title: "Sales",
-    //   url: "#",
-    //   icon: Tag,
-    //   submenus: [
-    //     {
-    //       title: "Orders",
-    //       url: "/sales/orders",
-    //       icon: ShoppingCart,
-    //     },
-    //     {
-    //       title: "Invoices",
-    //       url: "/sales/invoices",
-    //       icon: FileText,
-    //     },
-    //     {
-    //       title: "Shipments",
-    //       url: "/sales/shipments",
-    //       icon: Truck,
-    //     },
-    //     {
-    //       title: "Credit Memos",
-    //       url: "/sales/credit-memos",
-    //       icon: ArrowLeftRight,
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Customers",
-    //   url: "#",
-    //   icon: UserRound,
-    //   submenus: [
-    //     {
-    //       title: "All Customers",
-    //       url: "/customers/all-customers",
-    //       icon: UsersRound,
-    //     },
-    //     {
-    //       title: "Now Online",
-    //       url: "/customers/now-online",
-    //       icon: CircleCheck,
-    //     },
-    //     {
-    //       title: "Segments",
-    //       url: "/customers/segments",
-    //       icon: Puzzle,
-    //     },
-    //     {
-    //       title: "Groups",
-    //       url: "/customers/groups",
-    //       icon: UserLock,
-    //     },
-    //   ],
-    // },
+    {
+      title: "Sales",
+      url: "#",
+      icon: Tag,
+      submenus: [
+        {
+          title: "Orders",
+          url: "/sales/orders",
+          icon: ShoppingCart,
+        },
+        {
+          title: "Invoices",
+          url: "/sales/invoices",
+          icon: FileText,
+        },
+        {
+          title: "Shipments",
+          url: "/sales/shipments",
+          icon: Truck,
+        },
+        {
+          title: "Credit Memos",
+          url: "/sales/credit-memos",
+          icon: ArrowLeftRight,
+        },
+      ],
+    },
+    {
+      title: "Customers",
+      url: "#",
+      icon: UserRound,
+      submenus: [
+        {
+          title: "All Customers",
+          url: "/customers/all-customers",
+          icon: UsersRound,
+        },
+        {
+          title: "Now Online",
+          url: "/customers/now-online",
+          icon: CircleCheck,
+        },
+        {
+          title: "Segments",
+          url: "/customers/segments",
+          icon: Puzzle,
+        },
+        {
+          title: "Groups",
+          url: "/customers/groups",
+          icon: UserLock,
+        },
+      ],
+    },
     {
       title: "Manages",
       url: "#",
       icon: Copy,
+      demo: true,
       submenus: [
         {
           title: "Products",
           url: "/manages/products",
           icon: Package,
+          demo: true,
         },
         {
           title: "Recipes",
           url: "/manages/recipes",
           icon: CookingPot,
+          demo: true,
         },
         {
           title: "Users",
           url: "/manages/users",
           icon: UserSearch,
+          demo: true,
         },
       ],
     },
@@ -120,50 +123,37 @@ export const dataNav = {
       title: "Socials",
       url: "#",
       icon: Globe,
+      demo: true,
       submenus: [
         {
           title: "Posts",
           url: "/socials/posts",
           icon: NotebookPen,
+          demo: true,
         },
         {
           title: "Comments",
           url: "/socials/comments",
           icon: MessagesSquare,
+          demo: true,
         },
         {
           title: "Quotes",
           url: "/socials/quotes",
           icon: MessageSquareQuote,
+          demo: true,
         },
       ],
     },
-    // {
-    //   title: "Calendars",
-    //   url: "/calendars",
-    //   icon: CalendarRange,
-    // },
+    {
+      title: "Calendars",
+      url: "/calendars",
+      icon: CalendarRange,
+    },
     {
       title: "Reports",
       url: "/reports",
-      icon: ClipboardList,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      icon: ChartBar,
     },
   ],
   navSecondary: [

@@ -2,7 +2,7 @@
 
 "use client"
 
-import { ApiClient, getParamSkip } from "@/components/api/client"
+import { ApiInternal, getParamSkip } from "@/components/api/client"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { DataTable } from "@/components/core/data-table/table"
 import { ScrollToTop } from "@/lib/utils"
@@ -11,19 +11,13 @@ import { Columns } from "./column"
 import { useQueries } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 
-const getPostList = async (
+const getSocialPostList = async (
   page: number,
   limit: number,
   search: string,
 ): Promise<SocialPostListResp> => {
   const skip = getParamSkip(page, limit)
-  const { data } = await ApiClient.get("/posts/search?q=" + search, {
-    params: {
-      limit: limit,
-      skip: skip,
-      search: search,
-    }
-  })
+  const data = await ApiInternal(`/posts/search?q=${search}&limit=${limit}&skip=${skip}`)
   ScrollToTop()
 
   return data
@@ -52,7 +46,7 @@ const SocialsPostsPage = () => {
     queries: [
       {
         queryKey: ["socials", "posts", page, limit, debouncedSearch],
-        queryFn: () => getPostList(page, limit, debouncedSearch),
+        queryFn: () => getSocialPostList(page, limit, debouncedSearch),
         refetchOnWindowFocus: false,
       },
     ],

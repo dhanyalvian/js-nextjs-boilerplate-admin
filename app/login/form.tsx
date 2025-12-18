@@ -1,0 +1,132 @@
+//- app/login/form.tsx
+
+// "use client"
+
+import { LoginData, LoginResp } from "./type"
+import { useRouter, useSearchParams } from "next/navigation"
+import { Resolver, SubmitHandler, useForm } from "react-hook-form"
+import { LoginFormData, LoginFormSchema } from "./validation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import Link from "next/link"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+
+const PostLogin = async (loginData: LoginData): Promise<LoginResp> => {
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(loginData),
+  })
+
+  if (!res.ok) throw new Error("Login failed")
+
+  return res.json()
+}
+
+const LoginForm = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const from = searchParams.get("from")
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<LoginFormData>({
+    resolver: zodResolver(LoginFormSchema) as Resolver<LoginFormData>,
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  })
+
+  const { isPending, mutateAsync } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: (loginData: LoginData) => PostLogin(loginData),
+    onSuccess: () => {
+      if (from) {
+        router.push(from)
+        return
+      }
+
+      router.push("/")
+    },
+    onError: (error: Error) => {
+      console.error("Error login:", error)
+      alert("Failed to login. Please try again.")
+      reset()
+    }
+  })
+
+  const onSubmit: SubmitHandler<LoginFormData> = async (data: LoginFormData) => {
+    mutateAsync(data)
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Field>
+          <div className="flex items-center">
+            <FieldLabel htmlFor="username">Username</FieldLabel>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="#"
+                  className="ml-auto inline-block text-xs underline-offset-4 hover:underline"
+                >
+                  Hint
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Username: emilys</p>
+                <p>Password: emilyspass</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+          <Input
+            id="username"
+            type="text"
+            placeholder="Username"
+            required
+            className={`rounded-full ${errors.username?.message ? "border-red-500" : ""}`}
+            {...register("username")}
+          />
+          {errors.username?.message && (
+            <p className="text-sm text-red-500">{errors.username.message}</p>
+          )}
+        </Field>
+        <Field>
+          <div className="flex items-center">
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <Link
+              href="#"
+              className="ml-auto inline-block text-xs underline-offset-4 hover:underline"
+            >
+              Forgot your password?
+            </Link>
+          </div>
+          <Input
+            id="password"
+            type="password"
+            required
+            className={`rounded-full ${errors.password?.message ? "border-red-500" : ""}`}
+            {...register("password")}
+          />
+          {errors.password?.message && (
+            <p className="text-sm text-red-500">{errors.password.message}</p>
+          )}
+        </Field>
+        <Field>
+          <Button
+            type="submit"
+            className="rounded-full"
+            disabled={isPending}
+          >
+            Login
+          </Button>
+        </Field>
+      </FieldGroup>
+    </form>
+  )
+}
+
+export default LoginForm

@@ -4,7 +4,7 @@
 
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { SocialQuoteListResp } from "./type"
-import { ApiClient, getParamSkip } from "@/components/api/client"
+import { ApiInternal, getParamSkip } from "@/components/api/client"
 import { ScrollToTop } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
@@ -17,13 +17,7 @@ const GetSocialQuoteList = async (
   search: string,
 ): Promise<SocialQuoteListResp> => {
   const skip = getParamSkip(page, limit)
-  const { data } = await ApiClient.get("/quotes?q=" + search, {
-    params: {
-      limit: limit,
-      skip: skip,
-      search: search,
-    }
-  })
+  const data = await ApiInternal(`/quotes?q=${search}&limit=${limit}&skip=${skip}`)
   ScrollToTop()
 
   return data

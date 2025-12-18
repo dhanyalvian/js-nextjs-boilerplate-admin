@@ -1,8 +1,12 @@
 //- app/login/page.tsx
 
+"use client"
+
 import { GalleryVerticalEnd } from "lucide-react"
-import { LoginForm } from "@/components/core/login-form"
 import { AppFooter } from "@/components/core/app-layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Suspense } from "react"
+import LoginForm from "./form"
 
 const LoginPage = () => {
   return (
@@ -16,7 +20,22 @@ const LoginPage = () => {
             Boilerplate Admin
           </span>
         </div>
-        <LoginForm />
+
+        <div className="flex flex-col gap-6">
+          <Card className="rounded-xl shadow-xs">
+            <CardHeader>
+              <CardTitle>Login to your account</CardTitle>
+              <CardDescription>
+                Enter your username and password below to login to your account
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Suspense>
+                <LoginForm />
+              </Suspense>
+            </CardContent>
+          </Card>
+        </div>
       </div>
       <AppFooter />
     </div>
