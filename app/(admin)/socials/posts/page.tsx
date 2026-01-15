@@ -9,7 +9,8 @@ import { ScrollToTop } from "@/lib/utils"
 import { SocialPostListResp } from "./type"
 import { Columns } from "./column"
 import { useQueries } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import { useCurl } from "@/lib/page"
 
 const getSocialPostList = async (
   page: number,
@@ -29,10 +30,15 @@ const SocialsPostsPage = () => {
     { label: "Posts" },
   ]
 
-  const [search, setSearch] = useState("")
-  const [debouncedSearch, setDebouncedSearch] = useState(search)
-  const [page, setPage] = useState(1)
-  const limit = 20
+  const {
+    search,
+    setSearch,
+    debouncedSearch,
+    setDebouncedSearch,
+    page,
+    setPage,
+    limit,
+  } = useCurl()
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -40,16 +46,14 @@ const SocialsPostsPage = () => {
       setPage(1)
     }, 1000)
     return () => clearTimeout(handler)
-  }, [search])
+  }, [search, setDebouncedSearch, setPage])
 
   const queries = useQueries({
-    queries: [
-      {
-        queryKey: ["socials", "posts", page, limit, debouncedSearch],
-        queryFn: () => getSocialPostList(page, limit, debouncedSearch),
-        refetchOnWindowFocus: false,
-      },
-    ],
+    queries: [{
+      queryKey: ["socials", "posts", page, limit, debouncedSearch],
+      queryFn: () => getSocialPostList(page, limit, debouncedSearch),
+      refetchOnWindowFocus: false,
+    }],
   })
   const [queryPosts] = queries
 

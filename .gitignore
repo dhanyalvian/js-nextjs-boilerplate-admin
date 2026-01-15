@@ -42,3 +42,9 @@ yarn-error.log*
 next-env.d.ts
 
 *.code-workspace
+
+# package manager
+bun.lock
+.yarn/*
+.yarnrc.yml
+yarn.lock

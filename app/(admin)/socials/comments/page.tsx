@@ -6,10 +6,11 @@ import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { SocialCommentListResp } from "./type"
 import { ApiInternal, getParamSkip } from "@/components/api/client"
 import { ScrollToTop } from "@/lib/utils"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
+import { useCurl } from "@/lib/page"
 
 const GetSocialCommentList = async (
   page: number,
@@ -29,10 +30,15 @@ const SocialCommentPage = () => {
     { label: "Comments" },
   ]
 
-  const [search, setSearch] = useState("")
-  const [debouncedSearch, setDebouncedSearch] = useState(search)
-  const [page, setPage] = useState(1)
-  const limit = 20
+  const {
+    search,
+    setSearch,
+    debouncedSearch,
+    setDebouncedSearch,
+    page,
+    setPage,
+    limit,
+  } = useCurl()
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -40,16 +46,14 @@ const SocialCommentPage = () => {
       setPage(1)
     }, 1000)
     return () => clearTimeout(handler)
-  }, [search])
+  }, [search, setDebouncedSearch, setPage])
 
   const queries = useQueries({
-    queries: [
-      {
-        queryKey: ["socials", "comments", page, limit, debouncedSearch],
-        queryFn: () => GetSocialCommentList(page, limit, debouncedSearch),
-        refetchOnWindowFocus: false,
-      },
-    ],
+    queries: [{
+      queryKey: ["socials", "comments", page, limit, debouncedSearch],
+      queryFn: () => GetSocialCommentList(page, limit, debouncedSearch),
+      refetchOnWindowFocus: false,
+    }],
   })
   const [querySocialComments] = queries
 

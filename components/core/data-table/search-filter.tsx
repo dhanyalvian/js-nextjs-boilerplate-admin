@@ -65,7 +65,7 @@ export const Exports = ({ title }: ExportProps) => {
     <ButtonGroup>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline" size="default" className="rounded-full shadow-xs">
+          <Button variant="default" size="default" className="rounded-full shadow-xs">
             <FilePlusCorner />
             New
           </Button>
