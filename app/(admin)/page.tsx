@@ -16,7 +16,7 @@ const DashboardPage = () => {
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
       <AppMain>
-        <div className="flex flex-1 flex-col gap-4 pt-0">
+        <div className="grid gap-4 pt-0">
           <SectionCards />
 
           {/* <div className="pt-0"> */}
