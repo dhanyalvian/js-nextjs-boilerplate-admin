@@ -8,13 +8,23 @@ import { format } from "date-fns"
 import { Field } from "@/components/ui/field"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import { CalendarIcon, Check } from "lucide-react"
+import { CalendarIcon, CalendarRangeIcon, Check, Trash2Icon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { Badge } from "@/components/ui/badge"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { DateFormated } from "@/lib/date"
+
+const ClearIcon = Trash2Icon
+const ClearLabel = "Clear"
 
 interface FilterCheckboxProps {
   Icon: React.ElementType,
@@ -70,7 +80,7 @@ const FilterCheckbox = ({
     return (
       <div className="flex flex-row gap-2 items-center">
         <div>{result}</div>
-        <div className="flex gap-1 pl-1.5">
+        <div className="flex gap-1 pl-1.5 min-w-fit">
           {labels.length > 2 ? (
             <Badge variant="secondary" className="text-xs font-normal">{labels.length} selected</Badge>
           ) : (
@@ -97,7 +107,7 @@ const FilterCheckbox = ({
           {displaySelected()}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="min-w-[150px] w-[var(--radix-popover-trigger-width)] p-0 shadow-xs">
+      <PopoverContent align="start" className="min-w-[150px] w-(--radix-popover-trigger-width) p-0 shadow-xs">
         <Command>
           {searchable && (
             <CommandInput placeholder={`Search ${title}...`} />
@@ -138,11 +148,17 @@ const FilterCheckbox = ({
                 <Separator />
                 <CommandGroup>
                   <CommandItem className="cursor-pointer text-xs justify-center">
-                    <span className="w-full h-full text-center" onClick={() => {
-                      setSelectedValues([])
-                      setOpen(false)
-                      setShowClearFilter(false)
-                    }}>Clear</span>
+                    <div
+                      className="flex flex-row items-center justify-center gap-1.5 w-full h-full"
+                      onClick={() => {
+                        setSelectedValues([])
+                        setOpen(false)
+                        setShowClearFilter(false)
+                      }}
+                    >
+                      <ClearIcon />
+                      {ClearLabel}
+                    </div>
                   </CommandItem>
                 </CommandGroup>
               </>
@@ -206,7 +222,7 @@ const FilterDateRange = ({ title, disabled = false }: FilterDateRangeProps) => {
             className="justify-start px-2.5 font-normal"
             disabled={disabled}
           >
-            <CalendarIcon />
+            <CalendarRangeIcon />
             {dateRange?.from ? (
               dateRange.to ? (
                 <>
@@ -242,8 +258,24 @@ const FilterDateRange = ({ title, disabled = false }: FilterDateRangeProps) => {
   )
 }
 
+interface FilterResetProps {
+  disabled?: boolean,
+}
+const FilterReset = ({ disabled = false }: FilterResetProps) => {
+  return (
+    <Button
+      variant="link"
+      className="justify-start px-2.5 border-dashed text-muted-foreground text-xs"
+      disabled={disabled}
+    >
+      Clear Filters
+    </Button>
+  )
+}
+
 export {
   FilterCheckbox,
   FilterDate,
   FilterDateRange,
+  FilterReset,
 }

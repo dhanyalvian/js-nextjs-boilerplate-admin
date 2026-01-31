@@ -86,8 +86,7 @@ const LoginForm = () => {
             id="username"
             type="text"
             placeholder="Username"
-            required
-            className={`rounded-full ${errors.username?.message ? "border-red-500" : ""}`}
+            className={`rounded-md ${errors.username?.message ? "border-red-500" : ""}`}
             {...register("username")}
           />
           {errors.username?.message && (
@@ -107,8 +106,7 @@ const LoginForm = () => {
           <Input
             id="password"
             type="password"
-            required
-            className={`rounded-full ${errors.password?.message ? "border-red-500" : ""}`}
+            className={`rounded-md ${errors.password?.message ? "border-red-500" : ""}`}
             {...register("password")}
           />
           {errors.password?.message && (
@@ -118,7 +116,7 @@ const LoginForm = () => {
         <Field>
           <Button
             type="submit"
-            className="rounded-full"
+            className="rounded-md"
             disabled={isPending}
           >
             Login

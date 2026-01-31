@@ -22,7 +22,7 @@ const LoginPage = () => {
         </div>
 
         <div className="flex flex-col gap-6">
-          <Card className="rounded-xl shadow-xs">
+          <Card className="shadow-xs">
             <CardHeader>
               <CardTitle>Login to your account</CardTitle>
               <CardDescription>

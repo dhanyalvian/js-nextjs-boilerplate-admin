@@ -11,6 +11,7 @@ import { useQueries } from "@tanstack/react-query"
 import { DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
 import { useCurl } from "@/lib/page"
+import { Filters } from "./filters"
 
 const getManageRecipeList = async (
   page: number,
@@ -56,6 +57,7 @@ const ManageRecipePage = () => {
     }],
   })
   const [queryRecipes] = queries
+  const isLoading = queryRecipes.isLoading || queryRecipes.isFetching
 
   return (
     <>
@@ -63,16 +65,17 @@ const ManageRecipePage = () => {
 
       <AppMain>
         <DataTable
-          title="Post"
+          title="Recipes"
           columns={Columns}
           data={queryRecipes.data?.recipes || []}
-          isLoading={queryRecipes.isLoading || queryRecipes.isFetching}
+          isLoading={isLoading}
           limit={limit}
           totalRows={queryRecipes.data?.total ?? 0}
           page={page}
           setPage={setPage}
           search={search}
           setSearch={setSearch}
+          filters={Filters({ isLoading })}
         />
       </AppMain>
     </>

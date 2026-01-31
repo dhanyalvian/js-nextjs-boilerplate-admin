@@ -46,7 +46,7 @@ interface CellIconProps {
 }
 export const CellIcon = ({ icon: Icon, text, className }: CellIconProps) => {
   return (
-    <div className={cn("flex items-center gap-1", className)}>
+    <div className={cn("flex items-center gap-1.5", className)}>
       <Icon size={iconSize} />
       <span>{text}</span>
     </div>

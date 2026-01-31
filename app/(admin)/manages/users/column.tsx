@@ -77,12 +77,12 @@ export const Columns: ColumnDef<ManageUserList>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-col gap-1">
-          <Badge variant="outline">
+          {/* <Badge variant="outline"> */}
             <CellIcon icon={Mail} text={row.original.email} />
-          </Badge>
-          <Badge variant="outline">
+          {/* </Badge> */}
+          {/* <Badge variant="outline"> */}
             <CellIcon icon={Phone} text={row.original.phone} className="text-muted-foreground" />
-          </Badge>
+          {/* </Badge> */}
         </div>
       )
     },
