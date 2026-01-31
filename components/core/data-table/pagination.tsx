@@ -62,7 +62,7 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(1)}
                     disabled={isLoading || currentPage === 1}
-                    className="rounded-full text-xs"
+                    className="rounded-md text-xs"
                   >
                     <ChevronFirst />
                   </Button>
@@ -80,7 +80,7 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(currentPage - 1)}
                     disabled={isLoading || currentPage === 1}
-                    className="rounded-full text-xs"
+                    className="rounded-md text-xs"
                   >
                     <ChevronLeft />
                   </Button>
@@ -104,7 +104,7 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(currentPage + 1)}
                     disabled={isLoading || currentPage === totalPages}
-                    className="rounded-full text-xs"
+                    className="rounded-md text-xs"
                   >
                     <ChevronRight />
                   </Button>
@@ -122,7 +122,7 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(totalPages)}
                     disabled={isLoading || currentPage === totalPages}
-                    className="rounded-full text-xs"
+                    className="rounded-md text-xs"
                   >
                     <ChevronLast />
                   </Button>
