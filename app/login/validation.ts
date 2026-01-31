@@ -2,11 +2,11 @@
 
 import z from "zod"
 
-const minChar = 3;
+const minChar = 1;
 
 export const LoginFormSchema = z.object({
-  username: z.string().min(minChar),
-  password: z.string().min(minChar),
+  username: z.string().min(minChar, "Please fill out this field"),
+  password: z.string().min(minChar, "Please fill out this field"),
 })
 
 export type LoginFormData = z.infer<typeof LoginFormSchema>

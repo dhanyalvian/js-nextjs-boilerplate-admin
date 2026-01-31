@@ -11,6 +11,7 @@ import { useQueries } from "@tanstack/react-query"
 import { DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
 import { useCurl } from "@/lib/page"
+import { Filters } from "./filters"
 
 const getManageProductList = async (
   page: number,
@@ -56,6 +57,7 @@ const ManageProductPage = () => {
     }],
   })
   const [queryProducts] = queries
+  const isLoading = queryProducts.isLoading || queryProducts.isFetching
 
   return (
     <>
@@ -73,6 +75,7 @@ const ManageProductPage = () => {
           setPage={setPage}
           search={search}
           setSearch={setSearch}
+          filters={Filters({ isLoading })}
         />
       </AppMain>
     </>

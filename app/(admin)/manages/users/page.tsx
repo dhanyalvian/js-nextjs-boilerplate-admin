@@ -11,12 +11,7 @@ import { useQueries } from "@tanstack/react-query"
 import { DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
 import { useCurl } from "@/lib/page"
-import { UserLockIcon, VenusAndMarsIcon } from "lucide-react"
-import {
-  FilterDateRange,
-  FilterCheckbox,
-  FilterDate,
-} from "@/components/core/data-table/filters"
+import { Filters } from "./filters"
 
 const getManageUserList = async (
   page: number,
@@ -64,39 +59,6 @@ const ManageUserPage = () => {
   const [queryUsers] = queries
   const isLoading = queryUsers.isLoading || queryUsers.isFetching
 
-  const filters = (
-    <>
-      {FilterCheckbox({
-        Icon: VenusAndMarsIcon,
-        title: "Gender",
-        data: [
-          { value: "M", label: "Male" },
-          { value: "F", label: "Female" },
-        ],
-        isLoading: isLoading,
-      })}
-      {FilterDate({
-        title: "Date of birth",
-        disabled: isLoading,
-      })}
-      {FilterDateRange({
-        title: "Date of birth",
-        disabled: isLoading,
-      })}
-      {FilterCheckbox({
-        Icon: UserLockIcon,
-        title: "Role",
-        data: [
-          { value: "admin", label: "Admin" },
-          { value: "moderator", label: "Moderator" },
-          { value: "user", label: "User" },
-        ],
-        searchable: true,
-        isLoading: isLoading,
-      })}
-    </>
-  )
-
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
@@ -113,7 +75,7 @@ const ManageUserPage = () => {
           setPage={setPage}
           search={search}
           setSearch={setSearch}
-          filters={filters}
+          filters={Filters({ isLoading })}
         />
       </AppMain>
     </>
