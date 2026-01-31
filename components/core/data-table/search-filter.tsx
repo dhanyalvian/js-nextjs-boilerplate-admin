@@ -16,7 +16,7 @@ interface SearchProps {
   filters?: React.ReactNode,
 }
 
-export const Search = ({
+export const SearchFilters = ({
   placeholder = "Search...",
   value,
   onChange,
@@ -26,7 +26,7 @@ export const Search = ({
 }: SearchProps) => {
   return (
     <div className="flex gap-2">
-      <InputGroup className="w-100 bg-white rounded-full shadow-xs">
+      <InputGroup className="w-80 bg-white rounded-md shadow-xs">
         <InputGroupInput
           placeholder={placeholder}
           value={value}
@@ -65,7 +65,7 @@ export const Exports = ({ title }: ExportProps) => {
     <ButtonGroup>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="default" size="default" className="rounded-full shadow-xs">
+          <Button variant="outline" size="default" className="rounded-md shadow-xs">
             <FilePlusCorner />
             New
           </Button>
@@ -76,7 +76,7 @@ export const Exports = ({ title }: ExportProps) => {
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline" size="default" className="rounded-full shadow-xs">
+          <Button variant="outline" size="default" className="rounded-md shadow-xs">
             <Download />
             Export
           </Button>

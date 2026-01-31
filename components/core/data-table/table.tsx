@@ -14,7 +14,7 @@ import {
 import React from "react"
 import { Pagination } from "./pagination"
 import { Table } from "@/components/ui/table"
-import { Exports, Search } from "./search-filter"
+import { Exports, SearchFilters } from "./search-filter"
 import { Thead } from "./thead"
 import { Tbody } from "./tbody"
 
@@ -89,7 +89,7 @@ export const DataTable = <TData, TValue>({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row gap-2 justify-between items-center">
-        <Search
+        <SearchFilters
           placeholder={searchPlaceholder}
           value={search}
           onChange={handleSearchChange}
@@ -101,7 +101,7 @@ export const DataTable = <TData, TValue>({
         <Exports title={title} />
       </div>
 
-      <div className="bg-white rounded-xl border shadow-xs">
+      <div className="bg-white rounded-md border shadow-xs">
         <Table>
           <Thead table={table} />
 

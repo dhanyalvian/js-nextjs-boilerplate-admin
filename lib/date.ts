@@ -1,13 +1,9 @@
 //- lib/date.ts
 
+import { format } from "date-fns"
+
 export const locale = "en-US"
 
-export const DateFormated = (date: string): string => {
-  const formatted = new Date(date).toLocaleDateString(locale, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  })
-
-  return formatted
+export const DateFormated = (date: string | Date): string => {
+  return format(date, "LLL dd, y")
 }
