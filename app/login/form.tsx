@@ -8,11 +8,14 @@ import { Resolver, SubmitHandler, useForm } from "react-hook-form"
 import { LoginFormData, LoginFormSchema } from "./validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
 
 const PostLogin = async (loginData: LoginData): Promise<LoginResp> => {
   const res = await fetch("/api/auth/login", {
@@ -30,6 +33,7 @@ const LoginForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const from = searchParams.get("from")
+  const [showPassword, setShowPassword] = useState(false)
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<LoginFormData>({
     resolver: zodResolver(LoginFormSchema) as Resolver<LoginFormData>,
@@ -103,14 +107,29 @@ const LoginForm = () => {
               Forgot your password?
             </Link>
           </div>
-          <Input
-            id="password"
-            type="password"
-            className={`rounded-md ${errors.password?.message ? "border-red-500" : ""}`}
-            {...register("password")}
-          />
+          <InputGroup className="relative">
+            <InputGroupInput
+              id="password"
+              type={showPassword ? "text" : "password"}
+              className={`rounded-md ${errors.password?.message ? "border-red-500" : ""}`}
+              {...register("password")}
+            />
+            <InputGroupAddon align={null}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-0 top-0 h-full pr-0 hover:bg-transparent"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
           {errors.password?.message && (
-            <p className="text-sm text-red-500">{errors.password.message}</p>
+            <FieldDescription className="text-sm text-red-500">
+              {errors.password.message}
+            </FieldDescription>
           )}
         </Field>
         <Field>
