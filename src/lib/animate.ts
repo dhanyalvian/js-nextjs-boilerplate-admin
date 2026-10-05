@@ -7,11 +7,11 @@ import { NumberFormatted } from "./number"
 export const ANIMATION_DURATION = 1500
 
 interface AnimatedCounterProps {
-  end: number,
+  value: number,
   currency?: boolean,
 }
-export const AnimatedCounter = ({ end, currency = false }: AnimatedCounterProps) => {
-  const validEnd = isNaN(end) ? 0 : end
+export const AnimatedCounter = ({ value, currency = false }: AnimatedCounterProps) => {
+  const validEnd = isNaN(value) ? 0 : value
   const [prevEnd, setPrevEnd] = useState(validEnd)
   const [count, setCount] = useState(validEnd > 0 ? 0 : validEnd)
 

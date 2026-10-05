@@ -34,13 +34,12 @@ const PageCard = ({
   children,
 }: PageCardProps) => {
   return (
-    <div className="bg-main flex min-h-svh flex-col items-center justify-center gap-4 p-4 md:p-10">
+    <div className="bg-sidebar flex min-h-svh flex-col items-center justify-center gap-4 p-4 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-4">
         <div className="flex items-center gap-3 self-center">
           <div>
             <HugeiconsIcon
               icon={GalleryVerticalEndIcon}
-              // color="#6C5656"
               strokeWidth={2}
               className="size-5.5! text-chart-3"
             />
@@ -50,7 +49,7 @@ const PageCard = ({
           </span>
         </div>
 
-        <Card className="py-0 pt-4 rounded-md shadow-xs">
+        <Card className="bg-main py-0 pt-4 rounded-lg shadow-xs">
           <CardHeader className="gap-0">
             <CardTitle className="text-lg">{title}</CardTitle>
             <CardDescription>
@@ -108,7 +107,7 @@ const PageCardContentFieldText = ({
   isLoading = false,
 }: PageCardContentFieldTextProps) => {
   return (
-    <Field className="gap-2">
+    <Field className="flex items-center gap-2">
       <div className="flex items-center">
         <FieldLabel htmlFor={id}>{label}</FieldLabel>
         {optLink && (
@@ -121,18 +120,20 @@ const PageCardContentFieldText = ({
         )}
       </div>
 
-      <Input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        disabled={isLoading}
-        className={cn(
-          "rounded-md",
-          errMessage ? "border-red-500" : "",
-          className,
-        )}
-        {...registration}
-      />
+      <div className="flex items-center flex-1">
+        <Input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          disabled={isLoading}
+          aria-invalid={!!errMessage}
+          className={cn(
+            "h-8 w-full text-sm leading-tight rounded-full",
+            className,
+          )}
+          {...registration}
+        />
+      </div>
       {errMessage && (
         <p className="text-sm text-red-500">{errMessage}</p>
       )}
@@ -178,15 +179,15 @@ const PageCardContentFieldPassword = ({
         )}
       </div>
 
-      <InputGroup className="relative">
+      <InputGroup className="relative h-8 rounded-full">
         <InputGroupInput
           id={id}
           type={showPassword ? "text" : "password"}
           placeholder={placeholder}
           disabled={isLoading}
+          aria-invalid={!!errMessage}
           className={cn(
-            "rounded-md",
-            errMessage ? "border-red-500" : "",
+            "h-8 rounded-full",
             className,
           )}
           {...registration}
@@ -223,10 +224,11 @@ const PageCardFooter = ({
   children,
 }: PageCardFooterProps) => {
   return (
-    <CardFooter className="flex-col gap-2 bg-emerald-50/50 border-t p-4">
+    <CardFooter className="flex-col gap-2 bg-card-footer border-t p-4 rounded-b-lg">
       <Button
         type="submit"
-        className="w-full rounded-md"
+        size="sm"
+        className="w-full rounded-full shadow-none"
         disabled={isLoading}
       >
         {isLoading ? (
@@ -235,6 +237,16 @@ const PageCardFooter = ({
             Proses...
           </>
         ) : submitLabel}
+      </Button>
+
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="w-full rounded-full shadow-none hidden"
+        disabled={isLoading}
+      >
+        Login with Google
       </Button>
 
       {children && (

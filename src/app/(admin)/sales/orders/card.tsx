@@ -13,26 +13,31 @@ export const CardStats: CardStat[] = [
   {
     label: "Total Orders",
     value: 1247,
+    currency: false,
     icon: ShoppingCart02Icon,
   },
   {
     label: "Waiting for Payment",
     value: 7,
+    currency: false,
     icon: TransactionIcon,
   },
   {
     label: "Pending Orders",
     value: 156,
+    currency: false,
     icon: TimeQuarter02Icon,
   },
   {
     label: "Delivered",
     value: 1091,
+    currency: false,
     icon: DeliveryTruck01Icon,
   },
   {
     label: "Cancelled",
     value: 34,
+    currency: false,
     icon: CancelCircleHalfDotIcon,
   },
 ]

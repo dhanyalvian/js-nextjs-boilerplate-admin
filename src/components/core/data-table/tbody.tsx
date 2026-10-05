@@ -23,10 +23,10 @@ export const Tbody = <TData, TValue>({
           <TableRow
             key={row.id}
             data-state={row.getIsSelected() && "selected"}
-            className="hover:bg-muted/50"
+            className="hover:bg-header"
           >
             {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id} className="first:pl-4 last:pr-4 text-sm align-top whitespace-normal wrap-break-word">
+              <TableCell key={cell.id} className="first:pl-3 last:pr-3 text-xs-plus font-[450] align-top whitespace-normal wrap-break-word">
                 {flexRender(
                   cell.column.columnDef.cell,
                   cell.getContext(),

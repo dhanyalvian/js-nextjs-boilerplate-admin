@@ -28,8 +28,9 @@ import { ApiInternal } from "@/lib/api"
 import { useQueries } from "@tanstack/react-query"
 import { toast } from "sonner"
 import Link from "next/link"
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { HugeiconsIcon } from "@hugeicons/react"
 import { EllipsisVerticalIcon, LogoutSquare01Icon } from "@hugeicons/core-free-icons"
+import { navObj } from "@/types/nav"
 
 interface userLoggedResp {
   id: number,
@@ -45,11 +46,7 @@ const getUserLogged = async (): Promise<userLoggedResp> => {
 }
 
 interface NavUserProps {
-  menus: {
-    title: string,
-    url: string,
-    icon: IconSvgElement,
-  }[],
+  menus: navObj[],
 }
 
 export const NavUser = ({ menus }: NavUserProps) => {
@@ -83,14 +80,14 @@ export const NavUser = ({ menus }: NavUserProps) => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-chart-1 data-[state=open]:text-sidebar-accent-foreground"
+              className="font-[450] rounded-sm"
             >
               <Avatar className="h-8 w-8 rounded-full">
                 <AvatarImage src={avatar} alt={fullname} />
                 <AvatarFallback className="rounded-full">{getInitials(fullname)}</AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{fullname}</span>
+              <div className="grid flex-1 text-left leading-tight">
+                <span className="truncate font-sidebar-menu">{fullname}</span>
                 <span className="truncate text-xs">{email}</span>
               </div>
               <HugeiconsIcon icon={EllipsisVerticalIcon} className="ml-auto nav-icon" />
@@ -108,8 +105,8 @@ export const NavUser = ({ menus }: NavUserProps) => {
                   <AvatarImage src={avatar} alt={fullname} />
                   <AvatarFallback className="rounded-full">{getInitials(fullname)}</AvatarFallback>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{fullname}</span>
+                <div className="grid flex-1 text-left leading-tight">
+                  <span className="truncate font-sidebar-menu">{fullname}</span>
                   <span className="truncate text-xs">{email}</span>
                 </div>
               </div>
@@ -118,17 +115,19 @@ export const NavUser = ({ menus }: NavUserProps) => {
             <DropdownMenuGroup>
               {menus.map((menu) => (
                 <Link key={menu.url} href={menu.url}>
-                  <DropdownMenuItem className="text-accent-foreground focus:bg-chart-1">
-                    <HugeiconsIcon icon={menu.icon} className="nav-icon text-accent-foreground" />
-                    {menu.title}
+                  <DropdownMenuItem className="rounded-md">
+                    {menu.icon && (
+                      <HugeiconsIcon icon={menu.icon} className="nav-icon text-accent-foreground" />
+                    )}
+                    <span className="truncate font-sidebar-menu">{menu.title}</span>
                   </DropdownMenuItem>
                 </Link>
               ))}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="text-accent-foreground focus:bg-chart-1">
+            <DropdownMenuItem onClick={handleLogout}>
               <HugeiconsIcon icon={LogoutSquare01Icon} className="nav-icon text-accent-foreground" />
-              Keluar
+              <span className="truncate font-sidebar-menu">Keluar</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

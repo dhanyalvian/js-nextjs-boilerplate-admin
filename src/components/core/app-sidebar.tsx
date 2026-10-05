@@ -25,7 +25,7 @@ import { GalleryVerticalEndIcon } from "@hugeicons/core-free-icons"
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader className="bg-white">
+      <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton className="data-[slot=sidebar-menu-button]:p-1.5!" asChild>
@@ -42,15 +42,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="bg-white">
+      <SidebarContent>
         <NavMain menus={dataNav.navMain} />
         <NavSecondary menus={dataNav.navSecondary} className="mt-auto" />
       </SidebarContent>
-      
-      <SidebarFooter className="bg-white">
+
+      <SidebarFooter>
         <NavUser menus={dataNav.navUser} />
       </SidebarFooter>
-      
+
       <SidebarRail />
     </Sidebar>
   )

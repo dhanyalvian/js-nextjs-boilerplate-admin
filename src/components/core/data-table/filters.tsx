@@ -32,7 +32,7 @@ import {
 const ClearIcon = Delete02Icon
 const ClearLabel = "Clear"
 const StrokeWidth = 2
-const SizeIcon = "size-4.5!"
+const SizeIcon = "size-4!"
 
 interface FilterCheckboxProps {
   Icon: IconSvgElement,
@@ -85,7 +85,9 @@ const FilterCheckbox = ({
             strokeWidth={StrokeWidth}
             className={`text-muted-foreground ${SizeIcon}`}
           />
-          <div className="font-normal text-muted-foreground">{result}</div>
+          <div className="font-xs-plus text-muted-foreground">
+            {result}
+          </div>
         </>
       )
     }
@@ -102,14 +104,12 @@ const FilterCheckbox = ({
           className={SizeIcon}
         />
         <div className="flex flex-row gap-2 items-center">
-          <div className="font-normal">{result}</div>
-          <div className="flex gap-1 pl-1.5">
-            {labels.length > 2 ? (
-              <Badge variant="secondary" className="text-xs font-normal">{labels.length} selected</Badge>
-            ) : (
-              labels.map((label) => (
-                <Badge variant="secondary" key={label} className="text-xs font-normal">{label}</Badge>
-              ))
+          <div className="font-xs">{result}</div>
+          <div className="flex gap-1">
+            {labels.length > 0 && (
+              <Badge variant="secondary" className="text-xs font-normal">
+                {labels.length}
+              </Badge>
             )}
           </div>
         </div>
@@ -119,23 +119,23 @@ const FilterCheckbox = ({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className="shadow-xs">
+      <PopoverTrigger asChild className="rounded-full shadow-xs">
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-auto justify-between p-0 font-normal"
+          className="w-auto justify-between p-0 text-xs-plus font-normal"
           disabled={isLoading}
         >
           {displaySelected()}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="min-w-fit w-auto p-0 shadow-xs">
+      <PopoverContent align="start" className="min-w-fit w-auto p-0 rounded-2xl shadow-xs">
         <Command>
           {searchable && (
             <CommandInput placeholder={`Search ${title}...`} />
           )}
-          <CommandList>
+          <CommandList className="rounded-2xl">
             {searchable && (
               <CommandEmpty className="px-4 py-2">
                 <span className="text-xs text-muted-foreground font-normal">Data not found</span>
@@ -153,7 +153,7 @@ const FilterCheckbox = ({
                     <div
                       // Using a simple div or Checkbox component wrapper for alignment
                       className={cn(
-                        "flex items-center justify-center h-4 w-4 rounded-[3px] border border-primary transition-colors",
+                        "flex items-center justify-center h-4 w-4 rounded-2xl border border-primary transition-colors",
                         isChecked
                           ? "bg-primary text-primary-foreground"
                           : "opacity-15"
@@ -255,7 +255,7 @@ const FilterDateRange = ({ title, disabled = false }: FilterDateRangeProps) => {
             size="default"
             id="date-picker-range"
             className={cn(
-              "justify-start px-2.5 font-normal",
+              "rounded-full justify-start px-2.5",
               !dateRange && "text-muted-foreground",
             )}
             disabled={disabled}
@@ -265,17 +265,20 @@ const FilterDateRange = ({ title, disabled = false }: FilterDateRangeProps) => {
               strokeWidth={StrokeWidth}
               className={SizeIcon}
             />
-            {dateRange?.from ? (
-              dateRange.to ? (
-                <>
-                  {DateFormatted(dateRange.from)} - {DateFormatted(dateRange.to)}
-                </>
+
+            <span className="text-xs-plus font-normal">
+              {dateRange?.from ? (
+                dateRange.to ? (
+                  <>
+                    {DateFormatted(dateRange.from)} - {DateFormatted(dateRange.to)}
+                  </>
+                ) : (
+                  format(dateRange.from, "LLL dd, y")
+                )
               ) : (
-                format(dateRange.from, "LLL dd, y")
-              )
-            ) : (
-              <span>{title}</span>
-            )}
+                title
+              )}
+            </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">

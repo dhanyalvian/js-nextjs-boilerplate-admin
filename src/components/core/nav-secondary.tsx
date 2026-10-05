@@ -13,35 +13,33 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { navObj } from "@/types/nav"
 
 export function NavSecondary({
   menus,
   ...props
 }: {
-  menus: {
-    title: string,
-    url: string,
-    icon: IconSvgElement,
-    soon?: boolean,
-  }[]
+  menus: navObj[],
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   const pathname = usePathname();
 
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
-        <SidebarMenu>
+        <SidebarMenu className="gap-px">
           {menus.map((menu) => (
             <SidebarMenuItem key={menu.title}>
               <SidebarMenuButton
                 asChild
                 isActive={pathname === menu.url}
-                className={`${menu.soon ? "text-muted-foreground" : ""}`}
+                className={`font-[450] rounded-sm ${menu.soon ? "text-muted-foreground/70" : ""}`}
               >
                 <Link href={menu.url}>
-                  <HugeiconsIcon icon={menu.icon} className="size-4.5!" />
-                  <span>{menu.title}</span>
+                  {menu.icon && (
+                    <HugeiconsIcon icon={menu.icon} className="nav-icon" />
+                  )}
+                  <span className="font-sidebar-menu">{menu.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

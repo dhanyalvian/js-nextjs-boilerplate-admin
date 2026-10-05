@@ -14,6 +14,7 @@ import {
   ChevronRightIcon,
   EllipsisIcon,
 } from "@hugeicons/core-free-icons"
+import { Badge } from "@/components/ui/badge"
 
 interface PaginationProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[],
@@ -25,7 +26,7 @@ interface PaginationProps<TData, TValue> {
   isLoading?: boolean,
 }
 
-export const strokeWidth = 1.5
+export const strokeWidth = 2
 export const Pagination = <TData, TValue>({
   columns,
   limit,
@@ -41,18 +42,13 @@ export const Pagination = <TData, TValue>({
   return (
     <TableFooter>
       <TableRow>
-        <TableCell colSpan={columns.length}>
-          <div className="w-full flex items-center justify-between pl-2 pr-2">
+        <TableCell colSpan={columns.length} className="bg-header rounded-b-lg">
+          <div className="w-full flex items-center justify-between pl-0 pr-0">
             <div className="flex space-x-2 items-center">
-              <div className="text-xs font-normal">
+              <Badge variant="secondary" className="bg-header font-normal">
                 Page <span className="font-semibold">{NumberFormatted(currentPage)}</span>{` `}
                 of <span className="font-semibold">{NumberFormatted(totalPages)}</span>
-              </div>
-              <div className="text-xs text-border">|</div>
-              <div className="text-xs font-normal">
-                <span className="font-semibold">{NumberFormatted(startRow)}-{NumberFormatted(endRow)}</span>{` `}
-                of <span className="font-semibold">{NumberFormatted(totalRecords)}</span> records
-              </div>
+              </Badge>
             </div>
 
             <ButtonGroup>
@@ -64,9 +60,13 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(1)}
                     disabled={isLoading || currentPage === 1}
-                    className="rounded-md text-xs"
+                    className="bg-background text-xs-plus rounded-full"
                   >
-                    <HugeiconsIcon icon={ChevronFirstIcon} strokeWidth={strokeWidth} />
+                    <HugeiconsIcon
+                      icon={ChevronFirstIcon}
+                      strokeWidth={strokeWidth}
+                      className={isLoading || currentPage === 1 ? "" : "text-sidebar-icon"}
+                    />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -82,10 +82,13 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(currentPage - 1)}
                     disabled={isLoading || currentPage === 1}
-                    className="rounded-md text-xs"
+                    className="bg-background text-xs-plus rounded-full"
                   >
-                    {/* <ChevronLeft /> */}
-                    <HugeiconsIcon icon={ChevronLeftIcon} strokeWidth={strokeWidth} />
+                    <HugeiconsIcon
+                      icon={ChevronLeftIcon}
+                      strokeWidth={strokeWidth}
+                      className={isLoading || currentPage === 1 ? "" : "text-sidebar-icon"}
+                    />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -107,9 +110,13 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(currentPage + 1)}
                     disabled={isLoading || currentPage === totalPages}
-                    className="rounded-md text-xs"
+                    className="bg-background text-xs-plus rounded-full"
                   >
-                    <HugeiconsIcon icon={ChevronRightIcon} strokeWidth={strokeWidth} />
+                    <HugeiconsIcon
+                      icon={ChevronRightIcon}
+                      strokeWidth={strokeWidth}
+                      className={isLoading || currentPage === totalPages ? "" : "text-sidebar-icon"}
+                    />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -125,9 +132,13 @@ export const Pagination = <TData, TValue>({
                     size="sm"
                     onClick={() => setPage(totalPages)}
                     disabled={isLoading || currentPage === totalPages}
-                    className="rounded-md text-xs"
+                    className="bg-background text-xs-plus rounded-full"
                   >
-                    <HugeiconsIcon icon={ChevronLastIcon} strokeWidth={strokeWidth} />
+                    <HugeiconsIcon
+                      icon={ChevronLastIcon}
+                      strokeWidth={strokeWidth}
+                      className={isLoading || currentPage === totalPages ? "" : "text-sidebar-icon"}
+                    />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -135,6 +146,13 @@ export const Pagination = <TData, TValue>({
                 </TooltipContent>
               </Tooltip>
             </ButtonGroup>
+
+            <div className="flex space-x-2 items-center">
+              <Badge variant="secondary" className="bg-header font-normal">
+                <span className="font-semibold">{NumberFormatted(startRow)}-{NumberFormatted(endRow)}</span>{` `}
+                of <span className="font-semibold">{NumberFormatted(totalRecords)}</span> records
+              </Badge>
+            </div>
           </div>
         </TableCell>
       </TableRow>
@@ -196,7 +214,7 @@ const renderPages = ({
         key={`dots-${index}`}
         variant="outline"
         size="sm"
-        className="text-xs"
+        className="text-xs-plus font-medium"
         disabled={true}
       >
         <HugeiconsIcon icon={EllipsisIcon} strokeWidth={strokeWidth} />
@@ -206,11 +224,13 @@ const renderPages = ({
         key={page}
         variant="outline"
         size="sm"
-        className={`text-xs ${currentPage === page ? "bg-chart-1 text-black font-bold" : ""}`}
+        className={`${currentPage === page && "bg-button-outline-accent"}`}
         onClick={() => setPage(page as number)}
         disabled={currentPage === page}
       >
-        {totalPages ? page : 0}
+        <span className={`text-xs-plus ${currentPage === page && "text-button-outline-accent-foreground"}`}>
+          {totalPages ? page : 0}
+        </span>
       </Button>
     )
   )

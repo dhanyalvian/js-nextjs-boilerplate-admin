@@ -31,12 +31,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
+      <body className={`bg-sidebar ${fontSans.variable} ${fontMono.variable} antialiased`}>
         <ReactQueryProvider>
-          <SidebarProvider className="bg-white">
-            <AppSidebar className="shadow-xs" />
+          <SidebarProvider className="bg-sidebar">
+            <AppSidebar className="bg-sidebar shadow-xs" />
 
-            <SidebarInset>
+            <SidebarInset className="bg-main">
               {children}
 
               <AppFooter />

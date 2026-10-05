@@ -27,11 +27,13 @@ import {
 export const dataNav: nav = {
   navMain: [
     {
+      id: "dashboard",
       title: "Dashboard",
       url: "/",
       icon: DashboardSquare02Icon,
     },
     {
+      id: "sales",
       title: "Sales",
       url: "#",
       icon: DiscountTag02Icon,
@@ -62,6 +64,7 @@ export const dataNav: nav = {
       ],
     },
     {
+      id: "manages",
       title: "Manages",
       url: "#",
       icon: LaptopCheckIcon,
@@ -84,6 +87,7 @@ export const dataNav: nav = {
       ],
     },
     {
+      id: "socials",
       title: "Socials",
       url: "#",
       icon: Globe02Icon,
@@ -106,10 +110,115 @@ export const dataNav: nav = {
       ],
     },
     {
+      id: "reports",
       title: "Reports",
       url: "/reports",
       icon: ChartAnalysisIcon,
-      soon: true,
+    },
+  ],
+  navMainNew: [
+    {
+      id: "first",
+      title: "",
+      url: "#",
+      submenus: [
+        {
+          id: "dashboard",
+          title: "Dashboard",
+          url: "/",
+          icon: DashboardSquare02Icon,
+        },
+      ],
+    },
+    {
+      id: "sales",
+      title: "Sales",
+      url: "#",
+      icon: DiscountTag02Icon,
+      submenus: [
+        {
+          title: "Order",
+          url: "/sales/orders",
+          icon: ShoppingCart02Icon,
+        },
+        {
+          title: "Invoice",
+          url: "/sales/invoices",
+          icon: Invoice03Icon,
+          soon: true,
+        },
+        {
+          title: "Shipment",
+          url: "/sales/shipments",
+          icon: ContainerTruck01Icon,
+          soon: true,
+        },
+        {
+          title: "Credit Memo",
+          url: "/sales/credit-memos",
+          icon: ExchangeDollarIcon,
+          soon: true,
+        },
+      ],
+    },
+    {
+      id: "manages",
+      title: "Manages",
+      url: "#",
+      icon: LaptopCheckIcon,
+      submenus: [
+        {
+          title: "Product",
+          url: "/manages/products",
+          icon: Package03Icon,
+        },
+        {
+          title: "Recipe",
+          url: "/manages/recipes",
+          icon: ChefHatIcon,
+        },
+        {
+          title: "User",
+          url: "/manages/users",
+          icon: UserMultiple03Icon,
+        },
+      ],
+    },
+    {
+      id: "socials",
+      title: "Socials",
+      url: "#",
+      icon: Globe02Icon,
+      submenus: [
+        {
+          title: "Post",
+          url: "/socials/posts",
+          icon: Chat01Icon,
+        },
+        {
+          title: "Comment",
+          url: "/socials/comments",
+          icon: ChatFeedbackIcon,
+        },
+        {
+          title: "Quote",
+          url: "/socials/quotes",
+          icon: QuotesIcon,
+        },
+      ],
+    },
+    {
+      id: "first",
+      title: "",
+      url: "#",
+      submenus: [
+        {
+          id: "reports",
+          title: "Reports",
+          url: "/reports",
+          icon: ChartAnalysisIcon,
+        },
+      ],
     },
   ],
   navSecondary: [

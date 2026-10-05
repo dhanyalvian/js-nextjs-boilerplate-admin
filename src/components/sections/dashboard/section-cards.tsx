@@ -45,7 +45,8 @@ export const SectionCards = () => {
       icon: SteakIcon,
       color: "",
       bgColor: "bg-green-50",
-      valueOpt: "ekor"
+      valueOpt: "ekor",
+      currency: false,
     },
     {
       label: "Peserta",
@@ -53,7 +54,8 @@ export const SectionCards = () => {
       icon: UserMultiple03Icon,
       color: "",
       bgColor: "bg-olive-50",
-      valueOpt: "orang"
+      valueOpt: "orang",
+      currency: false,
     },
     {
       label: "Menuju Idul Adha",
@@ -61,7 +63,8 @@ export const SectionCards = () => {
       icon: CalendarCheckOut02Icon,
       color: "",
       bgColor: "bg-green-50",
-      valueOpt: "hari lagi"
+      valueOpt: "hari lagi",
+      currency: false,
     },
   ]
 

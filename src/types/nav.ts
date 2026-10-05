@@ -4,6 +4,7 @@ import { type IconSvgElement } from "@hugeicons/react"
 
 export interface nav {
   navMain: navObj[],
+  navMainNew: navObj[],
   navSecondary: navObj[],
   navUser: navObj[],
 }
@@ -13,7 +14,7 @@ export interface navObj {
   title: string,
   url: string,
   desc?: string,
-  icon: IconSvgElement,
+  icon?: IconSvgElement,
   soon?: boolean,
   submenus?: navObj[],
 }

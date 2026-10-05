@@ -8,29 +8,30 @@ import {
   actionColSize,
   CellActions,
   CellIcon,
-  CellImage,
-  imageColumnSize,
 } from "@/components/core/data-table/columns"
 import { Badge } from "@/components/ui/badge"
 import {
   Call02Icon,
   Mail01Icon,
-  ManIcon,
-  WomanIcon,
 } from "@hugeicons/core-free-icons"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export const Columns: ColumnDef<ManageUserListResp>[] = [
   {
     accessorKey: "avatar",
     header: "Avatar",
-    size: imageColumnSize,
+    size: 80,
     enableSorting: false,
     cell: ({ row }) => {
       return (
-        <CellImage
-          src={row.original.avatar}
-          alt={row.original.firstname}
-        />
+        <Avatar className="size-10">
+          <AvatarImage
+            src={row.original.avatar}
+            alt={row.original.firstname}
+            // className="grayscale"
+          />
+          <AvatarFallback>{row.original.firstname}</AvatarFallback>
+        </Avatar>
       )
     }
   },

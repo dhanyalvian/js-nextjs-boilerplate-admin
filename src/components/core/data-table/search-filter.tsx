@@ -33,7 +33,7 @@ export const SearchFilters = ({
 }: SearchProps) => {
   return (
     <div className="flex gap-2">
-      <InputGroup className="w-80 bg-white rounded-md shadow-xs">
+      <InputGroup className="w-80 bg-input-filter rounded-full shadow-xs">
         <InputGroupInput
           placeholder={placeholder}
           value={value}
@@ -94,15 +94,17 @@ export const Actions = ({ title, addHref = "" }: ActionProps) => {
       <Button
         onClick={() => handleAddAction(addHref)}
         variant="default"
-        size="default"
-        className="rounded-md shadow-xs"
+        size="sm"
+        className="rounded-full shadow-xs"
       >
         <HugeiconsIcon
           icon={AddCircleHalfDotIcon}
           strokeWidth={StrokeWidth}
           className="size-4.5!"
         />
-        New {title && title}
+        <span className="text-xs-plus font-medium pr-1">
+          New {title && title}
+        </span>
       </Button>
     </ButtonGroup>
   )

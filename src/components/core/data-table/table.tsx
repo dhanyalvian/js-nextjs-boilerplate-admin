@@ -93,8 +93,8 @@ export const DataTable = <TData, TValue>({
   })
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-row gap-2 justify-between items-center">
+    <div className="flex flex-col bg-white rounded-lg border shadow-xs">
+      <div className="bg-header flex flex-row gap-2 p-2 justify-between items-center rounded-t-lg">
         <SearchFilters
           placeholder={searchPlaceholder}
           value={search}
@@ -107,8 +107,8 @@ export const DataTable = <TData, TValue>({
         <Actions title={title} addHref={addHref} />
       </div>
 
-      <div className="bg-white rounded-md border shadow-xs">
-        <Table>
+      <div>
+        <Table className="border-t">
           <Thead table={table} />
 
           <Tbody table={table} columns={columns} isLoading={isLoading} />

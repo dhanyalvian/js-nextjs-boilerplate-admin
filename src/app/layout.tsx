@@ -1,19 +1,19 @@
 //- src/app/layout.tsx
 
 import type { Metadata } from "next"
-import { Roboto_Flex, Roboto_Mono } from "next/font/google"
+import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import ReactQueryProvider from "./provider"
 import { Toaster } from "@/components/ui/sonner"
 import { AppConfig } from "@/lib/app"
 
-const fontSans = Roboto_Flex({
-  variable: "--font-roboto-flex",
+const fontSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 })
 
-const fontMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
+const fontMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 })
 
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
+      <body className={`bg-amber ${fontSans.variable} ${fontMono.variable} antialiased`}>
         <ReactQueryProvider>
           {children}
           <Toaster
