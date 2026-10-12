@@ -2,8 +2,9 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CurrencyFormatted } from "@/lib/currency";
+// import { CurrencyFormatted } from "@/lib/currency";
 import { DateTimeFormatted } from "@/lib/date";
+import { NumberFormatted } from "@/lib/number";
 import { CircleCheckBigIcon, ClockFadingIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -74,7 +75,7 @@ export function LatestProjects() {
             <div className="pt-6">
               <div className="text-sm">Total Anggaran</div>
               <div className="text-xl font-semibold">
-                {CurrencyFormatted(Number(card.budget))}
+                {NumberFormatted(card.budget)}
               </div>
             </div>
           </CardContent>

@@ -42,7 +42,7 @@ export const Pagination = <TData, TValue>({
   return (
     <TableFooter>
       <TableRow>
-        <TableCell colSpan={columns.length} className="bg-header rounded-b-lg">
+        <TableCell colSpan={columns.length} className="bg-header rounded-b-2xl">
           <div className="w-full flex items-center justify-between pl-0 pr-0">
             <div className="flex space-x-2 items-center">
               <Badge variant="secondary" className="bg-header font-normal">

@@ -93,8 +93,8 @@ export const DataTable = <TData, TValue>({
   })
 
   return (
-    <div className="flex flex-col bg-white rounded-lg border shadow-xs">
-      <div className="bg-header flex flex-row gap-2 p-2 justify-between items-center rounded-t-lg">
+    <div className="flex flex-col bg-white rounded-2xl border shadow-xs">
+      <div className="bg-header flex flex-row gap-2 p-2 justify-between items-center rounded-t-2xl">
         <SearchFilters
           placeholder={searchPlaceholder}
           value={search}

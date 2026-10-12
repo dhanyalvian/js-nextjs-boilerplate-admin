@@ -1,4 +1,4 @@
 //- src/lib/base.ts
 
-export const locale = "id-ID"
-export const currency = "IDR"
+export const locale = "en-US"
+export const currency = "$"

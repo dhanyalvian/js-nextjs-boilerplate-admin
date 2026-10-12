@@ -1,14 +1,16 @@
 //- src/app/(admin)/manages/products/type.ts
 
-export interface ManageProductListResp {
+export interface SalesOrderListResp {
   id: number,
-  name: string,
-  sku: string,
-  brand: string,
-  category: string,
-  tags: string[],
-  thumbnail: string,
-  price: number,
-  discount: number,
-  stock: number,
+  orderNo: string,
+  orderDate: string,
+  customerId: string,
+  customerName: string,
+  customerEmail: string,
+  customerAvatar: string,
+  status: string,
+  paymentMethod: string,
+  totalPrice: number,
+  totalDiscount: number,
+  finalPrice: number,
 }

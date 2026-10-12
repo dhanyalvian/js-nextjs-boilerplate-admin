@@ -3,7 +3,6 @@
 "use client"
 
 import { ApiResp } from "@/types/response"
-import { ManageProductListResp } from "../../manages/products/type"
 import { ApiInternal, useCurl } from "@/lib/api"
 import { ScrollToTop } from "@/lib/scroll"
 import { useEffect } from "react"
@@ -14,6 +13,7 @@ import { Columns } from "./column"
 import { Filters } from "./filters"
 import { CardStats } from "./card"
 import { CardSectionStandard } from "@/components/core/card/section"
+import { SalesOrderListResp } from "./type"
 
 const breadcrumbItems = [
   { label: "Sales" },
@@ -24,8 +24,8 @@ const getSalesOrderList = async (
   page: number,
   limit: number,
   search: string,
-): Promise<ApiResp<ManageProductListResp>> => {
-  const data = await ApiInternal(`/products?search=${search}&page=${page}&limit=${limit}`)
+): Promise<ApiResp<SalesOrderListResp>> => {
+  const data = await ApiInternal(`/orders?search=${search}&page=${page}&limit=${limit}`)
   ScrollToTop()
   return data
 }

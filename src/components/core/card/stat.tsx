@@ -30,12 +30,12 @@ export const CardStatItem = ({
   info = "",
 }: CardStatItemProps) => {
   return (
-    <Card key={key} className="border-0 ring-1 ring-border p-0 card-animation rounded-lg">
+    <Card key={key} className="border-0 ring-1 ring-border p-0 card-animation rounded-2xl">
       <CardContent className="p-0">
         <div
           className={cn(
             "flex items-start justify-between gap-3 px-3 py-2",
-            "bg-header rounded-lg rounded-b-none",
+            "bg-header rounded-2xl rounded-b-none",
           )}
         >
           <div className="flex gap-2">
@@ -51,7 +51,7 @@ export const CardStatItem = ({
           </div>
 
           {icon && (
-            <div className={`rounded-lg`}>
+            <div className={`rounded-2xl`}>
               <HugeiconsIcon
                 icon={icon}
                 strokeWidth={1.5}
@@ -61,7 +61,7 @@ export const CardStatItem = ({
           )}
         </div>
 
-        <div className="flex bg-card border-t border-border gap-2 p-4 rounded-lg rounded-t-none">
+        <div className="flex bg-card border-t border-border gap-2 p-4 rounded-2xl rounded-t-none">
           <div>
             <p className="text-2xl font-bold mt-1">
               <span className={textColor}>

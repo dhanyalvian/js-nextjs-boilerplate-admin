@@ -45,7 +45,7 @@ export const NavMain = ({ menus }: NavMainProps) => {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       tooltip={menu.title}
-                      className={`rounded-sm ${menu.soon ? "text-muted-foreground/70" : ""}`}
+                      className={`rounded-full ${menu.soon ? "text-muted-foreground/70" : ""}`}
                     >
                       {menu.icon && <HugeiconsIcon icon={menu.icon} className="nav-icon text-sidebar-icon" />}
                       <span className="font-sidebar-menu">{menu.title}</span>
@@ -63,7 +63,7 @@ export const NavMain = ({ menus }: NavMainProps) => {
                           <SidebarMenuSubButton
                             asChild
                             isActive={pathname === submenu.url}
-                            className={`rounded-sm overflow-visible ${submenu.soon ? "text-muted-foreground/70" : ""}`}
+                            className={`rounded-full overflow-visible ${submenu.soon ? "text-muted-foreground/70" : ""}`}
                           >
                             <Link href={submenu.url}>
                               {submenu.icon &&
@@ -90,7 +90,7 @@ export const NavMain = ({ menus }: NavMainProps) => {
                   asChild
                   tooltip={menu.title}
                   isActive={pathname === menu.url}
-                  className={`rounded-sm ${menu.soon ? "text-muted-foreground/70" : ""}`}
+                  className={`rounded-full ${menu.soon ? "text-muted-foreground/70" : ""}`}
                 >
                   <Link href={menu.url}>
                     {menu.icon && <HugeiconsIcon icon={menu.icon} className="nav-icon text-sidebar-icon" />}
@@ -128,7 +128,7 @@ export const NavMainNew = ({ menus }: NavMainProps) => {
                     asChild
                     tooltip={submenu.title}
                     isActive={pathname === submenu.url}
-                    className={`font-[450] rounded-sm overflow-visible`}
+                    className={`font-[450] rounded-full overflow-visible`}
                   >
                     <Link href={submenu.url}>
                       {submenu.icon && (

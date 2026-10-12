@@ -1,125 +1,140 @@
-//- src/app/(admin)/manages/products/column.tsx
+//- src/app/(admin)/sales/orders/column.tsx
 
 import { ColumnDef } from "@tanstack/react-table"
-import { ManageProductListResp } from "./type"
+import { SalesOrderListResp } from "./type"
 import {
   actionColHeader,
   actionColKey,
   actionColSize,
   CellActions,
   CellIcon,
-  CellImagePopup,
-  CellList,
-  imageColumnSize,
 } from "@/components/core/data-table/columns"
 import { Badge } from "@/components/ui/badge"
-import { PackageReceive01Icon, PackageRemove01Icon, PackageSent01Icon } from "@hugeicons/core-free-icons"
+import {
+  Clock01Icon,
+  CouponPercentIcon,
+  Invoice01Icon,
+  SaleTag02Icon,
+} from "@hugeicons/core-free-icons"
 import { NumberFormatted } from "@/lib/number"
+import { DateFormatted, TimeFormatted } from "@/lib/date"
+import { cn } from "@/lib/utils"
 
-export const Columns: ColumnDef<ManageProductListResp>[] = [
-  {
-    accessorKey: "thumbnail",
-    header: "Image",
-    size: imageColumnSize,
-    enableSorting: false,
-    cell: ({ row }) => {
-      return (
-        <CellImagePopup
-          src={row.original.thumbnail}
-          alt={row.original.name}
-          title={row.original.name}
-        />
-      )
-    },
+const statusStyles: Record<string, { border: string; dot: string; bg: string }> = {
+  pending: {
+    border: "border-yellow-400/50 text-yellow-600 dark:text-yellow-400",
+    dot: "bg-yellow-400",
+    bg: "bg-yellow-400/10",
   },
+  processing: {
+    border: "border-blue-400/50 text-blue-600 dark:text-blue-400",
+    dot: "bg-blue-400",
+    bg: "bg-blue-400/10",
+  },
+  completed: {
+    border: "border-emerald-400/50 text-emerald-600 dark:text-emerald-400",
+    dot: "bg-emerald-400",
+    bg: "bg-emerald-400/10",
+  },
+  cancelled: {
+    border: "border-red-400/50 text-red-600 dark:text-red-400",
+    dot: "bg-red-400",
+    bg: "bg-red-400/10",
+  },
+}
+
+export const Columns: ColumnDef<SalesOrderListResp>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
-    size: 0,
+    accessorKey: "orderNo",
+    header: "Order",
+    size: 180,
     cell: ({ row }) => {
+      const status = row.original.status
+      const styles = statusStyles[status]
+
       return (
         <div className="flex flex-col gap-1">
-          <div>{row.original.name}</div>
-          <Badge variant="outline" className="text-muted-foreground">
-            SKU: {row.original.sku}
+          <div className="font-medium">{row.original.orderNo}</div>
+          <Badge
+            variant="outline"
+            className={cn("capitalize", styles?.border, styles?.bg)}
+          >
+            <span className={cn("size-2 rounded-full", styles?.dot)}></span>
+            {status}
           </Badge>
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: "orderDate",
+    header: "Date",
+    size: 160,
+    cell: ({ row }) => (
+      <div className="flex flex-col gap-1">
+        <CellIcon
+          icon={Invoice01Icon}
+          text={DateFormatted(row.original.orderDate)}
+        />
+        <CellIcon
+          icon={Clock01Icon}
+          text={TimeFormatted(row.original.orderDate)}
+        />
+      </div>
+    ),
+  },
+  {
+    accessorKey: "customerName",
+    header: "Customer Name",
+    size: 0,
+    cell: ({ row }) => (
+      <span className="font-medium">{row.original.customerName}</span>
+    ),
+  },
+  {
+    accessorKey: "paymentMethod",
+    header: "Payment Method",
+    size: 160,
+  },
+  {
+    accessorKey: "totalPrice",
+    header: "Price",
+    size: 120,
+    enableSorting: false,
+    cell: ({ row }) => {
+      const totalDiscount = row.original.totalDiscount
+
+      return (
+        <div className="flex flex-col gap-1">
+          <CellIcon
+            icon={SaleTag02Icon}
+            text={`$${NumberFormatted(row.original.totalPrice)}`}
+          />
+
+          {totalDiscount > 0 && (
+            <CellIcon
+              icon={CouponPercentIcon}
+              text={`$${NumberFormatted(totalDiscount)}`}
+              className="text-muted-foreground"
+            />
+          )}
         </div>
       )
     },
   },
   {
-    accessorKey: "brand",
-    header: "Brand",
-    size: 200,
-    cell: ({ row }) => {
-      return (
-        <div>{row.original.brand || "-"}</div>
-      )
-    },
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-    size: 200,
-    cell: ({ row }) => <div className="capitalize">{row.original.category}</div>,
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
-    size: 130,
+    accessorKey: "finalPrice",
+    header: "Grand Total",
+    size: 120,
     enableSorting: false,
     cell: ({ row }) => {
       return (
         <div>
           <span>$</span>
-          {NumberFormatted(row.original.price)}
+          {NumberFormatted(row.original.finalPrice)}
         </div>
       )
     },
-  },
-  {
-    accessorKey: "stock",
-    header: "Stock",
-    size: 130,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const stock = row.original.stock
-      let iconStock = PackageSent01Icon
-      let classStock = ""
-      let classBorder = ""
-
-      if (stock < 1) {
-        iconStock = PackageRemove01Icon
-        classStock = "text-neutral-400"
-        classBorder = "border-neutral-200"
-      } else if (stock < 10) {
-        iconStock = PackageReceive01Icon
-        classStock = "text-red-600"
-        classBorder = "border-red-200"
-      } else {
-        classStock = "text-blue-600"
-        classBorder = "border-blue-200"
-      }
-
-      return (
-        <div className="flex flex-col gap-1">
-          <Badge variant="outline" className={classBorder}>
-            <CellIcon
-              icon={iconStock}
-              text={NumberFormatted(stock)}
-              className={classStock}
-            />
-          </Badge>
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "tags",
-    header: "Tags",
-    size: 200,
-    enableSorting: false,
-    cell: ({ row }) => <CellList records={row.original.tags} max={4} />,
   },
   {
     accessorKey: actionColKey,
