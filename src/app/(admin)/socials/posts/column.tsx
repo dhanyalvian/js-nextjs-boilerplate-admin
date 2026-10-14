@@ -1,7 +1,6 @@
-//- src/app/(admin)/transactions/column.tsx
+//- src/app/(admin)/socials/posts/column.tsx
 
-import { ColumnDef } from "@tanstack/react-table"
-import { SocialPostListResp } from "./type"
+import { RespSocialPostList } from "./interface"
 import {
   actionColHeader,
   actionColKey,
@@ -10,48 +9,49 @@ import {
   CellIcon,
   CellList,
 } from "@/components/core/data-table/columns"
+import { Column } from "@/components/core/data-table/interface"
 import { NumberFormatted } from "@/lib/number"
 import { Badge } from "@/components/ui/badge"
 import { ThumbsDown, ThumbsUp } from "@hugeicons/core-free-icons"
 
-export const Columns: ColumnDef<SocialPostListResp>[] = [
+export const Columns: Column<RespSocialPostList>[] = [
   {
-    accessorKey: "title",
+    key: "title",
     header: "Title",
     size: 360,
-    cell: ({ row }) => {
+    render: (row) => {
       return (
         <div className="flex flex-col gap-1">
-          <div>{row.original.title}</div>
+          <div>{row.title}</div>
           <Badge variant="outline" className="text-muted-foreground">
-            {NumberFormatted(row.original.views)} views
+            {NumberFormatted(row.views)} views
           </Badge>
         </div>
       )
     },
   },
   {
-    accessorKey: "body",
+    key: "body",
     header: "Body",
     size: 0,
   },
   {
-    accessorKey: "tags",
+    key: "tags",
     header: "Tags",
     size: 180,
-    enableSorting: false,
-    cell: ({ row }) => {
-      return <CellList records={row.original.tags} max={3} />
+    // enableSorting: false,
+    render: (row) => {
+      return <CellList records={row.tags} max={3} />
     },
   },
   {
-    accessorKey: "reactions",
+    key: "reactions",
     header: "Reactions",
     size: 100,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const likes = NumberFormatted(row.original.likes)
-      const dislikes = NumberFormatted(row.original.dislikes)
+    // enableSorting: false,
+    render: (row) => {
+      const likes = NumberFormatted(row.likes)
+      const dislikes = NumberFormatted(row.dislikes)
 
       return (
         <div className="flex flex-col gap-1">
@@ -70,15 +70,15 @@ export const Columns: ColumnDef<SocialPostListResp>[] = [
     },
   },
   {
-    accessorKey: actionColKey,
+    key: actionColKey,
     header: actionColHeader,
     size: actionColSize,
-    enableSorting: false,
-    cell: ({ row }) => {
+    // enableSorting: false,
+    render: (row) => {
       return (
         <CellActions
-          pathEdit={`/socials/posts/edit/${row.original.id}`}
-          pathDelete={`/socials/posts/delete/${row.original.id}`}
+          pathEdit={`/socials/posts/edit/${row.id}`}
+          pathDelete={`/socials/posts/delete/${row.id}`}
         />
       )
     },

@@ -65,7 +65,9 @@ export const Pagination = <TData, TValue>({
                     <HugeiconsIcon
                       icon={ChevronFirstIcon}
                       strokeWidth={strokeWidth}
-                      className={isLoading || currentPage === 1 ? "" : "text-sidebar-icon"}
+                      className={isLoading || currentPage === 1
+                        ? "text-muted-foreground"
+                        : "text-sidebar-icon"}
                     />
                   </Button>
                 </TooltipTrigger>
@@ -87,7 +89,9 @@ export const Pagination = <TData, TValue>({
                     <HugeiconsIcon
                       icon={ChevronLeftIcon}
                       strokeWidth={strokeWidth}
-                      className={isLoading || currentPage === 1 ? "" : "text-sidebar-icon"}
+                      className={isLoading || currentPage === 1
+                        ? "text-muted-foreground"
+                        : "text-sidebar-icon"}
                     />
                   </Button>
                 </TooltipTrigger>
@@ -115,7 +119,9 @@ export const Pagination = <TData, TValue>({
                     <HugeiconsIcon
                       icon={ChevronRightIcon}
                       strokeWidth={strokeWidth}
-                      className={isLoading || currentPage === totalPages ? "" : "text-sidebar-icon"}
+                      className={isLoading || currentPage === totalPages
+                        ? "text-muted-foreground"
+                        : "text-sidebar-icon"}
                     />
                   </Button>
                 </TooltipTrigger>
@@ -137,7 +143,9 @@ export const Pagination = <TData, TValue>({
                     <HugeiconsIcon
                       icon={ChevronLastIcon}
                       strokeWidth={strokeWidth}
-                      className={isLoading || currentPage === totalPages ? "" : "text-sidebar-icon"}
+                      className={isLoading || currentPage === totalPages
+                        ? "text-muted-foreground"
+                        : "text-sidebar-icon"}
                     />
                   </Button>
                 </TooltipTrigger>

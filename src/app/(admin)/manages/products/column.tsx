@@ -52,7 +52,7 @@ export const Columns: Column<RespManageProductList>[] = [
   {
     key: "brand",
     header: "Brand",
-    size: 200,
+    size: 150,
     render: ( row ) => {
       return (
         <div>{row.brand || "-"}</div>
@@ -117,7 +117,7 @@ export const Columns: Column<RespManageProductList>[] = [
   {
     key: "tags",
     header: "Tags",
-    size: 200,
+    size: 180,
     render: ( row ) => <CellList records={row.tags} max={4} />,
   },
   {

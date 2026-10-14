@@ -18,7 +18,6 @@ export const GetManageProductList = async ({
   page, limit, search, filters,
 }: GetListParams<ReqManageProductFilter>): Promise<ApiResp<RespManageProductList>> => {
   const params = GetQueryParams<ReqManageProductFilter>({ page, limit, search, filters })
-  console.log("query:", params)
   const data = await ApiInternal(`/products?${params}`)
   ScrollToTop()
 

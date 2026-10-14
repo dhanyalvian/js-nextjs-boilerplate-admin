@@ -1,7 +1,6 @@
 //- src/app/(admin)/sales/orders/column.tsx
 
-import { ColumnDef } from "@tanstack/react-table"
-import { SalesOrderListResp } from "./type"
+import { RespSalesOrderList } from "./interface"
 import {
   actionColHeader,
   actionColKey,
@@ -9,6 +8,7 @@ import {
   CellActions,
   CellIcon,
 } from "@/components/core/data-table/columns"
+import { Column } from "@/components/core/data-table/interface"
 import { Badge } from "@/components/ui/badge"
 import {
   Clock01Icon,
@@ -43,18 +43,18 @@ const statusStyles: Record<string, { border: string; dot: string; bg: string }> 
   },
 }
 
-export const Columns: ColumnDef<SalesOrderListResp>[] = [
+export const Columns: Column<RespSalesOrderList>[] = [
   {
-    accessorKey: "orderNo",
+    key: "orderNo",
     header: "Order",
     size: 180,
-    cell: ({ row }) => {
-      const status = row.original.status
+    render: (row) => {
+      const status = row.status
       const styles = statusStyles[status]
 
       return (
         <div className="flex flex-col gap-1">
-          <div className="font-medium">{row.original.orderNo}</div>
+          <div className="font-medium">{row.orderNo}</div>
           <Badge
             variant="outline"
             className={cn("capitalize", styles?.border, styles?.bg)}
@@ -64,51 +64,51 @@ export const Columns: ColumnDef<SalesOrderListResp>[] = [
           </Badge>
         </div>
       )
-    }
+    },
   },
   {
-    accessorKey: "orderDate",
+    key: "orderDate",
     header: "Date",
     size: 160,
-    cell: ({ row }) => (
+    render: (row) => (
       <div className="flex flex-col gap-1">
         <CellIcon
           icon={Invoice01Icon}
-          text={DateFormatted(row.original.orderDate)}
+          text={DateFormatted(row.orderDate)}
         />
         <CellIcon
           icon={Clock01Icon}
-          text={TimeFormatted(row.original.orderDate)}
+          text={TimeFormatted(row.orderDate)}
         />
       </div>
     ),
   },
   {
-    accessorKey: "customerName",
+    key: "customerName",
     header: "Customer Name",
     size: 0,
-    cell: ({ row }) => (
-      <span className="font-medium">{row.original.customerName}</span>
+    render: (row) => (
+      <span className="font-medium">{row.customerName}</span>
     ),
   },
   {
-    accessorKey: "paymentMethod",
+    key: "paymentMethod",
     header: "Payment Method",
     size: 160,
   },
   {
-    accessorKey: "totalPrice",
+    key: "totalPrice",
     header: "Price",
     size: 120,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const totalDiscount = row.original.totalDiscount
+    // enableSorting: false,
+    render: (row) => {
+      const totalDiscount = row.totalDiscount
 
       return (
         <div className="flex flex-col gap-1">
           <CellIcon
             icon={SaleTag02Icon}
-            text={`$${NumberFormatted(row.original.totalPrice)}`}
+            text={`$${NumberFormatted(row.totalPrice)}`}
           />
 
           {totalDiscount > 0 && (
@@ -123,30 +123,30 @@ export const Columns: ColumnDef<SalesOrderListResp>[] = [
     },
   },
   {
-    accessorKey: "finalPrice",
+    key: "finalPrice",
     header: "Grand Total",
     size: 120,
-    enableSorting: false,
-    cell: ({ row }) => {
+    // enableSorting: false,
+    render: (row) => {
       return (
         <div>
           <span>$</span>
-          {NumberFormatted(row.original.finalPrice)}
+          {NumberFormatted(row.finalPrice)}
         </div>
       )
     },
   },
   {
-    accessorKey: actionColKey,
+    key: actionColKey,
     header: actionColHeader,
     size: actionColSize,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const id = row.original.id
+    // enableSorting: false,
+    render: (row) => {
+      const id = row.id
       return (
         <CellActions
-          pathEdit={`/manages/products/edit/${id}`}
-          pathDelete={`/manages/products/delete/${id}`}
+          pathEdit={`/sales/orders/edit/${id}`}
+          pathDelete={`/sales/orders/delete/${id}`}
         />
       )
     },

@@ -2,30 +2,19 @@
 
 "use client"
 
-import { ApiInternal, useCurl } from "@/lib/api"
-import { ApiResp } from "@/types/response"
-import { SocialCommentListResp } from "./type"
-import { ScrollToTop } from "@/lib/scroll"
+import { useCurl } from "@/lib/api"
+import { RespSocialCommentList } from "./interface"
 import { useEffect } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
-import { DataTable } from "@/components/core/data-table/table"
+import { DataError, DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
+import { GetSocialCommentList } from "./query"
 
 const breadcrumbItems = [
   { label: "Socials" },
   { label: "Comment" },
 ]
-
-const getSocialCommentList = async (
-  page: number,
-  limit: number,
-  search: string,
-): Promise<ApiResp<SocialCommentListResp>> => {
-  const data = await ApiInternal(`/comments?search=${search}&page=${page}&limit=${limit}`)
-  ScrollToTop()
-  return data
-}
 
 const SocialCommentPage = () => {
   const {
@@ -33,10 +22,10 @@ const SocialCommentPage = () => {
     setSearch,
     debouncedSearch,
     setDebouncedSearch,
+    limit,
     page,
     setPage,
   } = useCurl()
-  const limit = 15
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -49,33 +38,58 @@ const SocialCommentPage = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["socials", "comments", "list", page, limit, debouncedSearch],
-        queryFn: () => getSocialCommentList(page, limit, debouncedSearch),
+        queryFn: () => GetSocialCommentList({
+          page,
+          limit,
+          search: debouncedSearch,
+        }),
+        queryKey: [
+          "socials",
+          "comments",
+          "list",
+          page,
+          limit,
+          debouncedSearch,
+        ],
         refetchOnWindowFocus: false,
       },
     ],
   })
-  const [querySocialComment] = queries
-  const isLoading = querySocialComment.isLoading || querySocialComment.isFetching
+
+  const [querySocialCommentList] = queries
+  const isLoading = querySocialCommentList.isLoading || querySocialCommentList.isFetching
+  const isError = querySocialCommentList.error
+  const records = querySocialCommentList.data?.records || []
+  const pagination = querySocialCommentList.data?.pagination
 
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
       <AppMain>
-        <DataTable
-          addHref="/socials/comments"
-          title="Comment"
-          columns={Columns}
-          data={querySocialComment.data?.records || []}
-          isLoading={isLoading}
-          limit={limit}
-          totalRows={querySocialComment.data?.pagination.totalRecord ?? 0}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-        />
+        {isError ? (
+          <DataError />
+        ) : (
+          <DataTable<RespSocialCommentList>
+            columns={Columns}
+            data={records}
+            isLoading={isLoading}
+            emptyMessage="Belum ada comment."
+            search={{
+              searchValue: search,
+              setSearch: setSearch,
+              setPage: setPage,
+              isLoading: isLoading,
+            }}
+            pagination={{
+              limit: limit,
+              totalRecord: pagination?.totalRecord || 0,
+              totalPage: pagination?.totalPage || 0,
+              currentPage: page,
+              setPage: setPage,
+            }}
+          />
+        )}
       </AppMain>
     </>
   )

@@ -33,7 +33,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <HugeiconsIcon
                   icon={GalleryVerticalEndIcon}
                   strokeWidth={2}
-                  className="size-5.5! text-chart-3"
+                  className="size-5.5! text-sidebar-icon"
                 />
                 <span className="text-base font-semibold mt-0.5">{AppConfig.appName}</span>
               </Link>

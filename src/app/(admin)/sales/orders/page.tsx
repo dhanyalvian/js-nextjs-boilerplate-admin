@@ -2,44 +2,35 @@
 
 "use client"
 
-import { ApiResp } from "@/types/response"
-import { ApiInternal, useCurl } from "@/lib/api"
-import { ScrollToTop } from "@/lib/scroll"
-import { useEffect } from "react"
+import { useCurl } from "@/lib/api"
+import { ReqSalesOrderFilter, RespSalesOrderList } from "./interface"
+import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
-import { DataTable } from "@/components/core/data-table/table"
+import { DataError, DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
-import { Filters } from "./filters"
+import { GetDataTableFilter, useDataTableApply } from "./filter"
+import { GetSalesOrderFilter, GetSalesOrderList } from "./query"
+import { DataTableFilterProps } from "@/components/core/data-table/interface"
 import { CardStats } from "./card"
 import { CardSectionStandard } from "@/components/core/card/section"
-import { SalesOrderListResp } from "./type"
 
 const breadcrumbItems = [
   { label: "Sales" },
   { label: "Order" },
 ]
 
-const getSalesOrderList = async (
-  page: number,
-  limit: number,
-  search: string,
-): Promise<ApiResp<SalesOrderListResp>> => {
-  const data = await ApiInternal(`/orders?search=${search}&page=${page}&limit=${limit}`)
-  ScrollToTop()
-  return data
-}
-
 const SalesOrderPage = () => {
+  const [appliedFilter, setAppliedFilter] = useState<ReqSalesOrderFilter>({})
   const {
     search,
     setSearch,
     debouncedSearch,
     setDebouncedSearch,
+    limit,
     page,
     setPage,
   } = useCurl()
-  const limit = 15
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -52,14 +43,51 @@ const SalesOrderPage = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["sales", "products", "list", page, limit, debouncedSearch],
-        queryFn: () => getSalesOrderList(page, limit, debouncedSearch),
+        queryFn: () => GetSalesOrderFilter(),
+        queryKey: ["sales", "orders", "filter"],
+        refetchOnWindowFocus: false,
+      },
+      {
+        queryFn: () => GetSalesOrderList({
+          page,
+          limit,
+          search: debouncedSearch,
+          filters: appliedFilter,
+        }),
+        queryKey: [
+          "sales",
+          "orders",
+          "list",
+          page,
+          limit,
+          debouncedSearch,
+          JSON.stringify(appliedFilter),
+        ],
         refetchOnWindowFocus: false,
       },
     ],
   })
-  const [querySalesOrder] = queries
-  const isLoading = querySalesOrder.isLoading || querySalesOrder.isFetching
+
+  const [querySalesOrderFilter, querySalesOrderList] = queries
+  const isLoading = querySalesOrderList.isLoading || querySalesOrderList.isFetching
+  const isError = querySalesOrderList.error
+  const records = querySalesOrderList.data?.records || []
+  const pagination = querySalesOrderList.data?.pagination
+
+  const handleListSearchFilterApply = useDataTableApply({
+    search,
+    limit,
+    setSearch,
+    setPage,
+    setDebouncedSearch,
+    setAppliedFilter,
+  })
+
+  const SalesOrderListFilter: DataTableFilterProps = GetDataTableFilter({
+    status: querySalesOrderFilter.data?.record?.status || [],
+    paymentMethod: querySalesOrderFilter.data?.record?.paymentMethod || [],
+    isLoading: querySalesOrderFilter.isLoading,
+  })
 
   return (
     <>
@@ -68,22 +96,31 @@ const SalesOrderPage = () => {
       <AppMain>
         <CardSectionStandard cardStats={CardStats} isLoading={false} />
 
-        <DataTable
-          addHref="/sales/orders"
-          title="Order"
-          columns={Columns}
-          data={querySalesOrder.data?.records || []}
-          isLoading={isLoading}
-          limit={limit}
-          totalRows={querySalesOrder.data?.pagination.totalRecord ?? 0}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-          filters={Filters({
-            isLoading: isLoading,
-          })}
-        />
+        {isError ? (
+          <DataError />
+        ) : (
+          <DataTable<RespSalesOrderList>
+            columns={Columns}
+            data={records}
+            isLoading={isLoading}
+            emptyMessage="Belum ada order."
+            search={{
+              searchValue: search,
+              setSearch: setSearch,
+              setPage: setPage,
+              isLoading: isLoading,
+            }}
+            filters={SalesOrderListFilter}
+            onApply={handleListSearchFilterApply}
+            pagination={{
+              limit: limit,
+              totalRecord: pagination?.totalRecord || 0,
+              totalPage: pagination?.totalPage || 0,
+              currentPage: page,
+              setPage: setPage,
+            }}
+          />
+        )}
       </AppMain>
     </>
   )

@@ -2,42 +2,33 @@
 
 "use client"
 
-import { ApiInternal, useCurl } from "@/lib/api"
-import { ApiResp } from "@/types/response"
-import { ManageRecipeListResp } from "./type"
-import { ScrollToTop } from "@/lib/scroll"
-import { useEffect } from "react"
+import { useCurl } from "@/lib/api"
+import { ReqManageRecipeFilter, RespManageRecipeList } from "./interface"
+import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
-import { DataTable } from "@/components/core/data-table/table"
+import { DataError, DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
-import { Filters } from "./filters"
+import { GetDataTableFilter, useDataTableApply } from "./filter"
+import { GetManageRecipeFilter, GetManageRecipeList } from "./query"
+import { DataTableFilterProps } from "@/components/core/data-table/interface"
 
 const breadcrumbItems = [
   { label: "Manages" },
   { label: "Recipe" },
 ]
 
-const getManageRecipeList = async (
-  page: number,
-  limit: number,
-  search: string,
-): Promise<ApiResp<ManageRecipeListResp>> => {
-  const data = await ApiInternal(`/recipes?search=${search}&page=${page}&limit=${limit}`)
-  ScrollToTop()
-  return data
-}
-
 const ManageRecipePage = () => {
+  const [appliedFilter, setAppliedFilter] = useState<ReqManageRecipeFilter>({})
   const {
     search,
     setSearch,
     debouncedSearch,
     setDebouncedSearch,
+    limit,
     page,
     setPage,
   } = useCurl()
-  const limit = 15
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -50,36 +41,83 @@ const ManageRecipePage = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["manages", "recipes", "list", page, limit, debouncedSearch],
-        queryFn: () => getManageRecipeList(page, limit, debouncedSearch),
+        queryFn: () => GetManageRecipeFilter(),
+        queryKey: ["manages", "recipes", "filter"],
+        refetchOnWindowFocus: false,
+      },
+      {
+        queryFn: () => GetManageRecipeList({
+          page,
+          limit,
+          search: debouncedSearch,
+          filters: appliedFilter,
+        }),
+        queryKey: [
+          "manages",
+          "recipes",
+          "list",
+          page,
+          limit,
+          debouncedSearch,
+          JSON.stringify(appliedFilter),
+        ],
         refetchOnWindowFocus: false,
       },
     ],
   })
-  const [queryManageRecipe] = queries
-  const isLoading = queryManageRecipe.isLoading || queryManageRecipe.isFetching
+
+  const [queryManageRecipeFilter, queryManageRecipeList] = queries
+  const isLoading = queryManageRecipeList.isLoading || queryManageRecipeList.isFetching
+  const isError = queryManageRecipeList.error
+  const records = queryManageRecipeList.data?.records || []
+  const pagination = queryManageRecipeList.data?.pagination
+
+  const handleListSearchFilterApply = useDataTableApply({
+    search,
+    limit,
+    setSearch,
+    setPage,
+    setDebouncedSearch,
+    setAppliedFilter,
+  })
+
+  const ManageRecipeListFilter: DataTableFilterProps = GetDataTableFilter({
+    cuisine: queryManageRecipeFilter.data?.record?.cuisine || [],
+    difficulty: queryManageRecipeFilter.data?.record?.difficulty || [],
+    mealType: queryManageRecipeFilter.data?.record?.mealType || [],
+    isLoading: queryManageRecipeFilter.isLoading,
+  })
 
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
       <AppMain>
-        <DataTable
-          addHref="/manages/recipes"
-          title="Recipe"
-          columns={Columns}
-          data={queryManageRecipe.data?.records || []}
-          isLoading={isLoading}
-          limit={limit}
-          totalRows={queryManageRecipe.data?.pagination.totalRecord ?? 0}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-          filters={Filters({
-            isLoading: isLoading,
-          })}
-        />
+        {isError ? (
+          <DataError />
+        ) : (
+          <DataTable<RespManageRecipeList>
+            columns={Columns}
+            data={records}
+            isLoading={isLoading}
+            emptyMessage="Belum ada kategori."
+            search={{
+              searchValue: search,
+              setSearch: setSearch,
+              setPage: setPage,
+              isLoading: isLoading,
+            }}
+            filters={ManageRecipeListFilter}
+            onApply={handleListSearchFilterApply}
+            pagination={{
+              limit: limit,
+              totalRecord: pagination?.totalRecord || 0,
+              totalPage: pagination?.totalPage || 0,
+              currentPage: page,
+              setPage: setPage,
+            }}
+          />
+        )}
       </AppMain>
     </>
   )

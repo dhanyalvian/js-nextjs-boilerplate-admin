@@ -126,7 +126,7 @@ export const FilterCheckbox = ({
                   <CommandItem
                     key={row.value}
                     onSelect={() => handleSelect(row.value)}
-                    className="flex items-center space-x-1 p-1.5 pl-2.5 cursor-pointer rounded-xl"
+                    className="flex items-center space-x-1 py-1.5 px-2.5 cursor-pointer rounded-xl"
                   >
                     <div
                       // Using a simple div or Checkbox component wrapper for alignment
@@ -143,7 +143,7 @@ export const FilterCheckbox = ({
                         className={cn("h-4 w-4 text-white", isChecked ? "opacity-100" : "opacity-0")}
                       />
                     </div>
-                    <span className="text-xs-plus">{row.label}</span>
+                    <span className="text-xs-plus capitalize">{row.label}</span>
                   </CommandItem>
                 )
               })}

@@ -31,6 +31,7 @@ export const DataTable = <T extends object>({
       : Boolean(selectedDateRanges[filter.key]?.from),
   ) ?? false
   const hasActive = hasSearch || hasFilter
+  const hasFilters = (filters?.length ?? 0) > 0
   const handleApply = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onApply?.({
@@ -94,15 +95,17 @@ export const DataTable = <T extends object>({
             ),
           )}
 
-          <ButtonSubmit
-            label="Apply"
-            size="sm"
-            className="mt-0 rounded-full text-xs-plus! text-white shadow-xs"
-            iconLeft={FunnelIcon}
-            disabled={isLoading}
-          />
+          {hasFilters && (
+            <ButtonSubmit
+              label="Apply"
+              size="sm"
+              className="mt-0 rounded-full text-xs-plus! text-white shadow-xs"
+              iconLeft={FunnelIcon}
+              disabled={isLoading || !hasActive}
+            />
+          )}
 
-          {hasActive && (
+          {hasFilters && hasActive && (
             <FilterReset disabled={isLoading} onClick={handleReset} />
           )}
 

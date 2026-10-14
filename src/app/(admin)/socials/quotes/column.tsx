@@ -1,35 +1,35 @@
 //- src/app/(admin)/socials/quotes/column.tsx
 
-import { ColumnDef } from "@tanstack/react-table"
-import { SocialQuoteListResp } from "./type"
+import { RespSocialQuoteList } from "./interface"
 import {
   actionColHeader,
   actionColKey,
   actionColSize,
   CellActions,
 } from "@/components/core/data-table/columns"
+import { Column } from "@/components/core/data-table/interface"
 
-export const Columns: ColumnDef<SocialQuoteListResp>[] = [
+export const Columns: Column<RespSocialQuoteList>[] = [
   {
-    accessorKey: "quote",
+    key: "quote",
     header: "Quote",
     size: 0,
   },
   {
-    accessorKey: "author",
+    key: "author",
     header: "Author",
     size: 300,
   },
   {
-    accessorKey: actionColKey,
+    key: actionColKey,
     header: actionColHeader,
     size: actionColSize,
-    enableSorting: false,
-    cell: ({ row }) => {
+    // enableSorting: false,
+    render: (row) => {
       return (
         <CellActions
-          pathEdit={`/socials/quotes/edit/${row.original.id}`}
-          pathDelete={`/socials/quotes/delete/${row.original.id}`}
+          pathEdit={`/socials/quotes/edit/${row.id}`}
+          pathDelete={`/socials/quotes/delete/${row.id}`}
         />
       )
     },

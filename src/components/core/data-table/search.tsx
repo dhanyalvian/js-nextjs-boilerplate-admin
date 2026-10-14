@@ -36,7 +36,7 @@ export const DataTableSearch = ({
           className={`${IconSizeCss} ${searchValue ? "text-sidebar-icon" : "text-muted-foreground"}`}
         />
       </InputGroupAddon>
-      
+
       <InputGroupInput
         type="text"
         placeholder={placeholder || "Search..."}
@@ -58,16 +58,16 @@ export const DataTableSearch = ({
             <HugeiconsIcon
               icon={isLoading ? LoaderCircleIcon : XIcon}
               strokeWidth={2}
-              className={`${IconSizeCss} ${isLoading && "animate-spin"}`}
+              className={`${IconSizeCss} ${isLoading && "animate-spin"} text-muted-foreground`}
             />
           </InputGroupButton>
         </InputGroupAddon>
       ) : isLoading ? (
-        <InputGroupAddon align="inline-end">
+        <InputGroupAddon align="inline-end" className="p-0 pr-2">
           <HugeiconsIcon
             icon={LoaderCircleIcon}
             strokeWidth={2}
-            className="size-5 animate-spin"
+            className={`${IconSizeCss} animate-spin text-muted-foreground`}
           />
         </InputGroupAddon>
       ) : null}

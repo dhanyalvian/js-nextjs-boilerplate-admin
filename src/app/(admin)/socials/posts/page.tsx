@@ -1,31 +1,20 @@
-//- src/app/(admin)/projects/page.tsx
+//- src/app/(admin)/socials/posts/page.tsx
 
 "use client"
 
-import { ApiInternal, useCurl } from "@/lib/api"
-import { ApiResp } from "@/types/response"
-import { SocialPostListResp } from "./type"
-import { ScrollToTop } from "@/lib/scroll"
+import { useCurl } from "@/lib/api"
+import { RespSocialPostList } from "./interface"
 import { useEffect } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
-import { DataTable } from "@/components/core/data-table/table"
+import { DataError, DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
+import { GetSocialPostList } from "./query"
 
 const breadcrumbItems = [
   { label: "Socials" },
   { label: "Post" },
 ]
-
-const getSocialPostList = async (
-  page: number,
-  limit: number,
-  search: string,
-): Promise<ApiResp<SocialPostListResp>> => {
-  const data = await ApiInternal(`/posts?search=${search}&page=${page}&limit=${limit}`)
-  ScrollToTop()
-  return data
-}
 
 const SocialPostPage = () => {
   const {
@@ -33,10 +22,10 @@ const SocialPostPage = () => {
     setSearch,
     debouncedSearch,
     setDebouncedSearch,
+    limit,
     page,
     setPage,
   } = useCurl()
-  const limit = 15
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -49,33 +38,58 @@ const SocialPostPage = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["socials", "posts", "list", page, limit, debouncedSearch],
-        queryFn: () => getSocialPostList(page, limit, debouncedSearch),
+        queryFn: () => GetSocialPostList({
+          page,
+          limit,
+          search: debouncedSearch,
+        }),
+        queryKey: [
+          "socials",
+          "posts",
+          "list",
+          page,
+          limit,
+          debouncedSearch,
+        ],
         refetchOnWindowFocus: false,
       },
     ],
   })
-  const [querySocialPost] = queries
-  const isLoading = querySocialPost.isLoading || querySocialPost.isFetching
+
+  const [querySocialPostList] = queries
+  const isLoading = querySocialPostList.isLoading || querySocialPostList.isFetching
+  const isError = querySocialPostList.error
+  const records = querySocialPostList.data?.records || []
+  const pagination = querySocialPostList.data?.pagination
 
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
       <AppMain>
-        <DataTable
-          addHref="/socials/posts"
-          title="Post"
-          columns={Columns}
-          data={querySocialPost.data?.records || []}
-          isLoading={isLoading}
-          limit={limit}
-          totalRows={querySocialPost.data?.pagination.totalRecord ?? 0}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-        />
+        {isError ? (
+          <DataError />
+        ) : (
+          <DataTable<RespSocialPostList>
+            columns={Columns}
+            data={records}
+            isLoading={isLoading}
+            emptyMessage="Belum ada post."
+            search={{
+              searchValue: search,
+              setSearch: setSearch,
+              setPage: setPage,
+              isLoading: isLoading,
+            }}
+            pagination={{
+              limit: limit,
+              totalRecord: pagination?.totalRecord || 0,
+              totalPage: pagination?.totalPage || 0,
+              currentPage: page,
+              setPage: setPage,
+            }}
+          />
+        )}
       </AppMain>
     </>
   )

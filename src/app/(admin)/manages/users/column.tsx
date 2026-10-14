@@ -1,7 +1,6 @@
 //- src/app/(admin)/manages/users/column.tsx
 
-import { ColumnDef } from "@tanstack/react-table"
-import { ManageUserListResp } from "./type"
+import { RespManageUserList } from "./interface"
 import {
   actionColHeader,
   actionColKey,
@@ -9,55 +8,53 @@ import {
   CellActions,
   CellIcon,
 } from "@/components/core/data-table/columns"
+import { Column } from "@/components/core/data-table/interface"
 import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Call02Icon,
   Mail01Icon,
 } from "@hugeicons/core-free-icons"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-export const Columns: ColumnDef<ManageUserListResp>[] = [
+export const Columns: Column<RespManageUserList>[] = [
   {
-    accessorKey: "avatar",
+    key: "avatar",
     header: "Avatar",
     size: 80,
-    enableSorting: false,
-    cell: ({ row }) => {
+    // enableSorting: false,
+    render: (row) => {
       return (
         <Avatar className="size-10">
           <AvatarImage
-            src={row.original.avatar}
-            alt={row.original.firstname}
+            src={row.avatar}
+            alt={row.firstname}
             // className="grayscale"
           />
-          <AvatarFallback>{row.original.firstname}</AvatarFallback>
+          <AvatarFallback>{row.firstname}</AvatarFallback>
         </Avatar>
-      )
-    }
-  },
-  {
-    accessorKey: "name",
-    header: "Name",
-    size: 0,
-    cell: ({ row }) => {
-      let fullname = row.original.firstname
-      if (row.original.lastname) {
-        fullname += ' ' + row.original.lastname
-      }
-
-      return (
-        <div>{fullname}</div>
       )
     },
   },
   {
-    accessorKey: "gender",
+    key: "name",
+    header: "Name",
+    size: 0,
+    render: (row) => {
+      const fullname = row.lastname
+        ? row.firstname + " " + row.lastname
+        : row.firstname
+
+      return <div>{fullname}</div>
+    },
+  },
+  {
+    key: "gender",
     header: "Gender",
     size: 120,
-    cell: ({ row }) => {
-      const gender = row.original.gender
-      const genderText = gender === "M" ? "Male" : "Female"
-      const genderVariant = gender === "M" ? "secondary" : "outline"
+    render: (row) => {
+      const genderText = row.gender === "M" ? "Male" : "Female"
+      const genderVariant = row.gender === "M" ? "secondary" : "outline"
+
       return (
         <Badge variant={genderVariant} className="capitalize">
           {genderText}
@@ -66,20 +63,20 @@ export const Columns: ColumnDef<ManageUserListResp>[] = [
     },
   },
   {
-    accessorKey: "email",
+    key: "email",
     header: "Contacts",
     size: 320,
-    enableSorting: false,
-    cell: ({ row }) => {
+    // enableSorting: false,
+    render: (row) => {
       return (
         <div className="flex flex-col gap-1">
           <CellIcon
             icon={Mail01Icon}
-            text={row.original.email}
+            text={row.email}
           />
           <CellIcon
             icon={Call02Icon}
-            text={row.original.phone}
+            text={row.phone}
             className="text-muted-foreground"
           />
         </div>
@@ -87,15 +84,15 @@ export const Columns: ColumnDef<ManageUserListResp>[] = [
     },
   },
   {
-    accessorKey: actionColKey,
+    key: actionColKey,
     header: actionColHeader,
     size: actionColSize,
-    enableSorting: false,
-    cell: ({ row }) => {
+    // enableSorting: false,
+    render: (row) => {
       return (
         <CellActions
-          pathEdit={`/manages/recipes/edit/${row.original.id}`}
-          pathDelete={`/manages/recipes/delete/${row.original.id}`}
+          pathEdit={`/manages/users/edit/${row.id}`}
+          pathDelete={`/manages/users/delete/${row.id}`}
         />
       )
     },

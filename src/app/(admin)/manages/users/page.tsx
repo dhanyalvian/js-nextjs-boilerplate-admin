@@ -2,41 +2,33 @@
 
 "use client"
 
-import { ApiInternal, useCurl } from "@/lib/api"
-import { ApiResp } from "@/types/response"
-import { ManageUserListResp } from "./type"
-import { ScrollToTop } from "@/lib/scroll"
-import { useEffect } from "react"
+import { useCurl } from "@/lib/api"
+import { ReqManageUserFilter, RespManageUserList } from "./interface"
+import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
-import { DataTable } from "@/components/core/data-table/table"
+import { DataError, DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
+import { GetDataTableFilter, useDataTableApply } from "./filter"
+import { GetManageUserList } from "./query"
+import { DataTableFilterProps } from "@/components/core/data-table/interface"
 
 const breadcrumbItems = [
   { label: "Manages" },
   { label: "User" },
 ]
 
-const getManageUserList = async (
-  page: number,
-  limit: number,
-  search: string,
-): Promise<ApiResp<ManageUserListResp>> => {
-  const data = await ApiInternal(`/users?search=${search}&page=${page}&limit=${limit}`)
-  ScrollToTop()
-  return data
-}
-
 const ManageUserPage = () => {
+  const [appliedFilter, setAppliedFilter] = useState<ReqManageUserFilter>({})
   const {
     search,
     setSearch,
     debouncedSearch,
     setDebouncedSearch,
+    limit,
     page,
     setPage,
   } = useCurl()
-  const limit = 15
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -49,33 +41,75 @@ const ManageUserPage = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["manages", "users", "list", page, limit, debouncedSearch],
-        queryFn: () => getManageUserList(page, limit, debouncedSearch),
+        queryFn: () => GetManageUserList({
+          page,
+          limit,
+          search: debouncedSearch,
+          filters: appliedFilter,
+        }),
+        queryKey: [
+          "manages",
+          "users",
+          "list",
+          page,
+          limit,
+          debouncedSearch,
+          JSON.stringify(appliedFilter),
+        ],
         refetchOnWindowFocus: false,
       },
     ],
   })
-  const [queryManageUser] = queries
-  const isLoading = queryManageUser.isLoading || queryManageUser.isFetching
+
+  const [queryManageUserList] = queries
+  const isLoading = queryManageUserList.isLoading || queryManageUserList.isFetching
+  const isError = queryManageUserList.error
+  const records = queryManageUserList.data?.records || []
+  const pagination = queryManageUserList.data?.pagination
+
+  const handleListSearchFilterApply = useDataTableApply({
+    search,
+    limit,
+    setSearch,
+    setPage,
+    setDebouncedSearch,
+    setAppliedFilter,
+  })
+
+  const ManageUserListFilter: DataTableFilterProps = GetDataTableFilter({
+    isLoading: isLoading,
+  })
 
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
       <AppMain>
-        <DataTable
-          addHref="/manages/users"
-          title="User"
-          columns={Columns}
-          data={queryManageUser.data?.records || []}
-          isLoading={isLoading}
-          limit={limit}
-          totalRows={queryManageUser.data?.pagination.totalRecord ?? 0}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-        />
+        {isError ? (
+          <DataError />
+        ) : (
+          <DataTable<RespManageUserList>
+            columns={Columns}
+            data={records}
+            isLoading={isLoading}
+            emptyMessage="Belum ada user."
+            search={{
+              searchValue: search,
+              setSearch: setSearch,
+              setPage: setPage,
+              isLoading: isLoading,
+            }}
+            filters={ManageUserListFilter}
+            onApply={handleListSearchFilterApply}
+            pagination={{
+              limit: limit,
+              totalRecord: pagination?.totalRecord || 0,
+              totalPage: pagination?.totalPage || 0,
+              currentPage: page,
+              setPage: setPage,
+            }}
+          />
+        )}
       </AppMain>
     </>
   )

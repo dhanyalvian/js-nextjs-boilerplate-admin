@@ -1,6 +1,6 @@
-//- src/app/(admin)/transactions/type.ts
+//- src/app/(admin)/socials/posts/interface.ts
 
-export interface SocialPostListResp {
+export interface RespSocialPostList {
   id: number,
   title: string,
   body: string,

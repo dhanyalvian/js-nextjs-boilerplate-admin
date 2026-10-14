@@ -2,30 +2,19 @@
 
 "use client"
 
-import { ApiInternal, useCurl } from "@/lib/api"
-import { ApiResp } from "@/types/response"
-import { SocialQuoteListResp } from "./type"
-import { ScrollToTop } from "@/lib/scroll"
+import { useCurl } from "@/lib/api"
+import { RespSocialQuoteList } from "./interface"
 import { useEffect } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
-import { DataTable } from "@/components/core/data-table/table"
+import { DataError, DataTable } from "@/components/core/data-table/table"
 import { Columns } from "./column"
+import { GetSocialQuoteList } from "./query"
 
 const breadcrumbItems = [
   { label: "Socials" },
   { label: "Quote" },
 ]
-
-const getSocialQuoteList = async (
-  page: number,
-  limit: number,
-  search: string,
-): Promise<ApiResp<SocialQuoteListResp>> => {
-  const data = await ApiInternal(`/quotes?search=${search}&page=${page}&limit=${limit}`)
-  ScrollToTop()
-  return data
-}
 
 const SocialQuotePage = () => {
   const {
@@ -33,10 +22,10 @@ const SocialQuotePage = () => {
     setSearch,
     debouncedSearch,
     setDebouncedSearch,
+    limit,
     page,
     setPage,
   } = useCurl()
-  const limit = 15
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -49,33 +38,58 @@ const SocialQuotePage = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["socials", "quotes", "list", page, limit, debouncedSearch],
-        queryFn: () => getSocialQuoteList(page, limit, debouncedSearch),
+        queryFn: () => GetSocialQuoteList({
+          page,
+          limit,
+          search: debouncedSearch,
+        }),
+        queryKey: [
+          "socials",
+          "quotes",
+          "list",
+          page,
+          limit,
+          debouncedSearch,
+        ],
         refetchOnWindowFocus: false,
       },
     ],
   })
-  const [querySocialQuote] = queries
-  const isLoading = querySocialQuote.isLoading || querySocialQuote.isFetching
+
+  const [querySocialQuoteList] = queries
+  const isLoading = querySocialQuoteList.isLoading || querySocialQuoteList.isFetching
+  const isError = querySocialQuoteList.error
+  const records = querySocialQuoteList.data?.records || []
+  const pagination = querySocialQuoteList.data?.pagination
 
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
       <AppMain>
-        <DataTable
-          addHref="/socials/quotes"
-          title="Quote"
-          columns={Columns}
-          data={querySocialQuote.data?.records || []}
-          isLoading={isLoading}
-          limit={limit}
-          totalRows={querySocialQuote.data?.pagination.totalRecord ?? 0}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-        />
+        {isError ? (
+          <DataError />
+        ) : (
+          <DataTable<RespSocialQuoteList>
+            columns={Columns}
+            data={records}
+            isLoading={isLoading}
+            emptyMessage="Belum ada quote."
+            search={{
+              searchValue: search,
+              setSearch: setSearch,
+              setPage: setPage,
+              isLoading: isLoading,
+            }}
+            pagination={{
+              limit: limit,
+              totalRecord: pagination?.totalRecord || 0,
+              totalPage: pagination?.totalPage || 0,
+              currentPage: page,
+              setPage: setPage,
+            }}
+          />
+        )}
       </AppMain>
     </>
   )

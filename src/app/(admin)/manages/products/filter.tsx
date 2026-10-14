@@ -39,7 +39,7 @@ export const GetDataTableFilter = ({
       options: category,
       isLoading: isLoading,
       icon: DashboardSquare01Icon,
-      searchable: true,
+      // searchable: true,
     },
   ]
 }

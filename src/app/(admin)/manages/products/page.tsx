@@ -20,7 +20,6 @@ const breadcrumbItems = [
 
 const ManageProductPage = () => {
   const [appliedFilter, setAppliedFilter] = useState<ReqManageProductFilter>({})
-
   const {
     search,
     setSearch,
@@ -34,7 +33,7 @@ const ManageProductPage = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search)
-      // setPage(1)
+      setPage(1)
     }, 1000)
     return () => clearTimeout(handler)
   }, [search, setDebouncedSearch, setPage])
@@ -47,8 +46,21 @@ const ManageProductPage = () => {
         refetchOnWindowFocus: false,
       },
       {
-        queryFn: () => GetManageProductList({ page, limit, search: debouncedSearch, filters: appliedFilter }),
-        queryKey: ["manages", "products", "list", page, limit, debouncedSearch, JSON.stringify(appliedFilter)],
+        queryFn: () => GetManageProductList({
+          page,
+          limit,
+          search: debouncedSearch,
+          filters: appliedFilter,
+        }),
+        queryKey: [
+          "manages",
+          "products",
+          "list",
+          page,
+          limit,
+          debouncedSearch,
+          JSON.stringify(appliedFilter),
+        ],
         refetchOnWindowFocus: false,
       },
     ],
