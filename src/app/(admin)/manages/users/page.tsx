@@ -4,7 +4,7 @@
 
 import { useCurl } from "@/lib/api"
 import { ReqManageUserFilter, RespManageUserList } from "./interface"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { DataError, DataTable } from "@/components/core/data-table/table"
@@ -18,7 +18,7 @@ const breadcrumbItems = [
   { label: "User" },
 ]
 
-const ManageUserPage = () => {
+const ManageUserContent = () => {
   const [appliedFilter, setAppliedFilter] = useState<ReqManageUserFilter>({})
   const {
     search,
@@ -112,6 +112,14 @@ const ManageUserPage = () => {
         )}
       </AppMain>
     </>
+  )
+}
+
+const ManageUserPage = () => {
+  return (
+    <Suspense fallback={null}>
+      <ManageUserContent />
+    </Suspense>
   )
 }
 

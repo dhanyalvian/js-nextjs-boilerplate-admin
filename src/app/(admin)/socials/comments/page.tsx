@@ -4,7 +4,7 @@
 
 import { useCurl } from "@/lib/api"
 import { RespSocialCommentList } from "./interface"
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { DataError, DataTable } from "@/components/core/data-table/table"
@@ -16,7 +16,7 @@ const breadcrumbItems = [
   { label: "Comment" },
 ]
 
-const SocialCommentPage = () => {
+const SocialCommentContent = () => {
   const {
     search,
     setSearch,
@@ -92,6 +92,14 @@ const SocialCommentPage = () => {
         )}
       </AppMain>
     </>
+  )
+}
+
+const SocialCommentPage = () => {
+  return (
+    <Suspense fallback={null}>
+      <SocialCommentContent />
+    </Suspense>
   )
 }
 
