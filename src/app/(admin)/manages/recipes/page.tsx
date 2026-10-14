@@ -4,7 +4,7 @@
 
 import { useCurl } from "@/lib/api"
 import { ReqManageRecipeFilter, RespManageRecipeList } from "./interface"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { DataError, DataTable } from "@/components/core/data-table/table"
@@ -18,7 +18,7 @@ const breadcrumbItems = [
   { label: "Recipe" },
 ]
 
-const ManageRecipePage = () => {
+const ManageRecipeContent = () => {
   const [appliedFilter, setAppliedFilter] = useState<ReqManageRecipeFilter>({})
   const {
     search,
@@ -120,6 +120,14 @@ const ManageRecipePage = () => {
         )}
       </AppMain>
     </>
+  )
+}
+
+const ManageRecipePage = () => {
+  return (
+    <Suspense fallback={null}>
+      <ManageRecipeContent />
+    </Suspense>
   )
 }
 

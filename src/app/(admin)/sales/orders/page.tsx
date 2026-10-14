@@ -4,7 +4,7 @@
 
 import { useCurl } from "@/lib/api"
 import { ReqSalesOrderFilter, RespSalesOrderList } from "./interface"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { DataError, DataTable } from "@/components/core/data-table/table"
@@ -20,7 +20,7 @@ const breadcrumbItems = [
   { label: "Order" },
 ]
 
-const SalesOrderPage = () => {
+const SalesOrderContent = () => {
   const [appliedFilter, setAppliedFilter] = useState<ReqSalesOrderFilter>({})
   const {
     search,
@@ -123,6 +123,14 @@ const SalesOrderPage = () => {
         )}
       </AppMain>
     </>
+  )
+}
+
+const SalesOrderPage = () => {
+  return (
+    <Suspense fallback={null}>
+      <SalesOrderContent />
+    </Suspense>
   )
 }
 

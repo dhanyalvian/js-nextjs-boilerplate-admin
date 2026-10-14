@@ -4,7 +4,7 @@
 
 import { useCurl } from "@/lib/api"
 import { ReqManageProductFilter, RespManageProductList } from "./interface"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
 import { DataError, DataTable } from "@/components/core/data-table/table"
@@ -18,7 +18,7 @@ const breadcrumbItems = [
   { label: "Product" },
 ]
 
-const ManageProductPage = () => {
+const ManageProductContent = () => {
   const [appliedFilter, setAppliedFilter] = useState<ReqManageProductFilter>({})
   const {
     search,
@@ -119,6 +119,14 @@ const ManageProductPage = () => {
         )}
       </AppMain>
     </>
+  )
+}
+
+const ManageProductPage = () => {
+  return (
+    <Suspense fallback={null}>
+      <ManageProductContent />
+    </Suspense>
   )
 }
 
