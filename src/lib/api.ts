@@ -1,13 +1,22 @@
 //- src/lib/api.ts
 
 import { useState } from "react"
+import { useSearchParams } from "next/navigation"
+
+export interface GetListParams<T> {
+  page?: number,
+  limit?: number,
+  search?: string,
+  filters?: T,
+}
 
 export const useCurl = () => {
+  const searchParams = useSearchParams()
   const [search, setSearch] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState(search)
-  const [page, setPage] = useState(1)
-  const limit = 20
-  
+  const [page, setPage] = useState(Number(searchParams.get("p")) || 1)
+  const limit = 15
+
   return {
     search,
     setSearch,
@@ -17,6 +26,25 @@ export const useCurl = () => {
     setPage,
     limit,
   }
+}
+
+export const GetQueryParams = <T>({
+  page,
+  limit,
+  search,
+  filters,
+}: GetListParams<T>) => {
+  const params = new URLSearchParams()
+
+  params.set("page", String(page))
+  params.set("limit", String(limit))
+
+  if (search?.trim()) params.set("search", search.trim())
+  if (filters && Object.keys(filters).length > 0) {
+    params.set("filters", JSON.stringify(filters));
+  }
+  
+  return params.toString()
 }
 
 export const ApiInternal = async (path: string, options?: RequestInit) => {

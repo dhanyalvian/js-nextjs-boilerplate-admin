@@ -1,129 +1,164 @@
 //- components/core/data-table/table.tsx
 
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState
-} from "@tanstack/react-table"
-import React, { JSX } from "react"
+import React, { FormEvent, useState } from "react"
 import { Pagination } from "./pagination"
 import { Table } from "@/components/ui/table"
-import { Actions, SearchFilters } from "./search-filter"
-import { Thead } from "./thead"
-import { Tbody } from "./tbody"
-import { DateRangeFilterFn } from "./function"
+import { DataTableThead } from "./thead"
+import { DataTableTbody } from "./tbody"
+import { DataTableSearch } from "./search"
+import { DataTableFilterDateRangeValue, DataTableProps } from "./interface"
+import { FilterCheckbox, FilterDateRange, FilterReset } from "./filters"
+import { ButtonSubmit } from "../button"
+import { FunnelIcon } from "@hugeicons/core-free-icons"
 
-export interface DataTableProps<TData, TValue> {
-  title: string,
-  columns: ColumnDef<TData, TValue>[],
-  data: TData[],
-  isLoading?: boolean,
-  limit: number,
-  totalRows: number,
-  page: number,
-  setPage: (page: number) => void,
-  searchPlaceholder?: string,
-  search: string,
-  setSearch: (value: string) => void,
-  filters?: JSX.Element,
-  addHref?: string,
-}
-
-export const DataTable = <TData, TValue>({
-  title,
+export const DataTable = <T extends object>({
   columns,
   data,
-  isLoading = false,
-  limit,
-  totalRows,
-  page,
-  setPage,
-  searchPlaceholder = "Search...",
-  search = "",
-  setSearch,
+  isLoading,
+  emptyMessage = "Tidak ada data",
+  search,
   filters,
-  addHref = "",
-}: DataTableProps<TData, TValue>) => {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility] = React.useState<VisibilityState>({})
-  const totalPages = Math.ceil(totalRows / limit)
+  pagination,
+  onApply,
+}: DataTableProps<T>) => {
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({})
+  const [selectedDateRanges, setSelectedDateRanges] = useState<Record<string, DataTableFilterDateRangeValue>>({})
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-    setPage(1)
-  }
-  const handleSearchClear = () => {
-    setSearch("")
-    setPage(1)
+  const hasSearch = Boolean(search?.searchValue)
+  const hasFilter = filters?.some((filter) =>
+    filter.type === "checkbox"
+      ? (selectedFilters[filter.id] ?? []).length > 0
+      : Boolean(selectedDateRanges[filter.key]?.from),
+  ) ?? false
+  const hasActive = hasSearch || hasFilter
+  const handleApply = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    onApply?.({
+      filters: selectedFilters,
+      dateRanges: selectedDateRanges,
+    })
   }
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const table = useReactTable({
-    data: data,
-    columns: columns,
-    defaultColumn: {
-      minSize: 5,
-      size: 100,
-      maxSize: 500,
-    },
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-    },
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    manualPagination: true,
-    pageCount: totalPages,
-    manualFiltering: true,
-    filterFns: {
-      dateBetween: DateRangeFilterFn,
-    },
-  })
+  const handleReset = () => {
+    search?.setSearch("")
+    search?.setPage(1)
+    setSelectedFilters({})
+    setSelectedDateRanges({})
+    onApply?.({
+      filters: {},
+      dateRanges: {},
+      isReset: true,
+    })
+  }
 
   return (
     <div className="flex flex-col bg-white rounded-2xl border shadow-xs">
-      <div className="bg-header flex flex-row gap-2 p-2 justify-between items-center rounded-t-2xl">
-        <SearchFilters
-          placeholder={searchPlaceholder}
-          value={search}
-          onChange={handleSearchChange}
-          onClear={handleSearchClear}
-          isLoading={isLoading}
-          filters={filters}
-        />
+      <form onSubmit={handleApply}>
+        <div className="bg-header flex flex-row gap-2 p-2 justify-between items-center rounded-t-2xl">
+          {search && (
+            <DataTableSearch
+              searchValue={search.searchValue}
+              setSearch={search.setSearch}
+              setPage={search.setPage}
+              placeholder={search.placeholder}
+              isLoading={isLoading}
+            />
+          )}
 
-        <Actions title={title} addHref={addHref} />
-      </div>
+          {filters?.map((filter) =>
+            filter.type === "checkbox" ? (
+              <FilterCheckbox
+                key={filter.id}
+                id={filter.id}
+                type={filter.type}
+                label={filter.label}
+                options={filter.options}
+                searchable={filter.searchable}
+                isLoading={isLoading}
+                icon={filter.icon}
+                selectedValues={selectedFilters[filter.id] ?? []}
+                setSelectedValues={(values) =>
+                  setSelectedFilters((prev) => ({ ...prev, [filter.id]: values }))
+                }
+              />
+            ) : (
+              <FilterDateRange
+                key={filter.key}
+                title={filter.label}
+                disabled={isLoading}
+                value={selectedDateRanges[filter.key] ?? {}}
+                onChange={(value) =>
+                  setSelectedDateRanges((prev) => ({ ...prev, [filter.key]: value }))
+                }
+              />
+            ),
+          )}
+
+          <ButtonSubmit
+            label="Apply"
+            size="sm"
+            className="mt-0 rounded-full text-xs-plus! text-white shadow-xs"
+            iconLeft={FunnelIcon}
+            disabled={isLoading}
+          />
+
+          {hasActive && (
+            <FilterReset disabled={isLoading} onClick={handleReset} />
+          )}
+
+          <div className="ml-auto flex items-center gap-1.5">
+            
+          </div>
+        </div>
+      </form>
 
       <div>
         <Table className="border-t">
-          <Thead table={table} />
+          <DataTableThead columns={columns} />
+          {/* <Thead table={table} /> */}
 
-          <Tbody table={table} columns={columns} isLoading={isLoading} />
-
-          <Pagination
+          <DataTableTbody
             columns={columns}
-            limit={limit}
-            totalRecords={totalRows}
-            totalPages={totalPages}
-            currentPage={page}
-            setPage={setPage}
+            data={data}
             isLoading={isLoading}
+            emptyMessage={emptyMessage}
           />
+          {/* <Tbody table={table} columns={columns} isLoading={isLoading} /> */}
+
+          {pagination && (
+            // <DataTablePagination
+            //   limit={pagination.limit}
+            //   totalRecord={pagination.totalRecord}
+            //   totalPage={pagination.totalPage}
+            //   currentPage={pagination.currentPage}
+            //   setPage={pagination.setPage}
+            //   isLoading={isLoading}
+            // />
+            <Pagination
+              columns={columns}
+              limit={pagination.limit || 0}
+              totalRecords={pagination.totalRecord || 0}
+              totalPages={pagination.totalPage || 0}
+              currentPage={pagination.currentPage || 0}
+              setPage={pagination.setPage}
+              isLoading={isLoading}
+            />
+          )}
         </Table>
       </div>
     </div>
+  )
+}
+
+interface DataErrorProps {
+  title?: string,
+}
+export const DataError = ({ title = "data" }: DataErrorProps) => {
+  return (
+    <section>
+      <div className="text-center text-destructive">
+        <p>Gagal memuat {title}</p>
+      </div>
+    </section>
   )
 }

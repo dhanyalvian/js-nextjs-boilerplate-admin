@@ -1,65 +1,72 @@
 //- components/core/data-table/tbody.tsx
 
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
+import { TableCell, TableRow } from "@/components/ui/table"
+import { Column } from "./interface"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ListXIcon } from "@hugeicons/core-free-icons"
+import { cn } from "@/lib/utils"
 
-interface TbodyProps<TData, TValue> {
-  table: Table<TData>,
-  columns: ColumnDef<TData, TValue>[],
+interface DataTableTbodyProps<T> {
+  columns: Column<T>[],
+  data: T[],
   isLoading?: boolean,
+  emptyMessage?: string,
 }
-
-export const Tbody = <TData, TValue>({
-  table,
+export const DataTableTbody = <T extends object>({
   columns,
+  data,
   isLoading,
-}: TbodyProps<TData, TValue>) => {
+  emptyMessage,
+}: DataTableTbodyProps<T>) => {
   return (
-    <TableBody>
-      {table.getRowModel().rows?.length ? (
-        table.getRowModel().rows.map((row) => (
-          <TableRow
-            key={row.id}
-            data-state={row.getIsSelected() && "selected"}
-            className="hover:bg-header"
-          >
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id} className="first:pl-3 last:pr-3 text-xs-plus font-[450] align-top whitespace-normal wrap-break-word">
-                {flexRender(
-                  cell.column.columnDef.cell,
-                  cell.getContext(),
-                )}
+    <tbody>
+      {isLoading ? (
+        Array.from({ length: 5 }).map((_, i) => (
+          <TableRow key={i} className="border-b last:border-0">
+            {columns.map((col) => (
+              <TableCell key={col.key} className={cn("first:pl-3 last:pr-3 align-top", col.className)}>
+                <div className="h-4 mt-0.5 mb-2 bg-muted animate-pulse rounded" />
               </TableCell>
             ))}
           </TableRow>
         ))
-      ) : isLoading ? (
-        <TableRow>
-          <TableCell
+      ) : data.length === 0 ? (
+        <tr>
+          <td
             colSpan={columns.length}
-            className="h-24 text-center"
+            className="px-4 py-8 text-xs text-center text-muted-foreground/80"
           >
-            <div className="flex flex-col items-center gap-4">
-              <Button variant="outline" disabled size="sm">
-                <Spinner />
-                <span className="font-normal">Memuat data...</span>
-              </Button>
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="p-2 rounded-lg bg-muted mb-3">
+                <HugeiconsIcon
+                  icon={ListXIcon}
+                  strokeWidth={1.5}
+                  className="size-6 text-muted-foreground"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground/80">{emptyMessage}</p>
             </div>
-
-          </TableCell>
-        </TableRow>
+          </td>
+        </tr>
       ) : (
-        <TableRow>
-          <TableCell
-            colSpan={columns.length}
-            className="h-24 text-center"
+        data.map((row, i) => (
+          <TableRow
+            key={i}
+            className="border-b last:border-0 hover:bg-muted/30 transition-colors"
           >
-            Data tidak ditemukan.
-          </TableCell>
-        </TableRow>
+            {columns.map((col) => (
+              <TableCell
+                key={col.key}
+                className={cn("first:pl-3 last:pr-3 text-xs-plus align-top", col.className)}
+              >
+                {col.render
+                  ? col.render(row)
+                  : String((row as Record<string, unknown>)[col.key] ?? "-")}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))
       )}
-    </TableBody>
+    </tbody>
   )
 }

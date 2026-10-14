@@ -80,7 +80,7 @@ export const NavUser = ({ menus }: NavUserProps) => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="font-[450] rounded-sm"
+              className="font-[450] rounded-full"
             >
               <Avatar className="h-8 w-8 rounded-full">
                 <AvatarImage src={avatar} alt={fullname} />
@@ -94,7 +94,7 @@ export const NavUser = ({ menus }: NavUserProps) => {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-2xl"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -115,7 +115,7 @@ export const NavUser = ({ menus }: NavUserProps) => {
             <DropdownMenuGroup>
               {menus.map((menu) => (
                 <Link key={menu.url} href={menu.url}>
-                  <DropdownMenuItem className="rounded-md">
+                  <DropdownMenuItem className="rounded-full">
                     {menu.icon && (
                       <HugeiconsIcon icon={menu.icon} className="nav-icon text-accent-foreground" />
                     )}
@@ -125,7 +125,7 @@ export const NavUser = ({ menus }: NavUserProps) => {
               ))}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
+            <DropdownMenuItem onClick={handleLogout} className="rounded-full">
               <HugeiconsIcon icon={LogoutSquare01Icon} className="nav-icon text-accent-foreground" />
               <span className="truncate font-sidebar-menu">Keluar</span>
             </DropdownMenuItem>

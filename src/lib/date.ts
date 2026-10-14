@@ -1,6 +1,6 @@
 //- src/lib/date.ts
 
-import { locale } from "./base"
+import { locale, timezone } from "./base"
 
 export const DateFormatted = (date: string | Date): string => {
   return new Date(date).toLocaleDateString(locale, {
@@ -42,4 +42,13 @@ export const GetRemainingDays = (targetDate: string | Date) => {
 
   if (diffInDays <= 0) return 0
   return diffInDays
+}
+
+export const GetDateFormat = (tdate: Date | string) => {
+  return new Intl.DateTimeFormat(locale, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: timezone,
+  }).format(new Date(tdate))
 }

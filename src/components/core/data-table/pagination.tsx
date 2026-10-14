@@ -214,7 +214,7 @@ const renderPages = ({
         key={`dots-${index}`}
         variant="outline"
         size="sm"
-        className="text-xs-plus font-medium"
+        className={`text-xs-plus font-medium ${page === "..." && "text-muted-foreground"}`}
         disabled={true}
       >
         <HugeiconsIcon icon={EllipsisIcon} strokeWidth={strokeWidth} />

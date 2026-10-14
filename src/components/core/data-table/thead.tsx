@@ -1,35 +1,29 @@
 //- components/core/data-table/thead.tsx
 
-import { flexRender, Table } from "@tanstack/react-table"
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Column } from "./interface"
+import { cn } from "@/lib/utils"
 
-interface TheadProps<TData> {
-  table: Table<TData>,
+interface DataTableTheadProps<T> {
+  columns: Column<T>[],
 }
-
-export const Thead = <TData,>({ table }: TheadProps<TData>) => {
+export const DataTableThead = <T extends object>({ columns }: DataTableTheadProps<T>) => {
   return (
     <TableHeader className="bg-header">
-      {table.getHeaderGroups().map((headerGroup) => (
-        <TableRow key={headerGroup.id}>
-          {headerGroup.headers.map((header) => {
-            return (
-              <TableHead
-                key={header.id}
-                className="first:pl-3 last:pr-3 text-xs-plus font-medium"
-                style={header.getSize() > 5 ? { width: `${header.getSize()}px` } : undefined}
-              >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  )}
-              </TableHead>
-            )
-          })}
-        </TableRow>
-      ))}
+      <TableRow>
+        {columns.map((col) => (
+          <TableHead
+            key={col.key}
+            className={cn(
+              "first:pl-3 last:pr-3 text-xs-plus font-medium",
+              col.className,
+            )}
+            style={col.size ? { width: `${col.size}px` } : undefined}
+          >
+            {col.header}
+          </TableHead>
+        ))}
+      </TableRow>
     </TableHeader>
   )
 }

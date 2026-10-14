@@ -2,47 +2,39 @@
 
 "use client"
 
-import { ApiInternal, useCurl } from "@/lib/api"
-import { ApiResp } from "@/types/response"
-import { ManageProductListResp } from "./type"
-import { ScrollToTop } from "@/lib/scroll"
-import { useEffect } from "react"
+import { useCurl } from "@/lib/api"
+import { ReqManageProductFilter, RespManageProductList } from "./interface"
+import { useEffect, useState } from "react"
 import { useQueries } from "@tanstack/react-query"
 import { AppHeader, AppMain } from "@/components/core/app-layout"
-import { DataTable } from "@/components/core/data-table/table"
+import { DataError, DataTable } from "@/components/core/data-table/table"
+import { DataTableFilterProps } from "@/components/core/data-table/interface"
+import { GetManageProductFilter, GetManageProductList } from "./query"
 import { Columns } from "./column"
-import { Filters } from "./filters"
+import { GetDataTableFilter, useDataTableApply } from "./filter"
 
 const breadcrumbItems = [
   { label: "Manages" },
   { label: "Product" },
 ]
 
-const getManageProductList = async (
-  page: number,
-  limit: number,
-  search: string,
-): Promise<ApiResp<ManageProductListResp>> => {
-  const data = await ApiInternal(`/products?search=${search}&page=${page}&limit=${limit}`)
-  ScrollToTop()
-  return data
-}
-
 const ManageProductPage = () => {
+  const [appliedFilter, setAppliedFilter] = useState<ReqManageProductFilter>({})
+
   const {
     search,
     setSearch,
     debouncedSearch,
     setDebouncedSearch,
+    limit,
     page,
     setPage,
   } = useCurl()
-  const limit = 15
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search)
-      setPage(1)
+      // setPage(1)
     }, 1000)
     return () => clearTimeout(handler)
   }, [search, setDebouncedSearch, setPage])
@@ -50,38 +42,69 @@ const ManageProductPage = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["manages", "recipes", "list", page, limit, debouncedSearch],
-        queryFn: () => getManageProductList(page, limit, debouncedSearch),
+        queryFn: () => GetManageProductFilter(),
+        queryKey: ["manages", "products", "filter"],
+        refetchOnWindowFocus: false,
+      },
+      {
+        queryFn: () => GetManageProductList({ page, limit, search: debouncedSearch, filters: appliedFilter }),
+        queryKey: ["manages", "products", "list", page, limit, debouncedSearch, JSON.stringify(appliedFilter)],
         refetchOnWindowFocus: false,
       },
     ],
   })
-  const [queryManageProduct] = queries
-  const isLoading = queryManageProduct.isLoading || queryManageProduct.isFetching
+
+  const [queryManageProductFilter, queryManageProductList] = queries
+  const isLoading = queryManageProductList.isLoading || queryManageProductList.isFetching
+  const isError = queryManageProductList.error
+  const records = queryManageProductList.data?.records || []
+  const pagination = queryManageProductList.data?.pagination
+
+  const handleListSearchFilterApply = useDataTableApply({
+    search,
+    limit,
+    setSearch,
+    setPage,
+    setDebouncedSearch,
+    setAppliedFilter,
+  })
+
+  const ManageProductListFilter: DataTableFilterProps = GetDataTableFilter({
+    brand: queryManageProductFilter.data?.record?.brand || [],
+    category: queryManageProductFilter.data?.record?.category || [],
+    isLoading: queryManageProductFilter.isLoading,
+  })
 
   return (
     <>
       <AppHeader breadcrumbItems={breadcrumbItems} />
 
       <AppMain>
-        <DataTable
-          addHref="/manages/products"
-          title="Product"
-          columns={Columns}
-          data={queryManageProduct.data?.records || []}
-          isLoading={isLoading}
-          limit={limit}
-          totalRows={queryManageProduct.data?.pagination.totalRecord ?? 0}
-          page={page}
-          setPage={setPage}
-          search={search}
-          setSearch={setSearch}
-          filters={Filters({
-            isLoading: isLoading,
-            // Flatten categoryDropdown if it's an array of arrays
-            // categoryDropdown: queryCategoryDropdown.data?.data.results?.flat() || [],
-          })}
-        />
+        {isError ? (
+          <DataError />
+        ) : (
+          <DataTable<RespManageProductList>
+            columns={Columns}
+            data={records}
+            isLoading={isLoading}
+            emptyMessage="Belum ada kategori."
+            search={{
+              searchValue: search,
+              setSearch: setSearch,
+              setPage: setPage,
+              isLoading: isLoading,
+            }}
+            filters={ManageProductListFilter}
+            onApply={handleListSearchFilterApply}
+            pagination={{
+              limit: limit,
+              totalRecord: pagination?.totalRecord || 0,
+              totalPage: pagination?.totalPage || 0,
+              currentPage: page,
+              setPage: setPage,
+            }}
+          />
+        )}
       </AppMain>
     </>
   )

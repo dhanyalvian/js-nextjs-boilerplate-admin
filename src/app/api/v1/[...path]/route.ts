@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search") || ""
     const page = searchParams.get("page")
     const limit = searchParams.get("limit")
+    const filters = searchParams.get("filters") || undefined
 
     const api = axios.create({
       baseURL: process.env.CONFIG_API_URL ?? "http://localhost:8080",
@@ -32,6 +33,7 @@ export async function GET(req: NextRequest) {
         search: search,
         page: page,
         limit: limit,
+        filters: filters,
       }
     })
 

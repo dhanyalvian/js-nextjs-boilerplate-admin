@@ -33,11 +33,15 @@ export function NavSecondary({
               <SidebarMenuButton
                 asChild
                 isActive={pathname === menu.url}
-                className={`font-[450] rounded-sm ${menu.soon ? "text-muted-foreground/70" : ""}`}
+                className={`font-[450] rounded-full ${menu.soon ? "text-muted-foreground/70" : ""}`}
               >
                 <Link href={menu.url}>
                   {menu.icon && (
-                    <HugeiconsIcon icon={menu.icon} className="nav-icon" />
+                    <HugeiconsIcon
+                      icon={menu.icon}
+                      strokeWidth={1.5}
+                      className="nav-icon text-sidebar-icon"
+                    />
                   )}
                   <span className="font-sidebar-menu">{menu.title}</span>
                 </Link>

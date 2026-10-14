@@ -23,7 +23,7 @@ import {
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react"
 import { Delete02Icon, EllipsisVerticalIcon, PencilEdit02Icon, SearchAddIcon, StarIcon } from "@hugeicons/core-free-icons"
 
-export const imageColumnSize = 110
+export const imageColumnSize = 100
 
 export const ratingColumnHeader = "Rating"
 export const ratingColumnSize = 80

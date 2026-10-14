@@ -9,7 +9,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  --font-sans: "-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Segoe UI", "Geist", sans-serif;
   --font-mono: "Geist Mono", monospace;
   --font-weight: 400;
   --font-style: normal;
@@ -43,23 +43,25 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-main: #FCFCFC;
+  --color-main: #fcfcfc;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  
-  --color-label: #2C2C2C;
+
+  --color-label: #2c2c2c;
   --color-sidebar-label: #494949;
-  --color-sidebar-icon: #0079FF;
-  --color-sidebar-disabled: #A2A3A2;
-  --color-header: #F7F7F8;
-  --color-card-footer: #F9F9FA;
-  --color-input-filter:  var(--color-background);
+  --color-sidebar-icon: #0079ff;
+  --color-sidebar-disabled: #a2a3a2;
+  --color-header: #f7f7f8;
+  --color-card-footer: #f9f9fa;
+  --color-input-filter: var(--color-background);
   --color-button-outline: var(--color-background);
   --color-button-outline-accent: var(--color-sidebar-accent);
-  --color-button-outline-accent-foreground: var(--color-sidebar-accent-foreground);
-  
+  --color-button-outline-accent-foreground: var(
+    --color-sidebar-accent-foreground
+  );
+
   --text-xs-plus: 13px;
   --text-sm-plus: 15px;
 }
@@ -89,13 +91,13 @@
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
   --radius: 0.625rem;
-  --sidebar: #F6F6F6;
+  --sidebar: #f6f6f6;
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: var(--color-primary);
   --sidebar-primary-foreground: #494949;
-  --sidebar-accent: #E0E0E0;
+  --sidebar-accent: #e0e0e0;
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: #DFDFDF;
+  --sidebar-border: #dfdfdf;
   --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -155,11 +157,11 @@ body {
   .nav-icon {
     @apply size-4.5!;
   }
-  
+
   .font-sidebar-menu {
     @apply text-xs-plus font-medium text-sidebar-label;
   }
-  
+
   .input-text-sm {
     @apply h-8 py-1;
   }

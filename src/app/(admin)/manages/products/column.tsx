@@ -1,7 +1,5 @@
 //- src/app/(admin)/manages/products/column.tsx
 
-import { ColumnDef } from "@tanstack/react-table"
-import { ManageProductListResp } from "./type"
 import {
   actionColHeader,
   actionColKey,
@@ -13,77 +11,79 @@ import {
   imageColumnSize,
 } from "@/components/core/data-table/columns"
 import { Badge } from "@/components/ui/badge"
-import { PackageReceive01Icon, PackageRemove01Icon, PackageSent01Icon } from "@hugeicons/core-free-icons"
+import {
+  PackageReceive01Icon,
+  PackageRemove01Icon,
+  PackageSent01Icon,
+} from "@hugeicons/core-free-icons"
 import { NumberFormatted } from "@/lib/number"
+import { RespManageProductList } from "./interface"
+import { Column } from "@/components/core/data-table/interface"
 
-export const Columns: ColumnDef<ManageProductListResp>[] = [
+export const Columns: Column<RespManageProductList>[] = [
   {
-    accessorKey: "thumbnail",
+    key: "thumbnail",
     header: "Image",
     size: imageColumnSize,
-    enableSorting: false,
-    cell: ({ row }) => {
+    render: (row) => {
       return (
         <CellImagePopup
-          src={row.original.thumbnail}
-          alt={row.original.name}
-          title={row.original.name}
+          src={row.thumbnail}
+          alt={row.name}
+          title={row.name}
         />
       )
     },
   },
   {
-    accessorKey: "name",
+    key: "name",
     header: "Name",
-    size: 0,
-    cell: ({ row }) => {
+    render: (row) => {
       return (
         <div className="flex flex-col gap-1">
-          <div>{row.original.name}</div>
+          <div>{row.name}</div>
           <Badge variant="outline" className="text-muted-foreground">
-            SKU: {row.original.sku}
+            SKU: {row.sku}
           </Badge>
         </div>
       )
     },
   },
   {
-    accessorKey: "brand",
+    key: "brand",
     header: "Brand",
     size: 200,
-    cell: ({ row }) => {
+    render: ( row ) => {
       return (
-        <div>{row.original.brand || "-"}</div>
+        <div>{row.brand || "-"}</div>
       )
     },
   },
   {
-    accessorKey: "category",
+    key: "category",
     header: "Category",
     size: 200,
-    cell: ({ row }) => <div className="capitalize">{row.original.category}</div>,
+    render: (row) => <div className="capitalize">{row.category}</div>,
   },
   {
-    accessorKey: "price",
+    key: "price",
     header: "Price",
     size: 130,
-    enableSorting: false,
-    cell: ({ row }) => {
+    render: ( row ) => {
       return (
         <div>
           <span>$</span>
-          {NumberFormatted(row.original.price)}
+          {NumberFormatted(row.price)}
         </div>
       )
     },
   },
   {
-    accessorKey: "stock",
+    key: "stock",
     header: "Stock",
     size: 130,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const stock = row.original.stock
+    render: ( row ) => {
+      const stock = row.stock
       let iconStock = PackageSent01Icon
       let classStock = ""
       let classBorder = ""
@@ -115,19 +115,17 @@ export const Columns: ColumnDef<ManageProductListResp>[] = [
     },
   },
   {
-    accessorKey: "tags",
+    key: "tags",
     header: "Tags",
     size: 200,
-    enableSorting: false,
-    cell: ({ row }) => <CellList records={row.original.tags} max={4} />,
+    render: ( row ) => <CellList records={row.tags} max={4} />,
   },
   {
-    accessorKey: actionColKey,
+    key: actionColKey,
     header: actionColHeader,
     size: actionColSize,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const id = row.original.id
+    render: ( row ) => {
+      const id = row.id
       return (
         <CellActions
           pathEdit={`/manages/products/edit/${id}`}

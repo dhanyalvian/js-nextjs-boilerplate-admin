@@ -49,7 +49,7 @@ const PageCard = ({
           </span>
         </div>
 
-        <Card className="bg-main py-0 pt-4 rounded-lg shadow-xs">
+        <Card className="bg-main py-0 pt-4 rounded-2xl shadow-xs">
           <CardHeader className="gap-0">
             <CardTitle className="text-lg">{title}</CardTitle>
             <CardDescription>
@@ -224,7 +224,7 @@ const PageCardFooter = ({
   children,
 }: PageCardFooterProps) => {
   return (
-    <CardFooter className="flex-col gap-2 bg-card-footer border-t p-4 rounded-b-lg">
+    <CardFooter className="flex-col gap-2 bg-card-footer border-t p-4 rounded-b-2xl">
       <Button
         type="submit"
         size="sm"
