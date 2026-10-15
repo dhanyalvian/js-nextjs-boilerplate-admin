@@ -114,6 +114,7 @@ export const dataNav: nav = {
       title: "Reports",
       url: "/reports",
       icon: ChartAnalysisIcon,
+      soon: true,
     },
   ],
   navMainNew: [

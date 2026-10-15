@@ -51,7 +51,7 @@ export const NavMain = ({ menus }: NavMainProps) => {
                       <span className="font-sidebar-menu">{menu.title}</span>
                       <HugeiconsIcon
                         icon={ChevronRightIcon}
-                        strokeWidth={1.5}
+                        strokeWidth={2}
                         className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
                       />
                     </SidebarMenuButton>

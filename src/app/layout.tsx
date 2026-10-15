@@ -1,19 +1,19 @@
 //- src/app/layout.tsx
 
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Roboto_Flex, Roboto_Mono } from "next/font/google"
 import "./globals.css"
 import ReactQueryProvider from "./provider"
 import { Toaster } from "@/components/ui/sonner"
 import { AppConfig } from "@/lib/app"
 
-const fontSans = Geist({
-  variable: "--font-geist-sans",
+const fontSans = Roboto_Flex({
+  variable: "--font-roboto-flex",
   subsets: ["latin"],
 })
 
-const fontMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
   subsets: ["latin"],
 })
 

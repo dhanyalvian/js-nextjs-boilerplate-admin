@@ -233,7 +233,7 @@ export const CellActions = ({ pathEdit, pathDelete }: ActionsProps) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button aria-label="Actions" variant="ghost" size="sm">
-            <HugeiconsIcon icon={EllipsisVerticalIcon} />
+            <HugeiconsIcon icon={EllipsisVerticalIcon} strokeWidth={2} className="nav-icon" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -244,6 +244,7 @@ export const CellActions = ({ pathEdit, pathDelete }: ActionsProps) => {
                   icon={PencilEdit02Icon}
                   size={iconSize}
                   strokeWidth={2}
+                  className="nav-icon text-sidebar-icon"
                 />
                 Edit
               </Link>
@@ -254,6 +255,7 @@ export const CellActions = ({ pathEdit, pathDelete }: ActionsProps) => {
                   icon={Delete02Icon}
                   size={iconSize}
                   strokeWidth={2}
+                  className="nav-icon text-sidebar-icon"
                 />
                 Delete
               </Link>

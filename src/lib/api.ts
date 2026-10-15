@@ -15,7 +15,7 @@ export const useCurl = () => {
   const [search, setSearch] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState(search)
   const [page, setPage] = useState(Number(searchParams.get("p")) || 1)
-  const limit = 15
+  const limit = 20
 
   return {
     search,

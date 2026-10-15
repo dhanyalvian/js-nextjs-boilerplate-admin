@@ -41,7 +41,7 @@ const PageCard = ({
             <HugeiconsIcon
               icon={GalleryVerticalEndIcon}
               strokeWidth={2}
-              className="size-5.5! text-chart-3"
+              className="size-5.5! text-logo"
             />
           </div>
           <span className="text-xl font-semibold">

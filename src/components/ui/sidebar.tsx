@@ -284,7 +284,7 @@ function SidebarTrigger({
         altIcon={open ? PanelLeftOpenIcon : PanelLeftCloseIcon}
         showAlt={hovered}
         strokeWidth={1.5}
-        className="size-5!"
+        className="size-4.5!"
       />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
